@@ -1,0 +1,233 @@
+package me.cworldstar.piratefinds.impl.ui;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import me.cworldstar.piratefinds.PirateFinds;
+import net.md_5.bungee.api.ChatColor;
+
+public abstract class BaseUIObject implements Listener {
+	
+	public static enum InventorySize {
+		TINY(9),
+		SMALL(18),
+		MEDIUM(27),
+		MEDIUM_LARGE(36),
+		LARGE(45),
+		EXTRA_LARGE(54);
+
+		protected final int size;
+		private InventorySize(int i) {
+			this.size = i;
+		}
+		
+		public int toInt() {
+			return this.size;
+		}
+		
+		
+			
+	}
+	
+	protected boolean okay_to_close = true;
+	private Player owner;
+	private Map<Integer, ArrayList<MenuHandler<InventoryClickEvent>>> handlers = new HashMap<Integer, ArrayList<MenuHandler<InventoryClickEvent>>>();
+	private Map<Integer, MenuHandler<InventoryClickEvent>> insertHandlers = new HashMap<Integer, MenuHandler<InventoryClickEvent>>();
+	private ArrayList<MenuHandler<InventoryCloseEvent>> inventory_close_handlers = new ArrayList<MenuHandler<InventoryCloseEvent>>();
+	private ArrayList<MenuHandler<InventoryClickEvent>> empty_click_handlers = new ArrayList<MenuHandler<InventoryClickEvent>>();
+	private ArrayList<Integer> placeable_slots = new ArrayList<Integer>();
+	private Inventory inventory;
+	
+	/**
+	 * 
+	 * Base object for creating UI.
+	 * 
+	 * @author cworldstar
+	 * 
+	 * @param player
+	 * @param size
+	 * 
+	 */
+	public BaseUIObject(Player player, InventorySize size) {
+		this.owner = player;
+		this.inventory = Bukkit.createInventory(player, size.toInt());
+		this.decorate(inventory);
+		PirateFinds.registerListener(this);
+	}
+	
+	public BaseUIObject(Player player, InventorySize size, String title) {
+		this.owner = player;
+		this.inventory = Bukkit.createInventory(player, size.toInt(), ChatColor.translateAlternateColorCodes('&', title));
+		this.decorate(inventory);
+		PirateFinds.registerListener(this);
+	}
+	
+	public void close() {
+		this.owner.closeInventory();
+	}
+	
+	@Nonnull
+	public int getFirstClearSlot() {
+		return this.inventory.firstEmpty();
+	}
+	
+	public void open() {
+		this.owner.openInventory(inventory);
+	}
+	
+	public void addMenuClickHandler(int slot, MenuHandler<InventoryClickEvent> handler) {
+		// so i dont get fucked
+		handlers.putIfAbsent(slot, new ArrayList<MenuHandler<InventoryClickEvent>>());
+		
+		ArrayList<MenuHandler<InventoryClickEvent>> handler_list = handlers.get(slot);
+		handler_list.add(handler);
+		
+		handlers.put(slot, handler_list);
+		
+	}
+	
+	public void addEmptyClickHandler(MenuHandler<InventoryClickEvent> handler) {
+		this.empty_click_handlers.add(handler);
+	}
+	
+	public void addUnclickableItem(int slot, ItemStack item) {
+		// stop null 
+		handlers.putIfAbsent(slot, new ArrayList<MenuHandler<InventoryClickEvent>>());
+		
+		// get handler list
+		ArrayList<MenuHandler<InventoryClickEvent>> handler_list = handlers.get(slot);
+		handler_list.add(new MenuHandler<InventoryClickEvent>((InventoryClickEvent e) -> {
+			e.setCancelled(true);
+		}));
+		
+		//add handlers
+		handlers.put(slot, handler_list);
+		
+		// set inventory item
+		inventory.setItem(slot, item);
+	}
+	
+	public void addInsertHandler(int slot, MenuHandler<InventoryClickEvent> handler) {
+		if(!placeable_slots.contains(slot)) {
+			PirateFinds.log("Argument error: Slot " + Integer.toString(slot) + " is not a valid member of PlaceableSlots.");
+			return;
+		}
+		
+		insertHandlers.putIfAbsent(slot, handler);
+	}
+	
+	public void setBackgroundItem(ItemStack item) {
+	
+	}
+	
+	public void setItem(int slot, ItemStack item) {
+		this.inventory.setItem(slot, item);
+	}
+	
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public Inventory getInventory() {
+		return this.inventory;
+	}
+	
+	protected abstract void decorate(Inventory i);
+	
+	public void unregister(UUID identifier) {
+		this.handlers.forEach((Integer slot, ArrayList<MenuHandler<InventoryClickEvent>> handlers) -> {
+			handlers.forEach((MenuHandler<InventoryClickEvent> handler) -> {
+				if(handler.getIdentifier().equals(identifier)) {
+					handlers.remove(handler);
+				}
+			});
+		});
+	}
+	
+	public void addInsertableSlot(int slot) {
+		placeable_slots.add(slot);
+	}
+	
+	public void addMenuCloseHandler(MenuHandler<InventoryCloseEvent> handler) {
+		inventory_close_handlers.add(handler);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onInventoryClick(InventoryClickEvent e) {
+		Inventory c_inventory = e.getClickedInventory();
+		PirateFinds.log("Inventory click event logged");
+		if(c_inventory == null) return;
+		PirateFinds.log("Inventory checking...");
+		if(c_inventory.equals(this.inventory)) {
+			PirateFinds.log("inventory clicked was this current inventory");
+			if(e.getCurrentItem() == null) {
+				PirateFinds.log("Current item not null");
+				empty_click_handlers.forEach((MenuHandler<InventoryClickEvent> emptyHandler) -> {
+					emptyHandler.run(e);
+				});
+			}
+			
+			ArrayList<MenuHandler<InventoryClickEvent>> handler_list = handlers.get(e.getSlot());
+			if(handler_list != null) {
+				handler_list.forEach((MenuHandler<InventoryClickEvent> handler) -> {
+					handler.run(e);
+				});
+			}
+			if(placeable_slots.contains(e.getSlot())) {
+				if(e.getCurrentItem() == null) {
+					insertHandlers.get(e.getSlot()).run(e);
+				}
+				return;
+			}
+			e.setCancelled(true);
+		}
+	}
+	
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent e) {
+        if (e.getInventory().equals(this.inventory)) {
+          e.setCancelled(true);
+        }
+    }
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onInventoryClose(InventoryCloseEvent e) {
+		Inventory c_inventory = e.getInventory();
+		if(c_inventory.equals(this.inventory)) {
+			inventory_close_handlers.forEach((MenuHandler<InventoryCloseEvent> handler) -> {
+				PirateFinds.log("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
+				handler.run(e);
+			});
+			if(this.okay_to_close) {
+				InventoryCloseEvent.getHandlerList().unregister(this);
+				InventoryClickEvent.getHandlerList().unregister(this);
+				InventoryDragEvent.getHandlerList().unregister(this);
+			} else {
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						okay_to_close = true;
+						BaseUIObject.this.open();
+					}
+				}.runTaskLater(PirateFinds.getThisPlugin(), 1L);
+			}
+		}
+	}
+	
+}

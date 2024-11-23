@@ -1,0 +1,11 @@
+sets:
+   DimensionalTraveller:
+      display-name: "Dimensional Traveller Set"
+      weight: "HIGH"
+      pieces: [
+          HELMET,
+          CHESTPLATE,
+          LEGGINGS,
+          BOOTS,
+          WEAPON
+      ]
