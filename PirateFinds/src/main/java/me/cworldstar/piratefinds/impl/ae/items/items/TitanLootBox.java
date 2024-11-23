@@ -115,7 +115,7 @@ public class TitanLootBox extends AbstractLootBox {
 		this.addReward(two_fifty, "&c&l250,000$");
 		this.addReward(ranked_voucher_iron, "&f&lIron Rank Voucher");
 		this.addReward(titan_set, "&4&lFull Titan Set");
-		this.addReward(titan_set, "&4&lTitan Armor Piece");
+		this.addReward(titan_set_piece, "&4&lTitan Armor Piece");
 	}
 
 	@Override
