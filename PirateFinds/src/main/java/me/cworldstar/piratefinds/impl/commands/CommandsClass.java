@@ -36,5 +36,9 @@ public class CommandsClass {
 		mc.registerCommand("leavearena", new ArenaLeave());
 		mc.registerCommand("enchanteater", new EnchantEater());
 		mc.registerCommand("sealitem", new SealItem());
+		mc.registerCommand("fixbook", new FixBook());
+		mc.registerCommand("debug", new Debug());
+		mc.registerCommand("checkitem", new CheckItem());
+		mc.registerCommand("sharpen", new Sharpen());
 	}
 }

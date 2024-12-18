@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -47,18 +48,18 @@ public class ArenaLeave extends CommandConsumer<CommandSender> {
 						return;
 					}
 					
-					player.sendTitle(Integer.toString(count), "", 1, 0, 1);
+					player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1/(count+1));
+					player.sendTitle(Integer.toString(count), "", 1, 1, 1);
 					
 					if(count >= 5) {
 						player.sendMessage(ChatUtils.createBroadcast("&7You have left the arena!"));
 						arena.arenaLeave(player);
 						player.teleport(player.getWorld().getSpawnLocation());
 					}
-					
 					count++;
 				}
 				
-			}.runTaskTimer(PirateFinds.getThisPlugin(), 20L, 0));
+			}.runTaskTimer(PirateFinds.getThisPlugin(), 0L, 20L));
 		}
 	}
 

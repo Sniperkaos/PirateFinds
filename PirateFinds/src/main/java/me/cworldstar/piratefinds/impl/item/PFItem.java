@@ -11,6 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.cworldstar.piratefinds.PirateFinds;
 
+@Deprecated
 public abstract class PFItem {
 
 	private static NamespacedKey PF_ITEM_KEY = new NamespacedKey(PirateFinds.getThisPlugin(), "pf_item");

@@ -14,7 +14,7 @@ public class DropImpl {
 	private boolean pressed_q = false;
 	private ItemStack last_item;
 	private BukkitTask delay;
-	private boolean enabled = true;
+	private boolean enabled = PirateFinds.getThisPlugin().getConfig().getBoolean("drop-confirm.enabled-by-default");
 	
 	private final String DROP_ITEM_STRING = ChatUtils.createBroadcast("&7(&c&l!&7) &c&lHey!&r &7Did you really mean to drop that? Try again if you did!");
 	private final String DROP_ITEM_STRING_CONFIRMED = ChatUtils.createBroadcast("&7(&c&l!&7) &aDrop successful!");
@@ -52,7 +52,7 @@ public class DropImpl {
 		}
 		
 		delay = new BukkitRunnable() {
-			@Override
+			@Override	
 			public void run() {
 				if(self.pressed_q) {
 					self.player.sendMessage(ChatUtils.createBroadcast("You did not confirm, so the drop has been canceled."));

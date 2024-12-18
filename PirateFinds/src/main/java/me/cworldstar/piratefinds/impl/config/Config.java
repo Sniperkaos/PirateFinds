@@ -29,7 +29,7 @@ public class Config {
 			}
 		} else {
 			file.getParentFile().mkdirs();
-            plugin.saveResource(file.getName(), false);
+            plugin.saveResource(file.getName(), true);
 		}
 	}
 	
@@ -37,11 +37,8 @@ public class Config {
 		return this.config;
 	}
 
-	public static YamlConfiguration load(InputStream stream) {
-		
-		InputStreamReader reader = new InputStreamReader(stream);
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(reader);
-		
+	public static YamlConfiguration load(File file) {
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		return config;
 	}
 	

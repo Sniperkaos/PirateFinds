@@ -42,7 +42,7 @@ public class PreviewGKit extends CommandConsumer<CommandSender> {
 			}
 			return list;
 		case 2:
-			return new ArrayList<String>(YamlFile.c.getConfig().getConfigurationSection("kits").getKeys(false));
+			return new ArrayList<String>(YamlFile.X.getConfig().getConfigurationSection("kits").getKeys(false));
 	}
 	return new ArrayList<String>(List.of(new String[0]));
 	}

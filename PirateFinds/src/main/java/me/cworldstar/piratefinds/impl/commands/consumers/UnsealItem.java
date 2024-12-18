@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.ae.AEExpansion;
+import me.cworldstar.piratefinds.impl.ae.items.items.UnsealScroll.UnsealedItemRarity;
 import me.cworldstar.piratefinds.impl.ae.seal.Unseal;
 import me.cworldstar.piratefinds.impl.commands.CommandConsumer;
 
@@ -28,7 +29,7 @@ public class UnsealItem extends CommandConsumer<CommandSender> {
 
 		AEExpansion expansion = PirateFinds.getAEExpansion();
 		if(expansion.isLoaded()) {
-			Unseal.unsealItem((Player) player, ((Player) player).getInventory().getItemInMainHand());
+			Unseal.unsealItem((Player) player, ((Player) player).getInventory().getItemInMainHand(), UnsealedItemRarity.valueOf(args.get(0)));
 			
 		} else {
 			((Player) player).sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[PirateFinds]: &e&lMODERATE:&r &cAE is not loaded, so this command will not work."));
@@ -37,8 +38,11 @@ public class UnsealItem extends CommandConsumer<CommandSender> {
 
 	@Override
 	protected List<String> getCompletions(int length) {
-		// TODO Auto-generated method stub
-		return List.of(new String[0]);
+		List<String> returns = new ArrayList<String>();
+		for(UnsealedItemRarity value : UnsealedItemRarity.values()) {
+			returns.add(value.toString());
+		}
+		return returns;
 	}
 
 }

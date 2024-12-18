@@ -1,5 +1,6 @@
 package me.cworldstar.piratefinds.impl.ae.items.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -16,9 +17,18 @@ import net.advancedplugins.ae.impl.utils.ColorUtils;
 
 public class LockScroll extends AbstractPFItem {
 
+	public LockScroll(String id) {
+		super(id);
+	}
+
+
+
 	private static ItemStack item = new ItemStack(Material.PAPER);
 	private static PFItemType type = PFItemType.DRAG_AND_DROP;
 	
+	public ItemStack getPFItem() {
+		return item;
+	}
 
 	@Override
 	public PFItemType getType() {
@@ -42,17 +52,21 @@ public class LockScroll extends AbstractPFItem {
 	
 
 	
+	public final String pf_item_id = "LOCK_SCROLL";
 	@Override
 	public ItemStack build() {
-		return item.clone();
+		ItemStack citem = item.clone();
+		this.make(citem);
+		return citem;
 	}
 	
 	
 	
 	@Override
-	public void onItemUse(Player p, ItemStack on) {
+	public void onItemUse(Player p, ItemStack on, PFItemType type) {
 		ItemMeta meta = on.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(lore == null) lore = new ArrayList<String>();
 		lore.add(Locked.LOCKED_LORE_LINE);
 		meta.setLore(lore);
 		on.setItemMeta(meta);
@@ -65,7 +79,7 @@ public class LockScroll extends AbstractPFItem {
 		ItemMeta meta = on.getItemMeta();
 		if(meta == null) return false;
 		List<String> lore = meta.getLore();
-
+		if(lore == null) lore = new ArrayList<String>();
 		if(lore.contains(Locked.LOCKED_LORE_LINE)) {
 			p.sendMessage(ChatUtils.createBroadcast("&7This item is already locked. Your scroll will not be expended."));
 			return false;

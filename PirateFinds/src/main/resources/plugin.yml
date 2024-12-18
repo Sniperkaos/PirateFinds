@@ -26,6 +26,6 @@ commands:
       aliases: [ pf ]
 
 
-depend: [Vault]
+depend: [Vault, ProtocolLib]
 
-softdepend: [PlaceholderAPI, AdvancedEnchantments]
+softdepend: [FancyHolograms, PlaceholderAPI, AdvancedEnchantments, UpgradeableHoppers]

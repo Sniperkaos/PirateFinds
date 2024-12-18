@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.cworldstar.piratefinds.PirateFinds;
+import me.cworldstar.piratefinds.events.TickerTickEvent;
 import net.md_5.bungee.api.ChatColor;
 
 public abstract class BaseUIObject implements Listener {
@@ -52,7 +53,10 @@ public abstract class BaseUIObject implements Listener {
 	private ArrayList<MenuHandler<InventoryCloseEvent>> inventory_close_handlers = new ArrayList<MenuHandler<InventoryCloseEvent>>();
 	private ArrayList<MenuHandler<InventoryClickEvent>> empty_click_handlers = new ArrayList<MenuHandler<InventoryClickEvent>>();
 	private ArrayList<Integer> placeable_slots = new ArrayList<Integer>();
+	private ArrayList<ItemStack> no_drop_items = new ArrayList<ItemStack>();
+	private ArrayList<MenuHandler<TickerTickEvent>> tickers = new ArrayList<MenuHandler<TickerTickEvent>>();
 	private Inventory inventory;
+	private HashMap<Integer, Inventory> pages = new HashMap<Integer, Inventory>();
 	
 	/**
 	 * 
@@ -168,16 +172,27 @@ public abstract class BaseUIObject implements Listener {
 		inventory_close_handlers.add(handler);
 	}
 	
+	public void disableDrop(ItemStack item) {
+		
+	}
+	
+	public void addTicker(MenuHandler<TickerTickEvent> handler) {
+		this.tickers.add(handler);
+	}
+	
+	@EventHandler
+	public void onTickerTick(TickerTickEvent e) {
+		this.tickers.forEach((MenuHandler<TickerTickEvent> handler) -> {
+			handler.run(e);
+		});
+	}
+	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryClick(InventoryClickEvent e) {
 		Inventory c_inventory = e.getClickedInventory();
-		PirateFinds.log("Inventory click event logged");
 		if(c_inventory == null) return;
-		PirateFinds.log("Inventory checking...");
 		if(c_inventory.equals(this.inventory)) {
-			PirateFinds.log("inventory clicked was this current inventory");
 			if(e.getCurrentItem() == null) {
-				PirateFinds.log("Current item not null");
 				empty_click_handlers.forEach((MenuHandler<InventoryClickEvent> emptyHandler) -> {
 					emptyHandler.run(e);
 				});
@@ -190,7 +205,7 @@ public abstract class BaseUIObject implements Listener {
 				});
 			}
 			if(placeable_slots.contains(e.getSlot())) {
-				if(e.getCurrentItem() == null) {
+				if(e.getCurrentItem() == null || (e.isShiftClick() && e.getCurrentItem() != null)) {
 					insertHandlers.get(e.getSlot()).run(e);
 				}
 				return;
@@ -218,6 +233,7 @@ public abstract class BaseUIObject implements Listener {
 				InventoryCloseEvent.getHandlerList().unregister(this);
 				InventoryClickEvent.getHandlerList().unregister(this);
 				InventoryDragEvent.getHandlerList().unregister(this);
+				TickerTickEvent.getHandlerList().unregister(this);
 			} else {
 				new BukkitRunnable() {
 					@Override
@@ -228,6 +244,12 @@ public abstract class BaseUIObject implements Listener {
 				}.runTaskLater(PirateFinds.getThisPlugin(), 1L);
 			}
 		}
+	}
+
+	public int[] getBorderSlots() {
+		return new int[] {
+				
+		};
 	}
 	
 }

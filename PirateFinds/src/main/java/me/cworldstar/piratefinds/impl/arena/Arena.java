@@ -2,6 +2,8 @@ package me.cworldstar.piratefinds.impl.arena;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.bukkit.damage.DamageSource;
@@ -13,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import me.cworldstar.piratefinds.PirateFinds;
+import me.cworldstar.piratefinds.events.TickerTickEvent;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 public class Arena implements Listener {
@@ -62,9 +65,20 @@ public class Arena implements Listener {
 		PirateFinds.log(command);
 		
 		if(blacklisted.contains(command.split(" ")[0])) {
-			e.getPlayer().sendMessage(ChatUtils.createBroadcast("&7You cannot use this command while in the arena!"));
+			e.getPlayer().sendMessage(ChatUtils.createBroadcast("&7You cannot use this command while in the arena! To leave the arena, stand still and use /pf leavearena."));
 			e.setMessage("/pf empty");
 			e.setCancelled(true);
+		}
+	}
+	
+	
+	@EventHandler
+	public void onTickerTick(TickerTickEvent e) {
+		for(ArenaFighter a_fighter : fighters.toArray(new ArenaFighter[0])) {
+			if(a_fighter.getFighter().isFlying()) {
+				a_fighter.getFighter().setFlying(false);
+				a_fighter.getFighter().sendMessage(ChatUtils.createBroadcast("&7You cannot fly in the arena."));
+			}
 		}
 	}
 	
@@ -88,7 +102,18 @@ public class Arena implements Listener {
 			
 			
 			if(af_killed == null || af_killer == null) {
-				PirateFinds.log("Arena: Killed " + killed.getName() + " did not have an arena killer.");
+				PirateFinds.log("Arena: Killed " + killed.getName() + " did not have an arena killer. Awarding kill to nearest player instead.");
+				List<Entity> nearest_entities = killed.getNearbyEntities(20, 20, 20);
+				for(Entity entity : nearest_entities.toArray(new Entity[0])) {
+					if(entity instanceof Player) {
+						ArenaFighter nearest_fighter = getArenaFighter((Player) entity);
+						if (nearest_fighter == null) continue;
+						PirateFinds.log("Arena: Killer " + nearest_fighter.getFighter().getName() + " is being awarded for the kill.");
+						nearest_fighter.awardKill(af_killed);
+						nearest_fighter.increaseStreak();
+						break;
+					}
+				}
 				return;
 			}
 
@@ -99,6 +124,10 @@ public class Arena implements Listener {
 	}
 	
 	public void arenaEnter(Player p) {
+		if(p.isFlying()) {
+			p.setFlying(false);
+			p.sendMessage(ChatUtils.createBroadcast("&7You cannot fly in the arena."));
+		}
 		this.fighters.add(new ArenaFighter(p));
 	}
 	

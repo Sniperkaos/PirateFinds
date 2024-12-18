@@ -10,3 +10,4 @@ public class UpdatingUIHandler extends MenuHandler<UIUpdateEvent> {
 		super(e);
 	}
 }
+	

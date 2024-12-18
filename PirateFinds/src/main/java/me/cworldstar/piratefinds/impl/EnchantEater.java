@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 import net.advancedplugins.ae.api.AEAPI;
 
@@ -27,6 +28,11 @@ public class EnchantEater {
 			return;
 		}
 		
+		if(Locked.isItemLocked(i)) {
+			p.sendMessage(ChatUtils.apply("&7[ &d&lEnchant Eater &7]: I don't want locked items."));
+			return;
+		}
+		
 		Map<Enchantment, Integer> enchants = meta.getEnchants();
 		
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
@@ -34,7 +40,7 @@ public class EnchantEater {
 		for(Entry<Enchantment, Integer> set : enchants.entrySet()) {
 			ItemStack enchantment_book = new ItemStack(Material.ENCHANTED_BOOK);
 			EnchantmentStorageMeta e_meta = (EnchantmentStorageMeta) enchantment_book.getItemMeta();
-			e_meta.addEnchant(set.getKey(), set.getValue(), true);
+			e_meta.addStoredEnchant(set.getKey(), set.getValue(), true);
 			enchantment_book.setItemMeta(e_meta);
 			items.add(enchantment_book);
 		}

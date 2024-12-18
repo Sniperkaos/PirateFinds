@@ -38,6 +38,15 @@ public class PFItemUsed extends PlayerEvent implements Cancellable {
 		// TODO Auto-generated method stub
 		return cancelled;
 	}
+	
+	public void expend() {
+		this.expended = true;
+	}
+	
+	public void doNotExpend() {
+		this.expended = false;
+	}
+	
 	/**
 	 * 
 	 * Returns whether or not this PF item was

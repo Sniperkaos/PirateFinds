@@ -10,7 +10,7 @@ import net.advancedplugins.ae.impl.effects.effects.effects.AdvancedEffect;
 
 public class RemoveDamage extends AdvancedEffect {
 	public RemoveDamage(JavaPlugin arg0) {
-		super(arg0, "RemoveDamage");
+		super(arg0, "REMOVE_FLAT_DAMAGE");
 		this.addArgument(1, Double.class);
 	}
 	

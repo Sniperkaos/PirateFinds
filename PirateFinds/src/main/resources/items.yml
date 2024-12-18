@@ -1,0 +1,8 @@
+# this is the configuration file for some of the PF items.
+items:
+  sharpener:
+    max-level: 10
+    amount-per-level: 1
+  reinforcement:
+    max-level: 3
+    amount-per-level: 3

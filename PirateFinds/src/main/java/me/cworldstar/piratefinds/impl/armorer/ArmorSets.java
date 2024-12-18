@@ -153,10 +153,10 @@ public class ArmorSets {
 	
 	public static enum Pieces {
 		
-		HELMET("HELMET", 1),
-		CHESTPLATE("CHESTPLATE", 2),
-		LEGGINGS("LEGGINGS", 3),
-		BOOTS("BOOTS", 4);
+		HELMET("HELMET", 0),
+		CHESTPLATE("CHESTPLATE", 1),
+		LEGGINGS("LEGGINGS", 2),
+		BOOTS("BOOTS", 3);
 		
 		
 		private String pieceString;
@@ -227,15 +227,8 @@ public class ArmorSets {
 	public static String randomPiece(OfflinePlayer player) {
 		Random random = new Random();
 		random.setSeed(player.getUniqueId().getMostSignificantBits() * System.currentTimeMillis());
-		
 		int piece = random.nextInt(Pieces.getListSize());
-		
-		if(piece == 0) {
-			piece = 1;
-		}
-		
 		Pieces return_piece = Pieces.getPieceFromInteger(piece);
-		
 		if(Arrays.asList(Sets.getSetFromName(lastSet.get(player)).getPieces()).contains(return_piece)) {
 			return return_piece.getPieceString();
 		} else {

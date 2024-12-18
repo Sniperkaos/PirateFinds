@@ -3,8 +3,11 @@ package me.cworldstar.piratefinds;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import me.cworldstar.piratefinds.events.TickerTickEvent;
 
 public class Ticker {
 	
@@ -18,10 +21,12 @@ public class Ticker {
 			public void run() {
 				Ticker.this.handlers.forEach((Consumer<Integer> handler) -> {
 					handler.accept(this.getTaskId());
+
 				});
+				Bukkit.getPluginManager().callEvent(new TickerTickEvent());
 			}
 			
-		}.runTaskTimer(PirateFinds.getThisPlugin(), 20L, 0);
+		}.runTaskTimer(PirateFinds.getThisPlugin(), 0, 20L);
 	}
 	
 	public BukkitTask getTickerTask() {

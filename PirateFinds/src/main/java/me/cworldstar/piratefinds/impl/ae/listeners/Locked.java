@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -16,7 +16,6 @@ import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 import net.advancedplugins.ae.api.EnchantApplyEvent;
 import net.advancedplugins.ae.api.ItemApplyEvent;
-import net.advancedplugins.ae.handlers.anvil.AnvilEvent;
 import net.md_5.bungee.api.ChatColor;
 
 public class Locked implements Listener {
@@ -42,6 +41,8 @@ public class Locked implements Listener {
 	}
 	
 	public static boolean isItemLocked(ItemStack i) {
+		
+		if(i == null) return false;
 		
 		ItemMeta meta = i.getItemMeta();
 		if(meta == null) {
@@ -87,18 +88,27 @@ public class Locked implements Listener {
 		PirateFinds.getThisPlugin().getServer().getPluginManager().registerEvents(this, PirateFinds.getThisPlugin());
 	}
 
+	private void handleInventoryClick(InventoryClickEvent e) {
+		Inventory i = e.getClickedInventory();
+		for(ItemStack item : i.getContents()) {
+			if(Locked.isItemLocked(item)) {
+				e.getWhoClicked().sendMessage(ChatUtils.createBroadcast(LOCKED_MESSAGE));
+				e.setCancelled(true);
+				break;
+			}
+		}
+		
+		return;
+	}
+	
 
 	@EventHandler
 	public void onAnvilUse(InventoryClickEvent e) {
 		if(e.getClickedInventory() == null) return;
 		if(!(e.getClickedInventory().getType() == InventoryType.ANVIL)) return;
-		if(e.getSlotType() == SlotType.CRAFTING) {
-			if(Locked.isItemLocked(e.getCurrentItem())) {
-				e.getWhoClicked().sendMessage(ChatUtils.createBroadcast(LOCKED_MESSAGE));
-				e.setCancelled(true);
-			}
+		if(e.getSlotType() == SlotType.RESULT) {
+			handleInventoryClick(e);
 		}
-		
 	}
 	
 	

@@ -1,0 +1,56 @@
+# here is where the boxes will go.
+Example: 
+  item:
+    display-name: "&d&lExample Box"
+    lore:
+      - "&7&oThis is an &d&lExample Box&7&o."
+      - "&7&oIf you're seeing this, &c&oPirate&7&o didn't "
+      - "&7&oedit the config. &c&oCreate a ticket&r"
+      - "&7&oin our &b&l&oDiscord&7&o, and ping"
+      - "&c&l&nSniperkaos&7&o!"
+    glowing: true
+    material: CHEST
+  rewards:
+     common_key:
+        placeholder:
+          material: TRIPWIRE_HOOK
+          glowing: true
+          display-name: "&f&lCommon Key"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1
+        argument: "crates key give %player_name% common 1"
+        chance: 100 # default at 100
+     uncommon_key:
+        placeholder:
+          material: TRIPWIRE_HOOK
+          glowing: true
+          display-name: "&a&lUncommon Key"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "crates key give %player_name% uncommon 1"
+        chance: 100 # default at 100
+     rare_key:
+        placeholder:
+          material: TRIPWIRE_HOOK
+          glowing: true
+          display-name: "&1&lRare Key"
+          amount: 1
+        broadcast: true # sets broadcast
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "crates key give %player_name% rare 1"
+        chance: 20 # default at 100
+     legendary_key:
+        placeholder:
+          material: TRIPWIRE_HOOK
+          glowing: true
+          display-name: "&6&lLegendary Key"
+          amount: 1
+        broadcast: true # sets broadcast
+        broadcast-message: "&7&l%player_name% just got a &6&l%reward_name%&7&l from a &d&l%box_name%&7"
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "crates key give %player_name% legendary 1"
+        chance: 10 # default at 100

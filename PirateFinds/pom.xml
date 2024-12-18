@@ -2,19 +2,59 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.cworldstar.piratefinds</groupId>
   <artifactId>PirateFinds</artifactId>
-  <version>1.0</version>
+  <version>1.0.0-DEV</version>
   <name>PirateFinds</name>
   <description>awesome project</description>
   
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.5.0</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <relocations>
+                    <relocation>
+                        <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+                        <shadedPattern>me.cworldstar.piratefinds.morepersistentdatatypes</shadedPattern>
+                    </relocation>
+                </relocations>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
   
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
+
   
       <repositories>
+      
+      <repository>
+    <id>fancyplugins-releases</id>
+    <name>FancyPlugins Repository</name>
+    <url>https://repo.fancyplugins.de/releases</url>
+	</repository>
+
+      
+      
+      	  <repository>
+	    <id>dmulloy2-repo</id>
+	    <url>https://repo.dmulloy2.net/repository/public/</url>
+	  </repository>
+      
         <repository>
             <id>paper-repo</id>
             <url>https://repo.destroystokyo.com/repository/maven-public/</url>
@@ -53,6 +93,35 @@
     
     <dependencies>
     	
+    	<dependency>
+    <groupId>de.oliver</groupId>
+    <artifactId>FancyHolograms</artifactId>
+    <version>2.4.1</version>
+    <scope>provided</scope>
+</dependency>
+
+	    <dependency>
+	        <groupId>com.github.angeschossen</groupId>
+	        <artifactId>UpgradeableHoppersAPI</artifactId>
+	        <version>4.13.10</version>
+	        <scope>provided</scope>
+	    </dependency>
+
+    	
+    	<dependency>
+	    	<groupId>com.comphenix.protocol</groupId>
+	    	<artifactId>ProtocolLib</artifactId>
+    		<version>4.8.0</version>
+    		<scope>provided</scope>
+  		</dependency>
+    	
+    	
+    	<dependency>
+		    <groupId>com.jeff-media</groupId>
+		    <artifactId>MorePersistentDataTypes</artifactId>
+		    <version>2.4.0</version>
+		    <scope>compile</scope>
+		</dependency>
 
 	    <dependency>
 	        <groupId>com.github.MilkBowl</groupId>
@@ -79,7 +148,7 @@
 	        <artifactId>ldapjdk</artifactId>
 	        <scope>system</scope>
 	        <version>4.0.0</version>
-	        <systemPath>C:\Users\rainb\Downloads\AdvancedEnchantments-9.13.1(1).jar</systemPath>
+	        <systemPath>C:\Users\rainb\Downloads\pf test server\plugins\AdvancedEnchantments-9.14.2.jar</systemPath>
      	</dependency>
     	
         <dependency>

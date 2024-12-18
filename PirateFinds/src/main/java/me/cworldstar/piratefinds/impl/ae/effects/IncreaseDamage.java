@@ -10,7 +10,7 @@ import net.advancedplugins.ae.impl.effects.effects.effects.AdvancedEffect;
 
 public class IncreaseDamage extends AdvancedEffect {
 	public IncreaseDamage(JavaPlugin arg0) {
-		super(arg0, "IncreaseDamage");
+		super(arg0, "ADD_FLAT_DAMAGE");
 		this.addArgument(1, Double.class);
 	}
 	
