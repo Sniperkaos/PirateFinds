@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -18,15 +15,12 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-
-import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.EnchantEater;
 import me.cworldstar.piratefinds.impl.ui.BaseUIObject;
 import me.cworldstar.piratefinds.impl.ui.MenuHandler;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
+import me.cworldstar.piratefinds.impl.utils.ExperienceUtils;
 import net.advancedplugins.ae.api.AEAPI;
-import net.advancedplugins.ae.impl.utils.EntityHead;
 import net.advancedplugins.ae.impl.utils.SkullCreator;
 import net.md_5.bungee.api.ChatColor;
 
@@ -138,7 +132,7 @@ public class EnchantEaterUI extends BaseUIObject {
 				return;
 			}
 			
-			p.setLevel(p.getLevel() - this.price);
+			ExperienceUtils.changePlayerExp(p, -ExperienceUtils.getExpAtLevel(price));
 			EnchantEater.eatEnchantments((Player) e.getWhoClicked(), e.getClickedInventory().getItem(13));
 			this.close();
 		}));

@@ -1,22 +1,17 @@
 package me.cworldstar.piratefinds.impl.ae;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.advancedplugins.ae.features.sets.instances.ArmorSet;
-import net.advancedplugins.ae.impl.effects.effects.effects.internal.StealGuardEffect;
 import net.advancedplugins.ae.items.ItemLoader;
 import net.advancedplugins.ae.features.sets.enums.SetPiece;
 import net.advancedplugins.ae.utils.AManager;
@@ -24,11 +19,8 @@ import net.advancedplugins.ae.features.gkits.GKitBuilder;
 import net.advancedplugins.ae.features.sets.SetsManager;
 import net.advancedplugins.ae.Core;
 import me.cworldstar.piratefinds.PirateFinds;
-import me.cworldstar.piratefinds.impl.ae.effects.IncreaseDamage;
-import me.cworldstar.piratefinds.impl.ae.effects.RemoveDamage;
+import me.cworldstar.piratefinds.impl.ae.effects.*;
 import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
-import me.cworldstar.piratefinds.impl.ui.BaseUIObject;
-import me.cworldstar.piratefinds.impl.ui.BaseUIObject.InventorySize;
 import me.cworldstar.piratefinds.impl.ui.test.GKitPreviewUI;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 import net.advancedplugins.ae.api.AEAPI;
@@ -36,7 +28,7 @@ import net.advancedplugins.ae.api.AEAPI;
 /**
  * 
  * AE Expansion for Pirate Finds
- * @author rainb
+ * @author cworldstar
  *
  */
 
@@ -98,6 +90,8 @@ public class AEExpansion {
 		
 		AEAPI.registerEffect(plugin, new IncreaseDamage(plugin));
 		AEAPI.registerEffect(plugin, new RemoveDamage(plugin));
+		AEAPI.registerEffect(plugin, new PercentMaxHealth(plugin));
+		AEAPI.registerEffect(plugin, new AutoSell(plugin));
 	}
 	
 	public InternalEnchantment getRandomEnchantment(OfflinePlayer player, Material held_item, List<String> enchants) {

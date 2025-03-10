@@ -26,7 +26,6 @@ public class UnlockScroll extends AbstractPFItem {
 
 	@Override
 	public PFItemType getType() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 	

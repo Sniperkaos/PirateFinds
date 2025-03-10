@@ -23,14 +23,37 @@ public class PFItemUsed extends PlayerEvent implements Cancellable {
 	private boolean cancelled;
 	private boolean expended;
 	
+	/**
+	 * 
+	 * PFItemUsed event.
+	 * Is called when a {@link Player} uses a {@link AbstractPFItem}.
+	 * Can be cancelled to prevent the usage of an item.
+	 * Also has methods to prevent or force the expending of items.
+	 * 
+	 * {@code 
+	 * 		e.expend() 
+	 * }
+	 * {@code
+	 * 		e.noexpend() 
+	 * }
+	 * 
+	 * @author cworldstar
+	 * 
+	 * @param who
+	 * @param where
+	 * @param what
+	 * @param expended
+	 */
+	
 	public PFItemUsed(Player who, Inventory where, AbstractPFItem what, boolean expended) {
-		super(who);
 		
+		super(who);
 		this.who = who;
 		this.what = what;
 		this.where = where;
 		this.expended = expended;
 		this.type = what.getType();
+		
 	}
 
 	@Override
@@ -43,7 +66,7 @@ public class PFItemUsed extends PlayerEvent implements Cancellable {
 		this.expended = true;
 	}
 	
-	public void doNotExpend() {
+	public void noexpend() {
 		this.expended = false;
 	}
 	

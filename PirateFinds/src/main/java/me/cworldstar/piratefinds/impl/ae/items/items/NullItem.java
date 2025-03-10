@@ -36,4 +36,9 @@ public class NullItem extends AbstractPFItem {
 		return PFItemType.INVALID;
 	}
 
+	@Override
+	public ItemStack getPFItem() {
+		return nullItem;
+	}
+
 }

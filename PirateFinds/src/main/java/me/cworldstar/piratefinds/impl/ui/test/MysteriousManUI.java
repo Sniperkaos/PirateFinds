@@ -26,7 +26,7 @@ public class MysteriousManUI extends BaseUIObject {
 		int[] ints = new int[] {0,1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,19,20,21,23,24,25,26};
 		List<Integer> slots = Arrays.stream(ints).boxed().toList();
 		barrier_slots.addAll(slots);
-	}
+	}	
 
 	@Override
 	protected void decorate(Inventory i) {

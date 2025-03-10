@@ -41,6 +41,11 @@ public class ArenaLeave extends CommandConsumer<CommandSender> {
 				
 				@Override
 				public void run() {
+					
+					if(!player.isOnline()) {
+						return;
+					}
+					
 					if(!last_location.equals(player.getLocation())) {
 						player.sendMessage(ChatUtils.createBroadcast("&7You moved, so your leaving has been cancelled."));
 						leaving.get(player.getUniqueId()).cancel();

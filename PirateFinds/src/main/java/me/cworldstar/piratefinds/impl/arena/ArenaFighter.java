@@ -120,7 +120,9 @@ public class ArenaFighter {
 		}
 		
 		if(killStreak > 2) {
-			player.sendMessage(ChatUtils.createBroadcast(this.player.getName() + " is on a " + Integer.toString(killStreak) + " streak! Will anyone shut them down?"));
+			PirateFinds.getThisPlugin().getServer().getOnlinePlayers().forEach((Player player) -> {
+				player.sendMessage(ChatUtils.createBroadcast(this.player.getName() + " is on a " + Integer.toString(killStreak) + " streak! Will anyone shut them down?"));
+			});
 		}
 		
 		if(streak > 2) {

@@ -1,6 +1,7 @@
 package me.cworldstar.piratefinds.impl.commands.consumers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -38,7 +39,7 @@ public class GiveLockedGkit extends CommandConsumer<CommandSender> {
 				}
 				return list;
 			case 2:
-				return new ArrayList<String>(YamlFile.X.getConfig().getConfigurationSection("kits").getKeys(false));
+				return Arrays.asList(YamlFile.U.getConfig().getConfigurationSection("kits").getKeys(false).toArray(new String[0]));
 		}
 		return new ArrayList<String>(List.of(new String[0]));
 	}

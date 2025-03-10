@@ -1,0 +1,14 @@
+use-soul-implementation: true
+
+soul-gem:
+  max_souls: 10000
+  name: "&6&lSoul Gem &7(&c&l%souls%&7)"
+  data: 0
+  lore:
+  - "&c&oThis gem contains the souls"
+  - "&c&oof thousands of captured entities."
+  - ""
+  - "&6&oGem Information:"
+  - "&c * &7Souls: %souls%"
+  - ""
+  - "&7( &6&oRight-click in hand to enable souls. &7)"

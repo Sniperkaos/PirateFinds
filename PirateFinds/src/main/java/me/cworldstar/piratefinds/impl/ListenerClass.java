@@ -4,6 +4,8 @@ import org.bukkit.event.Listener;
 
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.health.HealthListener;
+import me.cworldstar.piratefinds.impl.listeners.listeners.OnArmorEquipEvent;
+import me.cworldstar.piratefinds.impl.profile.ProfileStatListener;
 import me.cworldstar.piratefinds.impl.welcome.NewPlayerWelcome;
 
 public class ListenerClass {
@@ -20,7 +22,11 @@ public class ListenerClass {
 		HealthListener HL = new HealthListener();
 		register(HL);
 		
+		new OnArmorEquipEvent();
+		
 		new NewPlayerWelcome();
+		
+		new ProfileStatListener();
 		
 		
 	}

@@ -20,6 +20,20 @@ public class DragonScale extends AbstractPFItem {
 	private static ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
 	private static PFItemType type = PFItemType.DRAG_AND_DROP;
 	
+	static {
+		ItemMeta meta = item.getItemMeta();
+		meta.setItemName(ColorUtils.format("&5&lDragon Scale"));
+		meta.setLore(List.of(new String[] {
+				"",
+				ColorUtils.format("&7[ &d&lDRAGON SCALE&r &7]"),
+				ColorUtils.format("&dDragging and dropping this onto an item"),
+				ColorUtils.format("&dwill either enchant the item with a random Dragon enchantment,"),
+				ColorUtils.format("&dor increase the level of a dragon enchantment by 1."),
+		}));
+		meta.setEnchantmentGlintOverride(true);
+		item.setItemMeta(meta);
+	}
+	
 	public static boolean enchantDragonEnchantment(Player p, ItemStack i) {
 		ArrayList<InternalEnchantment> enchants = PirateFinds.getAEExpansion().getRandomEnchantments(p, i.getType(), 0, Arrays.asList(new String[] {"DRAGON"}));
 		if(enchants.get(0) == null) return false;
@@ -52,20 +66,7 @@ public class DragonScale extends AbstractPFItem {
 	public ItemStack getPFItem() {
 		return item;
 	}
-	
-	static {
-		ItemMeta meta = item.getItemMeta();
-		meta.setItemName(ColorUtils.format("&5&lDragon Scale"));
-		meta.setLore(List.of(new String[] {
-				"",
-				ColorUtils.format("&7[ &d&lDRAGON SCALE&r &7]"),
-				ColorUtils.format("&dDragging and dropping this onto an item"),
-				ColorUtils.format("&dwill either enchant the item with a random Dragon enchantment,"),
-				ColorUtils.format("&dor increase the level of a dragon enchantment by 1."),
-		}));
-		meta.setEnchantmentGlintOverride(true);
-		item.setItemMeta(meta);
-	}
+
 	
 
 	public final String pf_item_id = "DRAGON_SCALE";

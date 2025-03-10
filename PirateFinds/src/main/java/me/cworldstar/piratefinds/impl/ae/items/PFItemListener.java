@@ -8,6 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +19,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -70,6 +75,9 @@ public class PFItemListener implements Listener {
 			}
 			
 			boolean expend = item.checkExpend((Player) e.getWhoClicked(), e.getCurrentItem());
+			if(expend == false) {
+				expend = item.checkExpendWithItem((Player) e.getWhoClicked(), e.getCurrentItem(), itemOnCursor);
+			}
 			PFItemUsed event = new PFItemUsed((Player) e.getWhoClicked(), e.getClickedInventory(), item, expend);
 			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) {
@@ -88,8 +96,10 @@ public class PFItemListener implements Listener {
 				} else {
 					itemOnCursor.setAmount(itemOnCursor.getAmount() - 1);
 				}
+				e.setCancelled(true);
 			}
 			else {
+				e.setCancelled(true);
 				player.playSound(player, Sound.ENTITY_VILLAGER_NO, 1.0f, 0.6f);
 			}			
 		}
@@ -129,21 +139,37 @@ public class PFItemListener implements Listener {
 	}
 	
 	@EventHandler
+	public void onBucketUseEvent(PlayerBucketEmptyEvent e) {
+		ItemStack maybeBucket = e.getPlayer().getInventory().getItem(e.getHand());
+		AbstractPFItem item = PFItemClass.getItem(maybeBucket);
+		if(item != null && 
+				!(PFItemClass.compare(PFItemClass.nullItem(), item)) &&
+				item.getType().equals(PFItemType.BUCKET_USED)
+		) {
+			boolean expend = item.checkExpend(e.getPlayer(), maybeBucket);
+			PFItemUsed event = new PFItemUsed(e.getPlayer(), e.getPlayer().getInventory(), item, expend);
+			Bukkit.getPluginManager().callEvent(event);
+			
+			if(event.isCancelled()) {
+				return;
+			}
+			
+			item.onItemUse(e.getPlayer(), maybeBucket, PFItemType.BUCKET_USED, e);
+		}
+	}
+	
+	@EventHandler
 	public void onTryBlockPlace(BlockPlaceEvent e) {
 		AbstractPFItem item = PFItemClass.getItem(e.getItemInHand());
-		PirateFinds.log("GETTING ITEM");
 		if(item != null && !(PFItemClass.compare(PFItemClass.nullItem(), item))) {
 			e.setCancelled(true);
-			PirateFinds.log("BEFORE BLOCK PLACE");
 			if(item.getTypes().contains(PFItemType.BLOCK_PLACE)) {
-				PirateFinds.log("BLOCK PLACE");
 				boolean expend = item.checkExpend(e.getPlayer(), e.getItemInHand());
 				PFItemUsed event = new PFItemUsed(e.getPlayer(), e.getPlayer().getInventory(), item, expend);
 				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) {
 					return;
 				}
-				PirateFinds.log("BLOCK PLACE TRIGGERING");
 				item.onItemUse(e.getPlayer(), e.getItemInHand(), PFItemType.BLOCK_PLACE, e);
 			}
 		}
@@ -155,7 +181,7 @@ public class PFItemListener implements Listener {
 			ItemStack itemInHand = e.getItem();
 			if(itemInHand == null) return;
 			AbstractPFItem item = PFItemClass.getItem(itemInHand);
-			if(item != null && (item.getTypes().contains(PFItemType.RIGHT_CLICK) || item.getTypes().contains(PFItemType.SHIFT_RIGHT_CLICK))) {
+			if(item != null && ((item.getTypes().contains(PFItemType.RIGHT_CLICK) || item.getTypes().contains(PFItemType.SHIFT_RIGHT_CLICK)) || item.getType().equals(PFItemType.RIGHT_CLICK))) {
 				e.setCancelled(true); 
 				
 				Player player = e.getPlayer();

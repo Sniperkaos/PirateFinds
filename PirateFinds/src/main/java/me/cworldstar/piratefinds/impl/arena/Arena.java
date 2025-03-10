@@ -101,7 +101,9 @@ public class Arena implements Listener {
 			
 			
 			
-			if(af_killed == null || af_killer == null) {
+			if(
+					(af_killer == null)
+			) {
 				PirateFinds.log("Arena: Killed " + killed.getName() + " did not have an arena killer. Awarding kill to nearest player instead.");
 				List<Entity> nearest_entities = killed.getNearbyEntities(20, 20, 20);
 				for(Entity entity : nearest_entities.toArray(new Entity[0])) {
@@ -120,6 +122,29 @@ public class Arena implements Listener {
 			PirateFinds.log("Arena: Killer " + attacker.getName() + " is being awarded for the kill.");
 			af_killer.awardKill(af_killed);
 			af_killer.increaseStreak();
+		}
+		else {
+			ArenaFighter af_killed = getArenaFighter(killed);
+			
+			if(af_killed != null) {
+				PirateFinds.log("Arena: Killed " + killed.getName() + " is being ejected from the arena.");
+				arenaLeave(killed);
+			}
+			
+			
+			PirateFinds.log("Arena: Killed " + killed.getName() + " did not have an arena killer. Awarding kill to nearest player instead.");
+			List<Entity> nearest_entities = killed.getNearbyEntities(20, 20, 20);
+			for(Entity entity : nearest_entities.toArray(new Entity[0])) {
+				if(entity instanceof Player) {
+					ArenaFighter nearest_fighter = getArenaFighter((Player) entity);
+					if (nearest_fighter == null) continue;
+					PirateFinds.log("Arena: Killer " + nearest_fighter.getFighter().getName() + " is being awarded for the kill.");
+					nearest_fighter.awardKill(af_killed);
+					nearest_fighter.increaseStreak();
+					break;
+				}
+			}
+			return;
 		}
 	}
 	

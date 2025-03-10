@@ -20,6 +20,8 @@ import me.cworldstar.piratefinds.PirateFinds;
  * PFItems can be registered by extending {@link PFItem}.
  * 
  * @author cworldstar
+ * @deprecated
+ * @see me.cworldstar.piratefinds.impl.ae.items.PFItemClass
  *
  */
 

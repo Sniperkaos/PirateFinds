@@ -1,5 +1,7 @@
 package me.cworldstar.piratefinds.impl.player;
 
+import java.util.Optional;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,8 +22,13 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
-		Profile player_profile = PlayerProfile.getPlayerProfile(player);
-		HealthImpl.startForEntity(player, player_profile.getStat("max_health"));
+		Optional<Profile> player_profile = PlayerProfile.getPlayerProfile(player);
+		if(player_profile.isEmpty()) {
+			PirateFinds.logger().warning("Player does not have a player profile. This should be impossible.");
+			return;
+		}
+		Profile profile = player_profile.get();
+		HealthImpl.startForEntity(player, profile.getStat("max_health"));
 	}
 	
 	@EventHandler

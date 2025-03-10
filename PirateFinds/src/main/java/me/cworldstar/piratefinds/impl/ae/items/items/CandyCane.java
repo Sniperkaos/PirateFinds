@@ -10,17 +10,21 @@ import org.bukkit.Sound;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 import me.cworldstar.piratefinds.impl.utils.ParticleUtils;
 import net.advancedplugins.ae.api.AEAPI;
+import net.citizensnpcs.api.CitizensAPI;
 
 public class CandyCane extends AbstractPFItem {
 	//&x&F&F&F&F&F&F&lC&x&B&A&6&0&6&0&la&x&A&B&0&0&0&0&ln&x&E&E&0&0&0&0&ld&x&C&7&0&0&0&0&ly &x&9&2&1&2&1&2&lC&x&9&2&6&D&6&D&la&x&B&B&B&B&B&B&ln&x&F&F&F&F&F&F&le
@@ -135,7 +139,13 @@ public class CandyCane extends AbstractPFItem {
 					ParticleUtils.summonCircle(p.getLocation(), size, new DustOptions(Color.fromRGB(255, 255 - (255 / size), 255 - (255 / size)), 10-size));
 				}
 				for(Entity entity : entities) {
-					if(entity instanceof LivingEntity && !entity.equals(p) && !entity.isInvulnerable()) {
+					if(entity instanceof LivingEntity && 
+							!entity.equals(p) && 
+							!entity.hasMetadata("NPC") &&
+							!entity.isInvulnerable() && 
+							!entity.getType().equals(EntityType.ARMOR_STAND)) 
+					{
+						
 						LivingEntity lentity = (LivingEntity) entity;
 						lentity.damage(12.0, p);
 						lentity.setVelocity(lentity.getLocation().getDirection().multiply(lentity.getLocation().distance(p.getLocation()) / 4));

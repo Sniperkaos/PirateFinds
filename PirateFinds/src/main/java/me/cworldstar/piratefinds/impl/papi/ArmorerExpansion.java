@@ -1,9 +1,8 @@
 package me.cworldstar.piratefinds.impl.papi;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
-
-
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.cworldstar.piratefinds.impl.armorer.ArmorSets;
 import me.cworldstar.piratefinds.impl.armorer.ArmorSets.Sets;
@@ -11,17 +10,17 @@ import me.cworldstar.piratefinds.impl.armorer.ArmorSets.Sets;
 public class ArmorerExpansion extends PlaceholderExpansion {
 
 	@Override
-	public @NotNull String getIdentifier() {
+	public @Nonnull String getIdentifier() {
 		return "armorer";
 	}
 
 	@Override
-	public @NotNull String getAuthor() {
+	public @Nonnull String getAuthor() {
 		return "cworldstar";
 	}
 
 	@Override
-	public @NotNull String getVersion() {
+	public @Nonnull String getVersion() {
 		return "1.0.0";
 	}
 	
@@ -31,7 +30,7 @@ public class ArmorerExpansion extends PlaceholderExpansion {
 	}
 	
 	@Override
-	public String onRequest(OfflinePlayer player, @NotNull String params) {
+	public String onRequest(OfflinePlayer player, @Nonnull String params) {
 		switch(params) {
 			case "armor_set":
 				String set = ArmorSets.randomSet(player);

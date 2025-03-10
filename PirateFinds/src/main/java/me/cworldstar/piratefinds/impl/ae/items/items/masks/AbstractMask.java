@@ -12,7 +12,7 @@ import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem.PFItemType;
 
 public abstract class AbstractMask extends AbstractPFItem {
 
-	protected static PFItemType type = PFItemType.TICK;
+	protected static PFItemType type = PFItemType.DRAG_AND_DROP;
 	
 	public AbstractMask(String mask_id) {
 		super("MASK"+mask_id);
@@ -27,7 +27,7 @@ public abstract class AbstractMask extends AbstractPFItem {
 	@Override
 	public List<PFItemType> getTypes() {
 		return Arrays.asList(new PFItemType[] {
-				PFItemType.STATIC,
+				PFItemType.DRAG_AND_DROP,
 		});
 	}
 
@@ -42,7 +42,7 @@ public abstract class AbstractMask extends AbstractPFItem {
 	
 	@Override
 	public boolean checkExpend(Player p, ItemStack on) {
-		return false;
+		return true;
 	}
 
 	@Override

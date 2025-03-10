@@ -1,5 +1,8 @@
 package me.cworldstar.piratefinds.impl.commands;
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 
@@ -8,15 +11,29 @@ import me.cworldstar.piratefinds.impl.commands.consumers.*;
 
 public class CommandsClass {
 	
+	private MainCommand mc;
+	
 	public static void executeServer(String command) {
 		Server server = PirateFinds.getServerStatic();
 		ConsoleCommandSender executor = server.getConsoleSender();
 		server.dispatchCommand(executor, command);
 	}
 	
+	public MainCommand getMainCommand() {
+		return mc;
+	}
+	
+	public List<String> getRegisteredCommands() {
+		return mc.getSubCommands().stream().map(Entry::getKey).toList();
+	}
+	
+	public String getHelpForCommand(String command) {
+		return mc.getCommand(command).help();
+	}
+	
 	public CommandsClass() {
 		PirateFinds pf = PirateFinds.getThisPlugin();
-		MainCommand mc = new MainCommand(pf.getCommand("PirateFinds"));
+		mc = new MainCommand(pf.getCommand("PirateFinds"));
 		mc.registerCommand("bless", new Bless());
 		mc.registerCommand("guarantee", new Guarantee());
 		mc.registerCommand("openmenu", new OpenMenu());
@@ -40,5 +57,10 @@ public class CommandsClass {
 		mc.registerCommand("debug", new Debug());
 		mc.registerCommand("checkitem", new CheckItem());
 		mc.registerCommand("sharpen", new Sharpen());
+		mc.registerCommand("broadcast", new Broadcast());
+		mc.registerCommand("removemask", new RemoveMask());
+		mc.registerCommand("givetotem", new GiveTotem());
+		mc.registerCommand("displayprofile", new DisplayProfile());
+		mc.registerCommand("setstat", new SetProfileStat());
 	}
 }

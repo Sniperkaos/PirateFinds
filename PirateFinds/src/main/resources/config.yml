@@ -1,3 +1,6 @@
+properties:
+   version-number: 1.01
+
 options:
    auto-update: true
    debug-mode: false
@@ -6,7 +9,7 @@ warnings:
    suppress_all_warnings: true
 
 login:
-   login_message: ""
+   login_message: "&7Welcome back, %player_name%!"
 
 first-join:
    first-join-message: 
@@ -50,7 +53,7 @@ command-drops: # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Enti
          - crate key give %player_name% legendary 1
   'WARDEN': # mob specific drops 
     '1': # Each section has a chance. It will trigger based on higher number down to the lowest number, and evaluate chance for each. If nothing is resolved, it will do nothing.
-      chance: 2
+      chance: 5
       award-message: '&b&lRARE FIND!&7 You have recieved a &bWarden Chest&7 from killing a warden!'
       commands:
         - 'pf givepfitem %player_name% WardenBox 1'

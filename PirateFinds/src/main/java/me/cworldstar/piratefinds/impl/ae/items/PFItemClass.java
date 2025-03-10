@@ -1,29 +1,33 @@
 package me.cworldstar.piratefinds.impl.ae.items;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 
 import me.cworldstar.piratefinds.PirateFinds;
+import me.cworldstar.piratefinds.impl.ae.events.PFItemRegistered;
 import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
+import net.advancedplugins.ae.utils.YamlFile;
 
 public class PFItemClass {
 	
 	private static HashMap<String, AbstractPFItem> items = new HashMap<String, AbstractPFItem>();
+	private static List<String> totems = new ArrayList<String>();
 	
 	public static final NamespacedKey PF_ITEM_KEY = new NamespacedKey(PirateFinds.getThisPlugin(), "PF_ITEM_KEY");
 	
@@ -35,7 +39,7 @@ public class PFItemClass {
 		return items.get(item);
 	}
 	
-	@NotNull
+	@Nonnull
 	public static boolean isPFItemSimilar(ItemStack one, ItemStack two) {
 		if(one == null || two == null) return false;
 		if(one.isSimilar(two)) return true;
@@ -53,12 +57,17 @@ public class PFItemClass {
 		return false;
 	}
 	
-	@NotNull
+	@Nonnull
 	public static AbstractPFItem nullItem() {
 		return items.get("NullItem");
 	}
 	
-	@NotNull
+	
+	/**
+	 * This {@link AbstractPFItem
+	 * @return The {@link AbstractPFItem} associated with this {@link ItemStack}, or the {@link #nullItem()}.
+	 */
+	@Nonnull
 	public static AbstractPFItem getItem(@Nonnull ItemStack itemOnCursor) {
 		for(Entry<String, AbstractPFItem> sets : items.entrySet()) {
 			AbstractPFItem item = sets.getValue();
@@ -70,8 +79,8 @@ public class PFItemClass {
 	}
 	
 	
-	@NotNull
-	public static boolean compare(@NotNull AbstractPFItem nullItem, @NotNull AbstractPFItem item) {
+	@Nonnull
+	public static boolean compare(@Nonnull AbstractPFItem nullItem, @Nonnull AbstractPFItem item) {
 		
 		String id1 = nullItem.getPFItemID();
 		String id2 = item.getPFItemID();
@@ -80,64 +89,111 @@ public class PFItemClass {
 	}
 	
 	
+	private static void internalRegisterItem(String id, AbstractPFItem item) {
+		PFItemRegistered event = new PFItemRegistered(item, id);
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled()) {
+			items.put(id, item);
+		}
+	}
+	
+	
 	public PFItemClass() {
-		items.put("NullItem", new NullItem());
-		items.put("LockScroll", new LockScroll("LOCK_SCROLL"));
-		items.put("UnlockScroll", new UnlockScroll("UNLOCK_SCROLL"));
-		items.put("UnsealScroll", new UnsealScroll("UNSEAL_SCROLL"));
-		items.put("TitanLootbox", new TitanLootBox("TITAN_LOOTBOX"));
-		items.put("MobLootbox", new MobLootBox());
-		items.put("WardenBox", new WardenBox("WARDEN_LOOTBOX"));
-		items.put("EnderDragonLootbox", new EnderDragonLootBox());
-		items.put("DragonScale", new DragonScale("DRAGON_SCALE"));
-		items.put("EvolveScroll", new EvolveScroll("EVOLVE_SCROLL"));
-		items.put("ItemMagnet", new Magnet("MAGNET"));
-		items.put("Reinforcement", new Reinforcement("REINFORCEMENT"));
-		items.put("IronGolemBox", new IronGolemBox());
-		items.put("Hammer", new Hammer("HAMMER"));
-		items.put("ChristmasLootbox", new ChristmasBox());
-		items.put("CandyCane", new CandyCane());
-		items.put("Sharpener", new Sharpener("SHARPENER"));
+		internalRegisterItem("NullItem", new NullItem());
+		internalRegisterItem("LockScroll", new LockScroll("LOCK_SCROLL"));
+		internalRegisterItem("UnlockScroll", new UnlockScroll("UNLOCK_SCROLL"));
+		internalRegisterItem("UnsealScroll", new UnsealScroll("UNSEAL_SCROLL"));
+		internalRegisterItem("TitanLootbox", new TitanLootBox("TITAN_LOOTBOX"));
+		internalRegisterItem("MobLootbox", new MobLootBox());
+		internalRegisterItem("WardenBox", new WardenBox("WARDEN_LOOTBOX"));
+		internalRegisterItem("EnderDragonLootbox", new EnderDragonLootBox());
+		internalRegisterItem("DragonScale", new DragonScale("DRAGON_SCALE"));
+		internalRegisterItem("EvolveScroll", new EvolveScroll("EVOLVE_SCROLL"));
+		internalRegisterItem("ItemMagnet", new Magnet("MAGNET"));
+		internalRegisterItem("Reinforcement", new Reinforcement("REINFORCEMENT"));
+		internalRegisterItem("IronGolemBox", new IronGolemBox());
+		internalRegisterItem("Hammer", new Hammer("HAMMER"));
+		internalRegisterItem("ChristmasLootbox", new ChristmasBox());
+		internalRegisterItem("CandyCane", new CandyCane());
+		internalRegisterItem("Sharpener", new Sharpener("SHARPENER"));
 		
 		// masks
-		items.put("SantaMask", new SantaMask());
+		internalRegisterItem("SantaMask", new SantaMask());
 		
 		// gkit vouchers
 		
-		items.put("JollyGkitVoucher", new GKitVoucher("jolly"));
-		items.put("TamerGkitVoucher", new GKitVoucher("tamer"));
-		items.put("BarbarianGkitVoucher", new GKitVoucher("barbarian"));
-		items.put("MinerGkitVoucher", new GKitVoucher("miner"));
-		items.put("ExplorerGkitVoucher", new GKitVoucher("treasurehunter"));
 		
+		for(String gkit : Arrays.asList(YamlFile.U.getConfig().getConfigurationSection("kits").getKeys(false).toArray(new String[0]))) {
+			internalRegisterItem(gkit+"GkitVoucher", new GKitVoucher(gkit.toLowerCase()));
+		}
+		
+		internalRegisterItem("experience_crystal", new ExperienceCrystal());
+		internalRegisterItem("health_crystal", new HealthCrystal());
+
+		// misc
+		internalRegisterItem("infinite_bucket", new InfiniteBucket());
 		
 		// blocks
-		items.put("TestBlock", new TestBlockItem());
+		internalRegisterItem("TestBlock", new TestBlockItem());
 		
 		//i mliike realy drunk so maybe this suks?? idk
+
+		registerConfigLootboxes();
+		registerConfigTotems();
+		registerConfigBackpacks();
+	}
+	
+	public static void registerConfigBackpacks() {
+		for(String key : PirateFinds.getThisPlugin().getBackpackConfig().getKeys(false)) {
+			Backpack.buildFromConfig(PirateFinds.getThisPlugin().getBackpackConfig().getConfigurationSection(key));
+		}
+	}
+	
+	public static void registerConfigLootboxes() {
 		for(String key : PirateFinds.getThisPlugin().getBoxConfig().getKeys(false)) {
 			AbstractLootBox.buildFromConfig(PirateFinds.getThisPlugin().getBoxConfig().getConfigurationSection(key));
 		}
-		
-		
 	}
 	
+	public static void registerConfigTotems() {
+		for(String key : PirateFinds.getThisPlugin().getTotemConfig().getConfigurationSection("totems").getKeys(false)) {
+			EnchantmentTotem.buildFromConfig(PirateFinds.getThisPlugin().getTotemConfig().getConfigurationSection("messages"), PirateFinds.getThisPlugin().getTotemConfig().getConfigurationSection("totems").getConfigurationSection(key));
+			totems.add(key);
+		}
+	}
+	
+	
 	public static <T extends AbstractPFItem> void registerAnyItem(T item) {
-		if(!(item instanceof AbstractPFItem)) return;
+		if(!(item instanceof AbstractPFItem)) { 
+			PirateFinds.logger().warning("Attempted to register item".concat(" ").concat(item.getPFItemID()).concat(". It was unsuccessful."));
+			return;
+		}
 		try {
-			items.put(item.getPFItemID(), item);
+			PFItemRegistered event = new PFItemRegistered(item, item.getPFItemID());
+			Bukkit.getPluginManager().callEvent(event);
+			if(!event.isCancelled()) {
+				items.put(item.getPFItemID(), item);
+			}
 		} finally {
 			
 		}		
 	}
 	
+	public static List<String> getRegisteredTotems() {
+		return totems;
+	}
+	
 	public static void registerItem(ConfigLootBox item) {
 		PirateFinds.log(item.toString());
-		items.put(item.getPFItemID(), item);
+		
+		PFItemRegistered event = new PFItemRegistered(item, item.getPFItemID());
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled()) {
+			items.put(item.getPFItemID(), item);
+		}
 	}
 	
 	public static void registerItem(String itemId, Class<AbstractPFItem> clazz) {
-		
 		AbstractPFItem item = null;
 		try {
 			item = clazz.getConstructor().newInstance();
@@ -151,7 +207,11 @@ public class PFItemClass {
 			return;
 		}
 		
-		items.put(itemId, item);
+		PFItemRegistered event = new PFItemRegistered(item, itemId);
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled()) {
+			items.put(itemId, item);
+		}
 	}
 
 

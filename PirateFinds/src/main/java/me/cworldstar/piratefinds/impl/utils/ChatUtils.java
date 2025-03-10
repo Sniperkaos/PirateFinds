@@ -1,5 +1,7 @@
 package me.cworldstar.piratefinds.impl.utils;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -15,6 +17,12 @@ public class ChatUtils {
 	public static String apply(String string) {
 		return ChatColor.translateAlternateColorCodes('&',string);
 	}
+	
+	public static List<String> apply(List<String> string) {
+		string.replaceAll(s->apply(s));
+		return string;
+	}
+	
 	
 	public static void broadcast(String string) {
 		PirateFinds.getServerStatic().getOnlinePlayers().forEach((Player p) -> {

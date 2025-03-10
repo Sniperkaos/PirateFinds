@@ -12,6 +12,7 @@ import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 import me.cworldstar.piratefinds.impl.commands.CommandConsumer;
 import me.cworldstar.piratefinds.impl.ui.test.PFItemGiveGUI;
+import me.cworldstar.piratefinds.impl.utils.InventoryUtils;
 
 public class GivePFItem extends CommandConsumer<CommandSender> {
 
@@ -33,12 +34,11 @@ public class GivePFItem extends CommandConsumer<CommandSender> {
 				if(item != null) {
 					if(args.size() >= 3) {
 						for(int i=0; i<Integer.parseInt(args.get(2)); i++) {
-							p.getInventory().addItem(item.build());
+							InventoryUtils.addOrDropItem(p.getInventory(), item.build());
 						}
 					} else {
-						p.getInventory().addItem(item.build());
+						InventoryUtils.addOrDropItem(p.getInventory(), item.build());
 					}
-
 				}
 			}
 			return;

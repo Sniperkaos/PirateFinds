@@ -1,13 +1,15 @@
 # here is where the boxes will go.
 Example: 
   item:
-    display-name: "&d&lExample Box"
+    display-name: "&7&l( &c&l&l! &7&l) &6Rusty Keybox"
     lore:
-      - "&7&oThis is an &d&lExample Box&7&o."
-      - "&7&oIf you're seeing this, &c&oPirate&7&o didn't "
-      - "&7&oedit the config. &c&oCreate a ticket&r"
-      - "&7&oin our &b&l&oDiscord&7&o, and ping"
-      - "&c&l&nSniperkaos&7&o!"
+      - "&6&oCovered in layers of rust, this box contains"
+      - "&6&oa multitude of... keys? How odd..."
+      - ""
+      - "&6 * &7Contains keys inside with no"
+      - "&6 * &7negative drawbacks, however"
+      - "&6 * &7the chance for higher tier keys"
+      - "&6 * &7is greatly reduced."
     glowing: true
     material: CHEST
   rewards:
@@ -30,7 +32,7 @@ Example:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1 # the amount of times the command is executed
         argument: "crates key give %player_name% uncommon 1"
-        chance: 100 # default at 100
+        chance: 80 # default at 100
      rare_key:
         placeholder:
           material: TRIPWIRE_HOOK
@@ -41,7 +43,7 @@ Example:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1 # the amount of times the command is executed
         argument: "crates key give %player_name% rare 1"
-        chance: 20 # default at 100
+        chance: 10 # default at 100
      legendary_key:
         placeholder:
           material: TRIPWIRE_HOOK
@@ -53,4 +55,101 @@ Example:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1 # the amount of times the command is executed
         argument: "crates key give %player_name% legendary 1"
-        chance: 10 # default at 100
+        chance: 5 # default at 100
+Keybox2:
+  item:
+    display-name: '&x&7&A&0&0&0&0&lA&x&A&0&0&0&0&0&ld&x&C&6&0&0&0&0&lv&x&E&C&0&0&0&0&la&x&F&F&0&0&0&0&ln&x&F&F&0&0&0&0&lc&x&F&F&0&0&0&0&le&x&F&F&0&0&0&0&ld &c&lKey Box'
+    lore:
+    - '&7&oThis box is very mysterious, sometimes&7&o.'
+    - '&7&ogranting a boon, other times taking one.&7&o.'
+    - ''
+    - '&c&oWarning:&7&o Some rewards in this box may take'
+    - '&7&omoney and/or experience from you!'
+    glowing: true
+    material: PLAYER_HEAD
+    skull_id: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODdjOGIzYjBmN2RjMmMyY2E1YzExMjhlZGE0MTRmZmE4OWIzZDA0MWE4MWJlMmNlNjEwMzMwYjJhMzU3MjIzNiJ9fX0=
+  rewards:
+    common_key:
+      placeholder:
+        material: TRIPWIRE_HOOK
+        glowing: true
+        display-name: '&f&lCommon Key'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1
+      argument: crates key give %player_name% common 1
+      chance: 100 # default at 100
+    neg5k:
+      placeholder:
+        material: PAPER
+        glowing: true
+        display-name: '&c&l-5,000$'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: money take %player_name% 5000
+      chance: 100 # default at 100
+    neg2k:
+      placeholder:
+        material: PAPER
+        glowing: true
+        display-name: '&c&l-2,000$'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: money take %player_name% 2000
+      chance: 100 # default at 100
+    neg1k:
+      placeholder:
+        material: PAPER
+        glowing: true
+        display-name: '&c&l-1,000$'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: money take %player_name% 1000
+      chance: 100 # default at 100
+    neg5kXP:
+      placeholder:
+        material: PAPER
+        glowing: true
+        display-name: '&c&l-5,000 xp'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: xp add %player_name% -5000 points
+      chance: 100 # default at 100
+    uncommon_key:
+      placeholder:
+        material: TRIPWIRE_HOOK
+        glowing: true
+        display-name: '&a&lUncommon Key'
+        amount: 1
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: crates key give %player_name% uncommon 1
+      chance: 100 # default at 100
+    rare_key:
+      placeholder:
+        material: TRIPWIRE_HOOK
+        glowing: true
+        display-name: '&1&lRare Key'
+        amount: 1
+      broadcast: true # sets broadcast
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: crates key give %player_name% rare 1
+      chance: 20 # default at 100
+    legendary_key:
+      placeholder:
+        material: TRIPWIRE_HOOK
+        glowing: true
+        display-name: '&6&lLegendary Key'
+        amount: 1
+      broadcast: true # sets broadcast
+      broadcast-message: '&7&l%player_name% just got a &6&l%reward_name%&7&l from
+        a &d&l%box_name%&7'
+      type: COMMAND # ITEM, COMMAND
+      amount: 1 # the amount of times the command is executed
+      argument: crates key give %player_name% legendary 1
+      chance: 10 # default at 100

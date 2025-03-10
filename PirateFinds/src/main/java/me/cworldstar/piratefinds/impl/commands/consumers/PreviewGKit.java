@@ -15,7 +15,6 @@ import net.advancedplugins.ae.utils.YamlFile;
 
 public class PreviewGKit extends CommandConsumer<CommandSender> {
 
-	
 	public PreviewGKit() {
 		hide = true;
 		this.setPermission("pf.commands.previewgkit");
@@ -42,7 +41,7 @@ public class PreviewGKit extends CommandConsumer<CommandSender> {
 			}
 			return list;
 		case 2:
-			return new ArrayList<String>(YamlFile.X.getConfig().getConfigurationSection("kits").getKeys(false));
+			return new ArrayList<String>(YamlFile.U.getConfig().getConfigurationSection("kits").getKeys(false));
 	}
 	return new ArrayList<String>(List.of(new String[0]));
 	}

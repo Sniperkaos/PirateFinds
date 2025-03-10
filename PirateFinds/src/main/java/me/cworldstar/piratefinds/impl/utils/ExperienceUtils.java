@@ -31,7 +31,30 @@ public class ExperienceUtils {
             return (int) (4.5*Math.pow(level,2) - 162.5*level + 2220.0);
         }
     }
+    
+	private static int getExpAtLevel(final Player player)
+	{
+		return getExpAtLevel(player.getLevel());
+	}
+
  
+	public static int getTotalExperience(final Player player)
+	{
+		int exp = (int)Math.round(getExpAtLevel(player) * player.getExp());
+		int currentLevel = player.getLevel();
+
+		while (currentLevel > 0)
+		{
+			currentLevel--;
+			exp += getExpAtLevel(currentLevel);
+		}
+		if (exp < 0)
+		{
+			exp = Integer.MAX_VALUE;
+		}
+		return exp;
+	}
+    
     // Calculate player's current EXP amount
     public static int getPlayerExp(Player player){
         int exp = 0;

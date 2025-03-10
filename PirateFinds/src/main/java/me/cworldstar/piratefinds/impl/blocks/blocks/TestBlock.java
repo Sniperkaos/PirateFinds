@@ -6,30 +6,50 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import de.oliver.fancyholograms.api.hologram.Hologram;
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.blocks.PFBlock;
-import me.cworldstar.piratefinds.impl.blocks.PFBlockData;
-import me.cworldstar.piratefinds.impl.ui.test.RepairMasterUI;
+import me.cworldstar.piratefinds.impl.serialize.SerializeableInventory;
+import me.cworldstar.piratefinds.impl.ui.blocks.TestBlockUI;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 public class TestBlock extends PFBlock {
-
-	private PFBlockData data;
 	
 	public TestBlock(Location l, Block block) {
 		super("TestBlock", l, block);
-		data = new PFBlockData();
+		this.data.setData("inventory", new SerializeableInventory(Bukkit.createInventory(null, 18)));
+		
 	}
+	
+	public Inventory addToInventory(ItemStack item) {
+		return this.data.getInventory("inventory");
+	}
+	
+	public Inventory getInventory() {
+		return this.data.getInventory("inventory");
+	}
+	
+	public Inventory removeIndex(int index) {
+		this.data.getInventory("inventory").clear(0);
+		return this.data.getInventory("inventory");
+	}
+	
+	public int getIndexOf(ItemStack item) {
+		return this.data.getInventory("inventory").first(item);
+	}
+	
+	
 	
 	public TestBlock(Location l, Block block, UUID id) {
 		super("TestBlock", l, block, id);
-		data = new PFBlockData();
 	}
 	
 	
@@ -74,7 +94,15 @@ public class TestBlock extends PFBlock {
 	
 	@Override
 	public void onRightClick(PlayerInteractEvent e) {
-		new RepairMasterUI(e.getPlayer()).open();
+		
+		if(this.data == null) {
+			PirateFinds.log("why is data null?");
+			return;
+			
+		}
+		
+		PirateFinds.log(this.data.toString());
+		new TestBlockUI(e.getPlayer(), this.getPFData()).open();
 	}
 
 }

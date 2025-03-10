@@ -1,0 +1,11 @@
+small:
+    size: LARGE
+    name: "&c&lLarge&7 Backpack"
+    headId: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTUwNjBlZjU3ZmY0Y2UwYTg1NDgyZWQwNDU0YzdmZTAzOGFhNDU1ZDNjMjY3NTM0ZTI5ZWRjODE0MWM1YjVjZSJ9fX0="
+    lore:
+     - "&c&oThis backpack contains a large amount"
+     - "&c&oof items." 
+     - ""
+     - "&7 * &eCurrent Items: %items%"
+     - ""
+     - "&7&o( &cRight-click to open! &7&o)"

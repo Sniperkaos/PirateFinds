@@ -20,6 +20,7 @@ import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.lootbox.LootboxReward;
 import me.cworldstar.piratefinds.impl.lootbox.LootboxReward.LootboxRewardType;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
+import net.advancedplugins.ae.impl.utils.SkullCreator;
 
 public abstract class AbstractLootBox extends AbstractPFItem {
 	public ItemStack item = new ItemStack(Material.ENDER_CHEST);
@@ -112,6 +113,13 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 		
 		
 		ItemStack theItem = new ItemStack(Material.valueOf(material));
+		
+
+		
+		if(theItem.getType().equals(Material.PLAYER_HEAD)) {
+			theItem = SkullCreator.itemFromBase64(itemSection.getString("skull_id"));
+		}
+		
 		ItemMeta theItemMeta = theItem.getItemMeta();
 		
 		theItemMeta.setItemName(ChatUtils.apply("&f&lLootbox: " + section.getName()));
@@ -152,14 +160,46 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 			int chance = reward.getInt("chance");
 			
 			ItemStack placeholderItem = new ItemStack(Material.valueOf(placeholderMaterial));
+			if(placeholderItem.getType().equals(Material.PLAYER_HEAD)) {
+				placeholderItem = SkullCreator.itemFromBase64(reward.getString("skull_id"));
+			}
 			ItemMeta placeholderItemMeta = placeholderItem.getItemMeta();
 			placeholderItemMeta.setItemName(ChatUtils.apply(placeholderName));
 			placeholderItemMeta.setEnchantmentGlintOverride(placeholderGlowing);
 			placeholderItem.setItemMeta(placeholderItemMeta);
 			
-			LootboxReward<?> lreward = new LootboxReward<String>(Arrays.asList(new String[] {
-					command
-			}), LootboxRewardType.COMMAND).setAmount(amount).setChance(chance).setPlaceholder(placeholderItem);
+			
+			
+			LootboxReward<?> lreward = null;
+			
+			switch(LootboxRewardType.valueOf(reward.getString("type"))) {
+				case COMMAND:
+					lreward = new LootboxReward<String>(Arrays.asList(new String[] {
+							command
+					}), LootboxRewardType.COMMAND).setAmount(amount).setChance(chance).setPlaceholder(placeholderItem);
+					break;
+				case ITEM:
+					
+					ConfigurationSection itemReward = reward.getConfigurationSection("item");
+					Material rewardMaterial = Material.valueOf(itemReward.getString("material"));
+					ItemStack rewardItem = new ItemStack(rewardMaterial);
+					if(rewardMaterial.equals(Material.PLAYER_HEAD)) {
+						rewardItem = SkullCreator.itemFromBase64(itemReward.getString("skull_id"));
+					}
+					
+					ItemMeta rewardItemMeta = rewardItem.getItemMeta();
+					rewardItemMeta.setDisplayName(itemReward.getString("display-name"));
+					rewardItemMeta.setItemName(itemReward.getString("display-name"));
+					rewardItem.setItemMeta(rewardItemMeta);
+					
+					lreward = new LootboxReward<ItemStack>(Arrays.asList(new ItemStack[] {
+							rewardItem
+					}), LootboxRewardType.ITEM).setAmount(amount).setChance(chance).setPlaceholder(placeholderItem);
+					break;
+				default:
+					break;
+			}
+			
 			
 			if(reward.contains("broadcast")) {
 				lreward.setBroadcast(broadcast);

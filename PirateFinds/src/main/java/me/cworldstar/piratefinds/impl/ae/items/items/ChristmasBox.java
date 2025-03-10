@@ -127,7 +127,9 @@ public class ChristmasBox extends AbstractLootBox {
 	public void load() {
 		this.setItemFlavor(
 				"&x&6&8&E&7&E&0&lC&x&7&5&D&7&C&8&lh&x&8&3&C&7&B&0&lr&x&9&0&B&7&9&8&li&x&9&D&A&7&7&F&ls&x&A&B&9&7&6&7&lt&x&B&8&8&7&4&F&lm&x&C&5&7&7&3&7&la&x&C&0&7&1&2&B&ls &x&A&9&7&5&2&A&lL&x&9&2&7&A&2&9&lo&x&7&B&7&E&2&8&lo&x&6&4&8&2&2&7&lt&x&4&D&8&6&2&6&lb&x&3&6&8&B&2&5&lo&x&1&F&8&F&2&4&lx",
-				List.of(new String[] { "&7&oMerry christmas! &x&F&B&0&0&0&0&oS&x&F&D&7&1&7&1&oa&x&F&F&E&3&E&3&on&x&B&4&E&0&F&F&ot&x&5&1&B&6&F&F&oa &x&5&1&A&B&D&7&oC&x&B&4&B&E&8&6&ol&x&F&8&B&8&5&2&oa&x&D&D&6&6&7&1&ou&x&C&1&1&4&9&1&os &7&ohas a new", "&7&opresent for you!" }));
+				List.of(new String[] { 
+						"&7&oMerry christmas! &x&F&B&0&0&0&0&oS&x&F&D&7&1&7&1&oa&x&F&F&E&3&E&3&on&x&B&4&E&0&F&F&ot&x&5&1&B&6&F&F&oa &x&5&1&A&B&D&7&oC&x&B&4&B&E&8&6&ol&x&F&8&B&8&5&2&oa&x&D&D&6&6&7&1&ou&x&C&1&1&4&9&1&os &7&ohas a new", 
+						"&7&opresent for you!" }));
 
 		ItemStack cookieReward = christmas_cookie.clone();
 		cookieReward.setAmount(8);
@@ -190,15 +192,15 @@ public class ChristmasBox extends AbstractLootBox {
 				LootboxRewardType.COMMAND).setPlaceholder(makeMoneyPlaceholder(new ItemStack(Material.PAPER),120000)).setAmount(1));
 		this.addReward(new LootboxReward<String>(List.of(new String[] { "cmi money give %player_name% 150000" }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeMoneyPlaceholder(new ItemStack(Material.PAPER),150000)).setAmount(1));
-		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add" + Integer.toString(ExperienceUtils.getExpAtLevel(100)) }),
+		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add  " + Integer.toString(ExperienceUtils.getExpAtLevel(100)) }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeEXPPlaceholder(new ItemStack(Material.EXPERIENCE_BOTTLE),100)).setAmount(1));
-		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add" + Integer.toString(ExperienceUtils.getExpAtLevel(125)) }),
+		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add " + Integer.toString(ExperienceUtils.getExpAtLevel(125)) }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeEXPPlaceholder(new ItemStack(Material.EXPERIENCE_BOTTLE),125)).setAmount(1));
-		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add" + Integer.toString(ExperienceUtils.getExpAtLevel(150)) }),
+		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add " + Integer.toString(ExperienceUtils.getExpAtLevel(150)) }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeEXPPlaceholder(new ItemStack(Material.EXPERIENCE_BOTTLE),150)).setAmount(1));
-		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add" + Integer.toString(ExperienceUtils.getExpAtLevel(175)) }),
+		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add " + Integer.toString(ExperienceUtils.getExpAtLevel(175)) }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeEXPPlaceholder(new ItemStack(Material.EXPERIENCE_BOTTLE),175)).setAmount(1));
-		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add" + Integer.toString(ExperienceUtils.getExpAtLevel(200)) }),
+		this.addReward(new LootboxReward<String>(List.of(new String[] { "exp %player_name% add " + Integer.toString(ExperienceUtils.getExpAtLevel(200)) }),
 				LootboxRewardType.COMMAND).setPlaceholder(makeEXPPlaceholder(new ItemStack(Material.EXPERIENCE_BOTTLE),200)).setAmount(1));
 		
 

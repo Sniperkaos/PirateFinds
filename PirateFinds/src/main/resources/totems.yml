@@ -1,0 +1,168 @@
+messages:
+  invalid_item: "&7[ &c&l!&r&7 ] &4&lThis item is invalid!&r &7(You cannot use this shard on this item.)"
+  enchantment_maxed: "&7[ &c&l!&r&7 ] &c&lThis item is at max enchantment level!&r &7(You cannot use this shard on this item.)"
+  shard_success: "&7[ &c&l!&r&7 ] &a&lThis item has been enchanted!&r &7(Chance: &a&l%totem_chance% / %max_chance%&r&7)"
+  shard_minor_failure: "&7[ &c&l!&r&7 ] &c&lThe shard has failed, but your item has not been destroyed!&r &7(Chance: &c&l%totem_chance% / %max_chance%&r&7)"
+  shard_major_failure: "&7[ &c&l!&r&7 ] &4&lThe shard has failed, and your item has been destroyed.&r &7(Chance: &4&l%totem_chance% / %max_chance%&r&7)"
+  shard_white_scroll_protection: "&7[ &c&l!&r&7 ] &f&lThe shard has failed, but your item was saved by a holy white scroll.&r &7(Chance: &4&l%totem_chance% / %max_chance%&r&7)"
+  
+# This is the configuration section for EnchantmentTotems.
+#   Supported Tags:
+# 		%tier% - The tier of the totem.
+#	    %enchant_display_name% - The display name of the totem's enchantment.
+#		%enchant_level% - The level amount that will increase when the totem is used.
+#		%totem_chance% - The chance of totem success.
+#		%max_chance% - The maximum chance of this totem.
+#		%min_chance% - The minimum chance of this totem.
+#		%addition% - The complete, after calculation increase of enchantment level. After %tier% * %enchant_level%.
+#       %enchant_max_level% - The maximum level that this shard can apply to.
+#
+
+totems: # put totems in here
+
+  ae_shard:
+    enchantments:
+      - ALL_AE
+    usages: 3
+    max_level: -2 # the max supported level, -1 to disable, -2 to cap at natural enchant max level 
+    per_use: 1 # the amount the enchant increases by per use
+    max_chance: 100 # it's between 0-100
+    min_chance: 0 # the minimum chance that can be rolled
+    material: EMERALD
+    data: 0
+    name: "%enchant_display_name% &fEnchantment Shard &7(&c&lTier %tier%&7)"
+    lore:
+    - ""
+    - "&f&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: %enchant_display_name%"
+    - "&a&l * &7Level: &7%enchant_level% * %tier% &7(&c%addition%&7)"
+    - "&a&l * &7Chance: &a%totem_chance% &7/ &c%max_chance%"
+    - "&a&l * &7Usages: %usages%"
+    - "&a&l * &7Applies To: %enchant_applies_to%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &f&oDrag and drop on an item to use this shard! &7&o)"
+
+  admin_shard: # this can be anything, just replace spaces with an underscore
+    enchantments: # list of supported enchants, this is what the shard rolls from when it's created for the first time
+      - ALL # must be spigot enchant https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
+    max_level: 100000 # the max supported level
+    per_use: 1 # the amount the enchant increases by per use
+    max_chance: 100 # it's between 0-100
+    min_chance: 100 # the minimum chance that can be rolled
+    material: EMERALD # spigot material https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    data: 0 # custom model data, if you know what to do with it then you know
+    name: "&6&lAdmin &a&l%enchant_display_name%&6&l Shard&r &7(&c&lTier %tier%&r&7)" # name, also supports every placeholder
+    lore:
+    - ""
+    - "&6&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: &a&l%enchant_display_name%"
+    - "&a&l * &7Maximum: &a&l%enchant_max_level%"
+    - "&a&l * &7Level: &a&l%enchant_level% * %tier% &7(&c&l%addition%&7)"
+    - "&a&l * &7Chance: &a&l%totem_chance% &7/ &c&l%max_chance%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &6&oDrag and drop on an item to use this shard! &7&o)"
+
+  iron_shard: # this can be anything, just replace spaces with an underscore
+    enchantments: # list of supported enchants, this is what the shard rolls from when it's created for the first time
+      - BLAST_PROTECTION # must be spigot enchant https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
+      - FIRE_PROTECTION
+      - PROJECTILE_PROTECTION
+      - PROTECTION
+      - UNBREAKING
+    max_level: 16 # the max supported level
+    per_use: 2 # the amount the enchant increases by per use
+    max_chance: 100 # it's between 0-100
+    min_chance: 10 # the minimum chance that can be rolled
+    material: IRON_NUGGET # spigot material https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    data: 0 # custom model data, if you know what to do with it then you know
+    name: "&fIron &a&l%enchant_display_name%&f Shard &7(&c&lTier %tier%&r&7)" # name, also supports every placeholder
+    lore:
+    - ""
+    - "&f&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: &a&l%enchant_display_name%"
+    - "&a&l * &7Maximum: &a&l%enchant_max_level%"
+    - "&a&l * &7Level: &a&l%enchant_level% * %tier% &7(&c&l%addition%&7)"
+    - "&a&l * &7Chance: &a&l%totem_chance% &7/ &c&l%max_chance%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &f&oDrag and drop on an item to use this shard! &7&o)"
+  t1_shard:
+    enchantments: 
+      - ALL
+    max_level: 10
+    per_use: 1
+    max_chance: 100 # it's between 0-100
+    min_chance: 0
+    material: PRISMARINE_SHARD
+    data: 0
+    name: "&bPrismarine &a&l%enchant_display_name%&b Shard &7(&c&lTier %tier%&r&7)"
+    lore:
+    - ""
+    - "&b&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: &a&l%enchant_display_name%"
+    - "&a&l * &7Maximum: &a&l%enchant_max_level%"
+    - "&a&l * &7Level: &a&l%enchant_level% * %tier% &7(&c&l%addition%&7)"
+    - "&a&l * &7Chance: &a&l%totem_chance% &7/ &c&l%max_chance%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &b&oDrag and drop on an item to use this shard! &7&o)"
+  t2_shard:
+    enchantments: 
+      - ALL
+    max_level: 10
+    per_use: 2
+    max_chance: 100 # it's between 0-100
+    min_chance: 0
+    material: AMETHYST_SHARD
+    data: 0
+    name: "&dAmethyst &a&l%enchant_display_name%&d Shard &7(&c&lTier %tier%&r&7)"
+    lore:
+    - ""
+    - "&d&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: &a&l%enchant_display_name%"
+    - "&a&l * &7Maximum: &a&l%enchant_max_level%"
+    - "&a&l * &7Level: &a&l%enchant_level% * %tier% &7(&c&l%addition%&7)"
+    - "&a&l * &7Chance: &a&l%totem_chance% &7/ &c&l%max_chance%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &d&oDrag and drop on an item to use this shard! &7&o)"
+  t3_shard:
+    enchantments: 
+      - ALL
+    max_level: 10
+    per_use: 3
+    max_chance: 100 # it's between 0-100
+    min_chance: 0
+    material: ECHO_SHARD
+    data: 0
+    name: "&3Echo &a&l%enchant_display_name%&3 Shard &7(&c&lTier %tier%&r&7)"
+    lore:
+    - ""
+    - "&3&nShard Information:"
+    - ""
+    - "&a&l * &7Enchantment: &a&l%enchant_display_name%"
+    - "&a&l * &7Maximum: &a&l%enchant_max_level%"
+    - "&a&l * &7Level: &a&l%enchant_level% * %tier% &7(&c&l%addition%&7)"
+    - "&a&l * &7Chance: &a&l%totem_chance% &7/ &c&l%max_chance%"
+    - ""
+    - "&7[ &c&l!&r &7] &7This shard will only apply an enchantment"
+    - "&7[ &c&l!&r &7] &7if the enchantment can naturally be applied."
+    - ""
+    - "&7&o( &3&oDrag and drop on an item to use this shard! &7&o)"

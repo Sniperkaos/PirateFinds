@@ -19,6 +19,9 @@ public class EnchantEater extends CommandConsumer<CommandSender>{
 		
 		@Override
 		protected void execute(CommandSender player, ArrayList<String> args) {
+			
+			//if(player instanceof Player) return;
+			
 			Player A = PirateFinds.getServerStatic().getPlayer(args.get(0));
 			if(A == null) {
 				player.sendMessage(ChatUtils.createBroadcast("&7Invalid player name."));

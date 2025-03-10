@@ -11,6 +11,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
+import me.cworldstar.piratefinds.impl.utils.InventoryUtils;
 
 public class LootboxReward<T> {
 	public static enum LootboxRewardType {
@@ -119,7 +120,7 @@ public class LootboxReward<T> {
 					break;
 				case ITEM:
 					items.forEach((ItemStack item) -> {
-						p.getInventory().addItem(item);
+						InventoryUtils.addOrDropItem(p.getInventory(), item);
 					});
 					
 					if(broadcast) {
@@ -129,7 +130,7 @@ public class LootboxReward<T> {
 					break;
 				case PF_ITEM:
 					pf_items.forEach((AbstractPFItem item) -> {
-						p.getInventory().addItem(item.build());
+						InventoryUtils.addOrDropItem(p.getInventory(), item.build());
 					});
 					
 					if(broadcast) {

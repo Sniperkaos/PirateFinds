@@ -2,6 +2,7 @@ package me.cworldstar.piratefinds.impl.serialize;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -13,6 +14,15 @@ public class SerializeableInventory implements ConfigurationSerializable {
 	private Inventory inventory; // inventory is effectively final as this should not be used during runtime
 	
 	public SerializeableInventory(Inventory inventory) { this.inventory = inventory; }
+	
+	public SerializeableInventory(Map<String, Object> items) {
+		this.inventory = Bukkit.createInventory(null, items.size());
+		 
+		for(Entry<String, Object> entry : items.entrySet()) {
+			this.inventory.setItem(Integer.parseInt(entry.getKey()), (ItemStack) entry.getValue());
+		}
+	}
+	
 	
 	public Inventory getInventory() {
 		return this.inventory;

@@ -101,4 +101,8 @@ public class BlockConfig {
 			e.printStackTrace();
 		}
 	}
+
+	public boolean doesBlockExist(Location location) {
+		return blocks.get(location) != null;
+	}
 }

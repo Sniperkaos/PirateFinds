@@ -2,10 +2,17 @@ package me.cworldstar.piratefinds.impl.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -13,6 +20,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import me.cworldstar.piratefinds.impl.ui.test.PFMenuGUI;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 public class MainCommand extends ExtendedCommand implements TabExecutor, Listener {
@@ -65,7 +73,7 @@ public class MainCommand extends ExtendedCommand implements TabExecutor, Listene
 	@Override
 	protected void execute(CommandSender sender, String[] args) {
 		if(args.length <= 0) {
-			sender.sendMessage(ChatUtils.createBroadcast("&7You did not input a command."));
+			new PFMenuGUI((Player) sender);
 			return;
 		}
 		CommandConsumer<CommandSender> command = this.commands.get(args[0]);
@@ -116,6 +124,16 @@ public class MainCommand extends ExtendedCommand implements TabExecutor, Listene
 	public void addAlias(PluginCommand command) {
 		command.setExecutor(this);
         command.setTabCompleter(this);
+	}
+
+	@Nonnull
+	public Set<Entry<String, CommandConsumer<CommandSender>>> getSubCommands() {
+		return this.commands.entrySet();
+	}
+
+	@Nullable
+	public CommandConsumer<CommandSender> getCommand(String command) {
+		return this.commands.get(command);
 	}
 
 }

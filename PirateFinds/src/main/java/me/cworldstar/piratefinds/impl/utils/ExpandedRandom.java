@@ -2,10 +2,10 @@ package me.cworldstar.piratefinds.impl.utils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.OfflinePlayer;
@@ -31,6 +31,12 @@ public class ExpandedRandom<T> {
 		values.put(value, chance);
 	}
 	
+	public void addAll(List<T> in_values, int chance_for_each) {
+		in_values.forEach((T value) -> {
+			values.put(value, chance_for_each);
+		});
+	}
+	
 	// 1 > 100?
 	public boolean tryEvaluate(T object, int chance) {
 		if(chance == 100) return true;
@@ -54,5 +60,7 @@ public class ExpandedRandom<T> {
 	public void setMaxChance(int max_chance) {
 		this.max_weight = max_chance;
 	}
+
+
 	
 }

@@ -120,7 +120,7 @@ public class LootboxUI extends BaseUIObject {
 		int[] chest_ints = new int[] {10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34};
 		List<Integer> slots = Arrays.stream(ints).boxed().toList();
 		List<Integer> c_slots = Arrays.stream(chest_ints).boxed().toList();
-		barrier_slots.addAll(slots);
+		barrier_slots.addAll(slots);	
 		chest_slots.addAll(c_slots);
 	}
 	
@@ -219,11 +219,14 @@ public class LootboxUI extends BaseUIObject {
 				this.animate_ending_task.cancel();
 				((Player) e.getPlayer()).playSound(e.getPlayer(), Sound.BLOCK_CHEST_CLOSE, 1.0f, 1.2f);
 				int thisItemSlot = InventoryUtils.locateMutableStack(e.getPlayer().getInventory(), PFItemClass.getItem(item));
+				if(thisItemSlot == -1) {
+					return;
+				}
 				ItemStack thisItem = e.getPlayer().getInventory().getItem(thisItemSlot);
 				if(thisItem.getAmount() > 1) {
 					thisItem.setAmount(thisItem.getAmount() - 1);
 				} else {
-					e.getPlayer().getInventory().clear(e.getPlayer().getInventory().first(item));
+					e.getPlayer().getInventory().clear(thisItemSlot);
 				}
 			} else {
 				this.okay_to_close = false;
@@ -235,6 +238,13 @@ public class LootboxUI extends BaseUIObject {
 		
 		this.setItem(40, close_head);
 		this.addMenuClickHandler(40, new MenuHandler<InventoryClickEvent>((InventoryClickEvent e) -> {
+			
+			if(e.getCursor() != null) {
+				e.setCancelled(true);
+				e.getWhoClicked().sendMessage(ChatUtils.createBroadcast("You may not edit the contents of this slot."));
+				return;
+			}
+			
 			if(used_clicks >= max_clicks) {
 				this.close();
 			} else {

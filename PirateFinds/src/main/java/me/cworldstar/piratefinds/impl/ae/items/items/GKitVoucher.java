@@ -22,7 +22,7 @@ import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 public class GKitVoucher extends AbstractPFItem {
 
-	private static ItemStack item = new ItemStack(Material.DIAMOND);
+	private ItemStack item = new ItemStack(Material.DIAMOND);
 	private String gkit;
 	
 	private final NamespacedKey VOUCHER_KEY = new NamespacedKey(PirateFinds.getThisPlugin(), "GKIT_VOUCHER_FOR");
@@ -33,16 +33,23 @@ public class GKitVoucher extends AbstractPFItem {
 	 * @param gkit | The name of the gkit. EG: sn.gkits.tamer becomes tamer.
 	 */
 	
-	static {
+	public GKitVoucher(String gkit) {
+		super("GKitVoucher");
+		
 		ItemMeta meta = item.getItemMeta();
+		meta.setItemName(ChatUtils.apply("&x&1&6&E&A&F&F&lG&x&B&9&E&E&F&3&lk&x&7&E&B&D&C&3&li&x&4&6&A&3&A&C&lt&x&E&F&E&F&E&F&l: &c&l" + gkit.substring(0, 1).toUpperCase() + gkit.substring(1)));
+		meta.setDisplayName(meta.getItemName());
+		meta.setLore(Arrays.asList(new String[] {
+				"",
+				ChatUtils.apply("&6Right-click&7 to claim this gkit."),
+				ChatUtils.apply("&7If you already own it, you will not be"),
+				ChatUtils.apply("&7able to use this."),
+		}));
+		meta.setEnchantmentGlintOverride(true);
 		PersistentDataContainer pdc = meta.getPersistentDataContainer();
 		pdc.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "GKITVOUCHER");
 		item.setItemMeta(meta);
-
-	}
-	
-	public GKitVoucher(String gkit) {
-		super("GKitVoucher");
+		
 		this.gkit = gkit;
 	}
 
@@ -55,6 +62,7 @@ public class GKitVoucher extends AbstractPFItem {
 		ItemStack citem = item.clone();
 		ItemMeta meta = citem.getItemMeta();
 		meta.setItemName(ChatUtils.apply("&x&1&6&E&A&F&F&lG&x&B&9&E&E&F&3&lk&x&7&E&B&D&C&3&li&x&4&6&A&3&A&C&lt&x&E&F&E&F&E&F&l: &c&l" + gkit.substring(0, 1).toUpperCase() + gkit.substring(1)));
+		meta.setDisplayName(meta.getItemName());
 		meta.setLore(Arrays.asList(new String[] {
 				"",
 				ChatUtils.apply("&6Right-click&7 to claim this gkit."),
