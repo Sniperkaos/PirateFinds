@@ -15,6 +15,16 @@ public class StatChangeEvent extends Event {
 	private long oldValue;
 	private long newValue;
 	
+	/**
+	 * 
+	 * This {@link Event} is fired when a {@link PlayerProfile} has its stats
+	 * changed. It can be cancelled to prevent the stats from updating.
+	 * 
+	 * @param Nonnull {@link Player}
+	 * @param Nonnull {@link String}
+	 * @param Nonnull {@link long}
+	 * @param Nonnull {@link long}
+	 */
 	public StatChangeEvent(@Nonnull Player p, @Nonnull String stat, @Nonnull long oldValue, @Nonnull long newValue) {
 		this.owner = p;
 		this.stat = stat;
