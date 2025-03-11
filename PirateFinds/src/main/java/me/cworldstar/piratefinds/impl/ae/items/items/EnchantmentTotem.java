@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -66,7 +68,7 @@ public class EnchantmentTotem extends AbstractPFItem {
 			strEditor.replace("_", " ");
 			strEditor.capitalize();
 			displayName = strEditor.finishSingle();
-			appliesTo = getAppliesTo(Registry.ENCHANTMENT.match(enchant));
+			appliesTo = getAppliesTo(getEnchant(enchant));
 		}
 		
 		if(displayName == null) {
@@ -92,6 +94,16 @@ public class EnchantmentTotem extends AbstractPFItem {
 
 		
 		return editor.finishSingle();
+	}
+	
+	@Nullable
+	public Enchantment getEnchant(String s) {
+		for(Enchantment e : Registry.ENCHANTMENT.stream().toList()) {
+			if(e.getKey().getKey().contains(s)) {
+				return e;
+			}
+		}
+		return null;
 	}
 	
 	public static enum EnchantApplication {
@@ -139,6 +151,21 @@ public class EnchantmentTotem extends AbstractPFItem {
 		SHIELD(
 				new ItemStack(Material.SHIELD),
 				"Shield"
+		),
+		
+		TRIDENT(
+				new ItemStack(Material.TRIDENT),
+				"Trident"
+		),
+		
+		MACE(
+				new ItemStack(Material.MACE),
+				"Mace"
+		),
+		
+		BOW(
+				new ItemStack(Material.BOW),
+				"Bow"	
 		);
 		
 
@@ -170,20 +197,7 @@ public class EnchantmentTotem extends AbstractPFItem {
 		
 		String applies = null;
 		
-		EnchantApplication[] applications = new EnchantApplication[] {
-				EnchantApplication.HELMET,
-				EnchantApplication.CHESTPLATE,
-				EnchantApplication.LEGGINGS,
-				EnchantApplication.BOOTS,
-				EnchantApplication.SWORD,
-				EnchantApplication.PICKAXE,
-				EnchantApplication.AXE,
-				EnchantApplication.SHOVEL
-		};
-		
-		
-		
-		for(EnchantApplication application : applications) {
+		for(EnchantApplication application : EnchantApplication.values()) {
 			if(application.canApply(e)) {
 				if(applies == null) {
 					applies = application.getDisplayName();

@@ -69,6 +69,11 @@ public class InfiniteBucket extends AbstractPFItem {
 	@Override
 	public void onItemUse(Player player, ItemStack maybeBucket, PFItemType bucketUsed, PlayerBucketEmptyEvent e) {
 		
+		// if a different plugin cancelled then we dont want to overwrite it
+		if(e.isCancelled()) {
+			return;
+		}
+		
 		Optional<LandsImpl> loaded = PirateFinds.getLandsImpl();
 		
 		if(loaded.isPresent()) {
