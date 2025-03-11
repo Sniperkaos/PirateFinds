@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,6 +31,8 @@ import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.events.TickerTickEvent;
 import me.cworldstar.piratefinds.impl.ae.events.PFItemUsed;
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem.PFItemType;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.NoEat;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.NoPlacement;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 /**
@@ -159,9 +162,32 @@ public class PFItemListener implements Listener {
 	}
 	
 	@EventHandler
+	public void onPlayerEat(PlayerItemConsumeEvent e) {
+		AbstractPFItem item = PFItemClass.getItem(e.getItem());
+		if(item != null && !(PFItemClass.compare(PFItemClass.nullItem(), item))) {
+			if(item instanceof NoEat) {
+				e.setCancelled(true);
+			}
+			if(item.getTypes().contains(PFItemType.EAT)) {
+				boolean expend = item.checkExpend(e.getPlayer(), e.getItem());
+				PFItemUsed event = new PFItemUsed(e.getPlayer(), e.getPlayer().getInventory(), item, expend);
+				Bukkit.getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+				item.onItemUse(e.getPlayer(), e.getItem(), PFItemType.EAT);
+			}
+		}
+
+	}
+	
+	@EventHandler
 	public void onTryBlockPlace(BlockPlaceEvent e) {
 		AbstractPFItem item = PFItemClass.getItem(e.getItemInHand());
 		if(item != null && !(PFItemClass.compare(PFItemClass.nullItem(), item))) {
+			if(item instanceof NoPlacement) {
+				e.setCancelled(true); //-- you cant do this anyways its just shitcode whtevr
+			}
 			e.setCancelled(true);
 			if(item.getTypes().contains(PFItemType.BLOCK_PLACE)) {
 				boolean expend = item.checkExpend(e.getPlayer(), e.getItemInHand());

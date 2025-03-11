@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import org.bukkit.OfflinePlayer;
 
+import me.cworldstar.piratefinds.PirateFinds;
+
 public class ExpandedRandom<T> {
 	
 	private Random random;
@@ -40,7 +42,10 @@ public class ExpandedRandom<T> {
 	// 1 > 100?
 	public boolean tryEvaluate(T object, int chance) {
 		if(chance == 100) return true;
-		return (this.random.nextInt(chance, max_weight) >= max_weight);
+		int bound = this.random.nextInt(0, max_weight) + chance;
+		boolean success = (bound >= max_weight);
+		PirateFinds.logDebug(Integer.toString(chance) + " : " + Integer.toString(max_weight) + " | Bound: " + Integer.toString(bound) + " | Success: " + Boolean.toString(success));
+		return success;
 	}
 	
 	public T resolve() {

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
@@ -88,9 +89,20 @@ public class InfiniteBucket extends AbstractPFItem {
 			Waterlogged data = (Waterlogged) clicked.getBlockData();
 			data.setWaterlogged(true);
 			clicked.setBlockData(data);
-		} else if (to_replace.getBlockData().getMaterial().equals(Material.AIR)) {
+			
+			BlockState state = clicked.getState();
+			state.update();
+			
+		} else if (
+				to_replace.getBlockData().getMaterial().equals(Material.AIR) ||
+				to_replace.getBlockData().getMaterial().equals(Material.WATER) ||
+				to_replace.getBlockData().getMaterial().equals(Material.TALL_GRASS) || 
+				to_replace.getBlockData().getMaterial().equals(Material.SHORT_GRASS) || 
+				to_replace.getBlockData().getMaterial().equals(Material.TORCH)
+			) {
 			to_replace.setType(Material.WATER);
 		}
+		
 		
 		player.playSound(to_replace.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1.0f, 1.0f);
 		e.setCancelled(true);

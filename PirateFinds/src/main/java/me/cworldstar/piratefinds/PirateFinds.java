@@ -61,6 +61,11 @@ public class PirateFinds extends JavaPlugin {
 	private static Random random = new Random();
 	private static EnchantmentDealer dealer;
 	private static LandsImpl landsImpl;
+	private static CommandsClass commandsClass;
+	
+	public static CommandsClass getPFCommandsClass() {
+		return commandsClass;
+	}
 	
 	@Nullable
 	public static Optional<LandsImpl> getLandsImpl() {
@@ -312,7 +317,7 @@ public class PirateFinds extends JavaPlugin {
 		new ListenerClass();
 		// comands
 		PirateFinds.log("Registering commands");
-		new CommandsClass();
+		commandsClass = new CommandsClass();
 		// silk touch
 		PirateFinds.log("Starting silk touch spawners");
 		new BlockBreakHandler();

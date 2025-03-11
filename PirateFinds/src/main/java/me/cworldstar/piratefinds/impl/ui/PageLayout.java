@@ -212,6 +212,10 @@ public class PageLayout {
 		addItem(slot, item);
 	}
 
+	/**
+	 * 
+	 * @return {@link Integer} The first empty slot, or -1 if full.
+	 */
 	public int firstEmpty() {
 		for(int i=0; i<parent.getInventory().getSize(); i++) {
 			if(this.layout.get(i) == null && 

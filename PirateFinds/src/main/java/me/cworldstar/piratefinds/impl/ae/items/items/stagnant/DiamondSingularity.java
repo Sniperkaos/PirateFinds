@@ -8,13 +8,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
-public class DiamondSingularity extends NoUseItem {
+public class DiamondSingularity extends NoUseItem implements MaterialSingularity {
 
 	private static ItemStack DIAMOND_SINGULARITY_STACK = new ItemStack(Material.DIAMOND);
 	static {
 		ItemMeta meta = DIAMOND_SINGULARITY_STACK.getItemMeta();
-		meta.setItemName("&b&lCompressed Diamond");
-		meta.setDisplayName("&b&lCompressed Diamond");
+		meta.setItemName(ChatUtils.apply("&b&lCompressed Diamond"));
+		meta.setDisplayName(ChatUtils.apply("&b&lCompressed Diamond"));
 		meta.setEnchantmentGlintOverride(true);
 		
 		meta.setLore(ChatUtils.apply(Arrays.asList(new String[] {
@@ -30,6 +30,7 @@ public class DiamondSingularity extends NoUseItem {
 	
 	public DiamondSingularity() {
 		super("DIAMOND_SINGULARITY");
+		this.registerBlock(DIAMOND_SINGULARITY_STACK, pf_item_id);
 	}
 
 	@Override

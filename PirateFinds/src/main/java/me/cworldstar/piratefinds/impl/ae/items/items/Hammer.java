@@ -23,7 +23,7 @@ import me.cworldstar.piratefinds.impl.utils.ParticleUtils;
 import net.advancedplugins.ae.impl.utils.ColorUtils;
 
 public class Hammer extends AbstractPFItem {
-	private static ItemStack item = new ItemStack(Material.ANVIL);
+	private static ItemStack item = new ItemStack(Material.MACE);
 	private static PFItemType type = PFItemType.RIGHT_CLICK;
 	
 	public Hammer(String id) {
@@ -125,7 +125,7 @@ public class Hammer extends AbstractPFItem {
 					if(entity instanceof LivingEntity && !entity.equals(p) && !entity.isInvulnerable()) {
 						LivingEntity lentity = (LivingEntity) entity;
 						lentity.damage(20.0, p);
-						lentity.setVelocity(new Vector(0, 1, 0).normalize().multiply(12));
+						lentity.setVelocity(new Vector(0, 1, 0).normalize().multiply(p.getLocation().getDirection()).multiply(12));
 
 					}
 				}

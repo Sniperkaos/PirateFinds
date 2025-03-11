@@ -57,9 +57,8 @@ public class MobDropImpl implements Listener {
 			EntityType type = e.getEntity().getType();
 			ConfigurationSection mob_config = this.commandDropSection.getConfigurationSection(type.toString());
 			if(mob_config != null) {
-				ExpandedRandom<DropCommand> random = new ExpandedRandom<DropCommand>();
 				for(String key : mob_config.getKeys(false).toArray(new String[0])) {
-
+					ExpandedRandom<DropCommand> random = new ExpandedRandom<DropCommand>();
 					ConfigurationSection section = mob_config.getConfigurationSection(key);
 					int max_chance = section.getInt("max-chance");
 					if(max_chance == 0) {
@@ -69,15 +68,16 @@ public class MobDropImpl implements Listener {
 					for(String command : section.getStringList("commands")) {
 						random.add(new DropCommand(command, section.getString("award-message"), section.getString("award-sound")), section.getInt("chance"));
 					}
+					DropCommand command = random.resolve();
+					if(command != null) {
+						((Player) causing_entity).playSound(causing_entity, command.getSound(),1,1);
+						causing_entity.sendMessage(ChatUtils.apply(PlaceholderAPI.setPlaceholders((Player) causing_entity, command.getAwardMessage())));
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders((Player) causing_entity, command.getCommand()));
+					}
 				}
 				
-				DropCommand command = random.resolve();
 
-				if(command != null) {
-					((Player) causing_entity).playSound(causing_entity, command.getSound(),1,1);
-					causing_entity.sendMessage(ChatUtils.apply(PlaceholderAPI.setPlaceholders((Player) causing_entity, command.getAwardMessage())));
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders((Player) causing_entity, command.getCommand()));
-				}
+
 			} else {
 				ExpandedRandom<DropCommand> random = new ExpandedRandom<DropCommand>();
 				for(String key : this.commandDropSection.getConfigurationSection("ALL").getKeys(false).toArray(new String[0])) {

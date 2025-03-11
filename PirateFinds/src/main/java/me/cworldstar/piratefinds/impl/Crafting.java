@@ -1,20 +1,21 @@
 package me.cworldstar.piratefinds.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
@@ -32,10 +33,41 @@ import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 
 public class Crafting {
 	
-	public static void addShaped(CraftingRecipe recipe) {
+	private static List<CraftingRecipe> PF_RECIPIES = new ArrayList<CraftingRecipe>();
+	
+	public static void add(@Nonnull CraftingRecipe recipe) {
+		if(Bukkit.getServer().getRecipe(recipe.getKey()) != null) {
+			PirateFinds.log("Crafting recipe " + recipe.getKey().toString() + " already exists.");
+			return;
+		}
 		Bukkit.getServer().addRecipe(recipe);
+		PF_RECIPIES.add(recipe);
 	}
 	
+	
+	/**
+	 * 
+	 * @param outcome {@link ItemStack} The ItemStack outcome of the expected recipe.
+	 * @return {@link CraftingRecipe} The recipe that matches the outcome. Can be null.
+	 */
+	@Nullable
+	public static CraftingRecipe getRecipe(ItemStack outcome) {
+		for(CraftingRecipe recipe :  PF_RECIPIES) {
+			if(recipe.getResult().isSimilar(outcome)) {
+				return recipe;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return {@link List}<CraftingRecipe> A list of all the crafting recipes registered by this plugin.
+	 */
+	@Nonnull
+	public static List<CraftingRecipe> allRecipies() {
+		return PF_RECIPIES;
+	}
 	
 	
 	/**
@@ -68,6 +100,21 @@ public class Crafting {
 		return cRecipe;
 	}
 	
+	@Nonnull
+	public static CraftingRecipe createShapelessRecipe(String recipe_id, @Nonnull ItemStack result, @Nonnull Object[] shape) {
+		ShapelessRecipe cRecipe = new ShapelessRecipe(PirateFinds.createKey(recipe_id), result);
+		for(Object o : shape) {
+			// I have to do this ugly shit for my compiler
+			if(o instanceof Material) {
+				cRecipe.addIngredient((Material) o);
+			} else if(o instanceof RecipeChoice) {
+				cRecipe.addIngredient((RecipeChoice) o);
+			}
+		}
+		
+		return cRecipe;
+	}
+	
 	/**
 	 * 
 	 * This method takes a {@link ItemStack} and returns a {@link RecipeChoice} to be 
@@ -95,8 +142,13 @@ public class Crafting {
 		return new RecipeChoice.MaterialChoice(choices);
 	}
 	
+	/**
+	 * Static class for registering all recipes. 
+	 */
 	public static void setupRecipies() {
-		// Infinite water bucket crafting recipe
+
+		//-----------------------
+		// Infinite Water Bucket recipe
 		
 		Map<Character, Object> water_bucket_key = new HashMap<Character, Object>();
 		water_bucket_key.put('a', Material.IRON_INGOT);
@@ -105,7 +157,7 @@ public class Crafting {
 		);
 		water_bucket_key.put('c', Material.PRISMARINE_CRYSTALS);
 		
-		addShaped(
+		add(
 				createShapedRecipe(
 					"water_bucket",
 					PFItemClass.getItem("infinite_bucket").getPFItem(),
@@ -118,12 +170,44 @@ public class Crafting {
 				)
 		);
 		
-		// end
+		//-----------------------
+		// Ground Pounder recipe
+		
+		Map<Character, Object> ground_pounder_key = new HashMap<Character, Object>();
+		ground_pounder_key.put('a', 
+				createExactChoice(PFItemClass.getItem("IRON_SINGULARITY_BLOCK").getPFItem())		
+		);
+		ground_pounder_key.put('b', 
+				Material.MACE
+		);
+		ground_pounder_key.put('c',
+				createExactChoice(PFItemClass.getItem("WARDEN_EYE").getPFItem())
+		);
+		ground_pounder_key.put('d',
+				createExactChoice(PFItemClass.getItem("GOLD_SINGULARITY").getPFItem())
+		);
+		
+		add(
+				createShapedRecipe(
+					"hammer",
+					PFItemClass.getItem("Hammer").getPFItem(),
+					new String[] {
+							"aaa",
+							"cda",
+							"b  "
+					},
+					ground_pounder_key
+				)
+		);
+		
+		
+		//-----------------------
+		// Diamond Singularity recipe
 		
 		Map<Character, Object> diamond_singularity_key = new HashMap<Character, Object>();
 		diamond_singularity_key.put('a', Material.DIAMOND_BLOCK);
 		
-		addShaped(
+		add(
 				createShapedRecipe(
 					"diamond_singularity",
 					PFItemClass.getItem("DIAMOND_SINGULARITY").getPFItem(),
@@ -135,7 +219,62 @@ public class Crafting {
 					diamond_singularity_key
 				)
 		);
+		//-----------------------
+		// Emerald Singularity recipe
 		
+		Map<Character, Object> emerald_singularity_key = new HashMap<Character, Object>();
+		emerald_singularity_key.put('a', Material.EMERALD_BLOCK);
+		
+		add(
+				createShapedRecipe(
+					"emerald_singularity",
+					PFItemClass.getItem("EMERALD_SINGULARITY").getPFItem(),
+					new String[] {
+							"aaa",
+							"aaa",
+							"aaa"
+					},
+					emerald_singularity_key
+				)
+		);
+		//-----------------------
+		// Iron Singularity recipe
+
+		Map<Character, Object> iron_singularity_key = new HashMap<Character, Object>();
+		iron_singularity_key.put('a', Material.IRON_BLOCK);
+		
+		add(
+				createShapedRecipe(
+					"iron_singularity",
+					PFItemClass.getItem("IRON_SINGULARITY").getPFItem(),
+					new String[] {
+							"aaa",
+							"aaa",
+							"aaa"
+					},
+					iron_singularity_key
+				)
+		);
+		//-----------------------
+		// Gold Singularity recipe
+		
+		Map<Character, Object> golden_singularity_key = new HashMap<Character, Object>();
+		golden_singularity_key.put('a', Material.GOLD_BLOCK);
+		
+		add(
+				createShapedRecipe(
+					"golden_singularity",
+					PFItemClass.getItem("GOLD_SINGULARITY").getPFItem(),
+					new String[] {
+							"aaa",
+							"aaa",
+							"aaa"
+					},
+					golden_singularity_key
+				)
+		);
+		
+		//-----------------------
 		
 	}
 	

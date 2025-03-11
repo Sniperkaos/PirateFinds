@@ -69,7 +69,9 @@ public abstract class AbstractPFItem {
 		 */
 		STATIC, 
 		
-		BUCKET_USED;
+		BUCKET_USED, 
+		
+		EAT;
 		
 		@Nonnull
 		public PFItemType fromString(String s) {

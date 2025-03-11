@@ -3,14 +3,18 @@ package me.cworldstar.piratefinds.impl.ui.test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.cworldstar.piratefinds.PirateFinds;
+import me.cworldstar.piratefinds.impl.commands.CommandConsumer;
 import me.cworldstar.piratefinds.impl.ui.MenuHandler;
 import me.cworldstar.piratefinds.impl.ui.PageLayout;
 import me.cworldstar.piratefinds.impl.ui.PagedUIObject;
@@ -94,8 +98,48 @@ public class PFMenuGUI extends PagedUIObject {
 			e.getWhoClicked().sendMessage(ChatUtils.apply("TODO: Finish information."));
 		})) ;
 		
-		
 		this.addLayout(layout1);
+		
+		for(Entry<String, CommandConsumer<CommandSender>> commands : PirateFinds.getPFCommandsClass().getMainCommand().getCommands().entrySet()) {
+			
+			boolean shouldCreate = shouldCreate(this.getOwner(), commands.getValue());
+			
+			if(!shouldCreate) {
+				continue;
+			}
+			
+			int firstClear = layout1.firstEmpty();
+			if(firstClear == -1) {
+				layout1 = DEFAULT_PAGE_LAYOUT.clone();
+				layout1.setParent(this);
+				layout1.setSlots(17, 9, 22);
+				layout1.addUnclickableItem(layout1.firstEmpty(), createCommandItem(commands.getValue()));
+				this.addLayout(layout1);
+				continue;
+			}
+			
+			layout1.addUnclickableItem(firstClear, createCommandItem(commands.getValue()));
+		}
+		
+		
+	}
+
+	private boolean shouldCreate(Player owner, CommandConsumer<CommandSender> value) {
+		if(value.hasPermission(this.getOwner()) && !value.hide) {
+			return true;
+		}
+		return false;
+	}
+
+	private ItemStack createCommandItem(CommandConsumer<CommandSender> value) {
+		ItemStack base = new ItemStack(Material.BOOK);
+		ItemMeta meta = base.getItemMeta();
+		meta.setItemName(ChatUtils.apply("&6&l" + value.getClass().getSimpleName()));
+		meta.setDisplayName(meta.getItemName());
+		meta.setLore(Arrays.asList(new String[] {value.help()}));
+		base.setItemMeta(meta);
+		
+		return base;
 	}
 
 }

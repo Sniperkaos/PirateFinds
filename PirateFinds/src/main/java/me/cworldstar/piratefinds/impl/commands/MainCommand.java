@@ -35,7 +35,11 @@ public class MainCommand extends ExtendedCommand implements TabExecutor, Listene
         command.setTabCompleter(this);
 	}
 
-	protected HashMap<String, CommandConsumer<CommandSender>> commands = new HashMap<String, CommandConsumer<CommandSender>>();
+	private HashMap<String, CommandConsumer<CommandSender>> commands = new HashMap<String, CommandConsumer<CommandSender>>();
+	
+	public HashMap<String, CommandConsumer<CommandSender>> getCommands() {
+		return commands;
+	}
 	
 	
 	public void registerCommand(String id, CommandConsumer<CommandSender> consumer) {
@@ -73,9 +77,15 @@ public class MainCommand extends ExtendedCommand implements TabExecutor, Listene
 	@Override
 	protected void execute(CommandSender sender, String[] args) {
 		if(args.length <= 0) {
-			new PFMenuGUI((Player) sender);
+			new PFMenuGUI((Player) sender).open();
 			return;
 		}
+		
+		if(args[0].toLowerCase() == "help") {
+			new PFMenuGUI((Player) sender).open();
+			return;
+		}
+		
 		CommandConsumer<CommandSender> command = this.commands.get(args[0]);
 		if(command != null) {
 			boolean permission = true;

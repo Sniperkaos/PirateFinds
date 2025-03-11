@@ -2,7 +2,6 @@ package me.cworldstar.piratefinds.impl.ae.items;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -22,10 +21,8 @@ import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
-import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.DiamondSingularity;
-import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.NoUseItem;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.*;
 import net.advancedplugins.ae.api.AEAPI;
-import net.advancedplugins.ae.utils.YamlFile;
 
 public class PFItemClass {
 	
@@ -138,7 +135,11 @@ public class PFItemClass {
 		
 		//no use items
 		internalRegisterItem(new DiamondSingularity());
-		
+		internalRegisterItem(new IronSingularity());
+		internalRegisterItem(new GoldenSingularity());
+		internalRegisterItem(new EmeraldSingularity());
+		internalRegisterItem(new WardenEye());
+
 		// blocks
 		internalRegisterItem("TestBlock", new TestBlockItem());
 		

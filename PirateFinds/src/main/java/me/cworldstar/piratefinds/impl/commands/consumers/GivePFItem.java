@@ -52,6 +52,12 @@ public class GivePFItem extends CommandConsumer<CommandSender> {
 		AbstractPFItem item = PFItemClass.getItem(args.get(1));
 
 		if(item != null) {
+			
+			if(args.size() == 2) {
+				InventoryUtils.addOrDropItem(to_give.getInventory(), item.build());
+				return;
+			}
+			
 			if(args.get(2) != null) {
 				for(int i=0; i<Integer.parseInt(args.get(2)); i++) {
 					to_give.getInventory().addItem(item.build());
