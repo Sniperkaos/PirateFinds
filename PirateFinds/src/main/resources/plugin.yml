@@ -14,7 +14,7 @@ website: https://github.com/Sniperkaos/PirateFinds
 
 ## This value is automatically replaced by the version specified in your pom.xml file.
 ## Do not change this.
-version: 1.0.1
+version: 1.0.2
 
 ## This is the minimum minecraft version required to run your plugin.
 api-version: 1.21
@@ -28,4 +28,4 @@ commands:
 
 depend: [Vault, ProtocolLib]
 
-softdepend: [FancyHolograms, PlaceholderAPI, AdvancedEnchantments, UpgradeableHoppers]
+softdepend: [Lands, FancyHolograms, PlaceholderAPI, AdvancedEnchantments, UpgradeableHoppers]

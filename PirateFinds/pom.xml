@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.cworldstar.piratefinds</groupId>
   <artifactId>PirateFinds</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <name>PirateFinds</name>
   <description>PirateFinds plugin</description>
   
@@ -126,6 +126,12 @@
     		<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+		    <groupId>com.github.angeschossen</groupId>
+		    <artifactId>LandsAPI</artifactId>
+		    <version>7.12.7</version>
+		    <scope>provided</scope>
+		</dependency>
 
 
 	    <dependency>

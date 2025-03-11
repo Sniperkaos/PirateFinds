@@ -1,12 +1,7 @@
 package me.cworldstar.piratefinds;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.HashMap;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -24,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.cworldstar.piratefinds.events.BlockBreakHandler;
+import me.cworldstar.piratefinds.impl.Crafting;
 import me.cworldstar.piratefinds.impl.EnchantmentDealer;
 import me.cworldstar.piratefinds.impl.FancyHolograms;
 import me.cworldstar.piratefinds.impl.ListenerClass;
@@ -32,13 +28,12 @@ import me.cworldstar.piratefinds.impl.ae.AEExpansion;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemListener;
 import me.cworldstar.piratefinds.impl.ae.items.items.AbstractLootBox;
-import me.cworldstar.piratefinds.impl.ae.items.items.EnchantmentTotem;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.effects.MaskEffects;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.effects.MaskListener;
 import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
 import me.cworldstar.piratefinds.impl.commands.CommandsClass;
 import me.cworldstar.piratefinds.impl.drop.Drop;
-import me.cworldstar.piratefinds.impl.events.UIUpdateEvent;
+import me.cworldstar.piratefinds.impl.lands.LandsImpl;
 import me.cworldstar.piratefinds.impl.papi.ArmorerExpansion;
 import me.cworldstar.piratefinds.impl.papi.EnchantmentExpansion;
 import me.cworldstar.piratefinds.impl.papi.ProfileExpansion;
@@ -65,6 +60,12 @@ public class PirateFinds extends JavaPlugin {
 	private static YamlConfiguration soulConfig;
 	private static Random random = new Random();
 	private static EnchantmentDealer dealer;
+	private static LandsImpl landsImpl;
+	
+	@Nullable
+	public static Optional<LandsImpl> getLandsImpl() {
+		return Optional.ofNullable(landsImpl);
+	}
 	
 	public static Random getRandom() {
 		return random;
@@ -336,6 +337,9 @@ public class PirateFinds extends JavaPlugin {
 		PirateFinds.log("Initializing PF items");
 		new PFItemListener();
 		
+		PirateFinds.log("Creating crafting recipes");
+		Crafting.setupRecipies();
+		
 		BlockConfig.setupPersistance();
 		
 		// PlaceholderAPI compat
@@ -351,7 +355,11 @@ public class PirateFinds extends JavaPlugin {
 			PirateFinds.log("PlaceholderAPI installed! Creating profile expansion.");
 			ProfileExpansion expansion3 = new ProfileExpansion();
 			expansion3.register();
-
+		}
+		
+		if(Bukkit.getPluginManager().isPluginEnabled("Lands")) {
+			log("[PirateFinds]: Lands enabled! Enabling lands impl.");
+			landsImpl = new LandsImpl();
 		}
 		
 

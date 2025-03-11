@@ -1,6 +1,7 @@
 package me.cworldstar.piratefinds.impl.ae.items.items;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,6 +16,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
+import me.cworldstar.piratefinds.impl.lands.LandsImpl;
+import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
@@ -65,14 +68,26 @@ public class InfiniteBucket extends AbstractPFItem {
 	@Override
 	public void onItemUse(Player player, ItemStack maybeBucket, PFItemType bucketUsed, PlayerBucketEmptyEvent e) {
 		
+		Optional<LandsImpl> loaded = PirateFinds.getLandsImpl();
+		
+		if(loaded.isPresent()) {
+			// do the check
+			LandsImpl impl = loaded.get();
+			if(!impl.canPlayerBuildHere(player, e.getBlockClicked().getLocation(), maybeBucket)) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+		// otherwise, don't worry about it
+		
 		Block clicked = e.getBlockClicked();
 		BlockFace face = e.getBlockFace();
 		
 		Block to_replace = clicked.getRelative(face);
-		if(to_replace.getBlockData() instanceof Waterlogged) {
-			Waterlogged data = (Waterlogged) to_replace.getBlockData();
+		if(clicked.getBlockData() instanceof Waterlogged) {
+			Waterlogged data = (Waterlogged) clicked.getBlockData();
 			data.setWaterlogged(true);
-			to_replace.setBlockData(data);
+			clicked.setBlockData(data);
 		} else if (to_replace.getBlockData().getMaterial().equals(Material.AIR)) {
 			to_replace.setType(Material.WATER);
 		}

@@ -22,6 +22,8 @@ import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.DiamondSingularity;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.NoUseItem;
 import net.advancedplugins.ae.api.AEAPI;
 import net.advancedplugins.ae.utils.YamlFile;
 
@@ -134,6 +136,9 @@ public class PFItemClass {
 		// misc
 		internalRegisterItem("infinite_bucket", new InfiniteBucket());
 		
+		//no use items
+		internalRegisterItem(new DiamondSingularity());
+		
 		// blocks
 		internalRegisterItem("TestBlock", new TestBlockItem());
 		
@@ -143,7 +148,11 @@ public class PFItemClass {
 		registerConfigTotems();
 		registerConfigBackpacks();
 	}
-	
+
+	private static void internalRegisterItem(NoUseItem item) {
+		internalRegisterItem(item.getPFItemID(), item);
+	}
+
 	public static void registerConfigBackpacks() {
 		for(String key : PirateFinds.getThisPlugin().getBackpackConfig().getKeys(false)) {
 			Backpack.buildFromConfig(PirateFinds.getThisPlugin().getBackpackConfig().getConfigurationSection(key));
