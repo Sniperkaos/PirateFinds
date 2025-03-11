@@ -14,7 +14,7 @@ website: https://github.com/Sniperkaos/PirateFinds
 
 ## This value is automatically replaced by the version specified in your pom.xml file.
 ## Do not change this.
-version: ${project.version}
+version: 1.0.1
 
 ## This is the minimum minecraft version required to run your plugin.
 api-version: 1.21

@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 
 import me.cworldstar.piratefinds.impl.health.HealthInstance;
 
+@Deprecated(forRemoval=true)
 public class HealthImpl {
 	
 	protected static HashMap<LivingEntity, HealthInstance> healthMap = new HashMap<LivingEntity, HealthInstance>();

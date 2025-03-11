@@ -22,6 +22,7 @@ import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
+import net.advancedplugins.ae.api.AEAPI;
 import net.advancedplugins.ae.utils.YamlFile;
 
 public class PFItemClass {
@@ -123,7 +124,7 @@ public class PFItemClass {
 		// gkit vouchers
 		
 		
-		for(String gkit : Arrays.asList(YamlFile.U.getConfig().getConfigurationSection("kits").getKeys(false).toArray(new String[0]))) {
+		for(String gkit : AEAPI.getGKits()) {
 			internalRegisterItem(gkit+"GkitVoucher", new GKitVoucher(gkit.toLowerCase()));
 		}
 		

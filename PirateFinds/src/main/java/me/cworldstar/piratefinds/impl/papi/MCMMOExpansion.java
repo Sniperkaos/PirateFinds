@@ -43,7 +43,7 @@ public class MCMMOExpansion extends PlaceholderExpansion {
 			return mcMMO.getDatabaseManager().readLeaderboard(null, 1, place).get(0).name;
 		}
 		
-		if(params.contains("mcmmo_overall_leaderboard_name_")) {
+		if(params.contains("mcmmo_overall_leaderboard_value_")) {
 			String to_parse = params.replace("mcmmo_overall_leaderboard_value_", "");
 			int place = Integer.valueOf(to_parse);
 			return String.valueOf(mcMMO.getDatabaseManager().readLeaderboard(null, 1, place).get(0).statVal);
