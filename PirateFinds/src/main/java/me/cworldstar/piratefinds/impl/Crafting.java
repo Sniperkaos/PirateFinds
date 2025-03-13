@@ -275,6 +275,67 @@ public class Crafting {
 		);
 		
 		//-----------------------
+		// Fencing Sabre recipe
+		
+		Map<Character, Object> fencing_sabre_key = new HashMap<Character, Object>();
+		fencing_sabre_key.put('a', 
+				createExactChoice(PFItemClass.getItem("IRON_SINGULARITY").getPFItem())
+		);
+		
+		fencing_sabre_key.put('b', 
+				createExactChoice(PFItemClass.getItem("ENDER_WING").getPFItem())
+		);
+		
+		fencing_sabre_key.put('c', 
+				createExactChoice(PFItemClass.getItem("DIAMOND_SINGULARITY").getPFItem())
+		);
+		
+		fencing_sabre_key.put('d', 
+				createExactChoice(PFItemClass.getItem("SWORD_CORE").getPFItem())
+		);
+		
+		add(
+				createShapedRecipe(
+					"fencing_sabre",
+					PFItemClass.getItem("FencingSabre").getPFItem(),
+					new String[] {
+							"  a",
+							"bd ",
+							"cb "
+					},
+					fencing_sabre_key
+				)
+		);
+		
+		//-----------------------
+		// Sword Core recipe
+		
+		Map<Character, Object> sword_core_key = new HashMap<Character, Object>();
+		
+		sword_core_key.put('c', 
+				createExactChoice(PFItemClass.getItem("DIAMOND_SINGULARITY").getPFItem())
+		);
+		
+		sword_core_key.put('d', 
+				createExactChoice(PFItemClass.getItem("SWORD_CORE").getPFItem())
+		);
+		
+		add(
+				createShapedRecipe(
+					"sword_core",
+					PFItemClass.getItem("SWORD_CORE").getPFItem(),
+					new String[] {
+							"   ",
+							"d  ",
+							"c  "
+					},
+					sword_core_key
+				)
+		);
+		
+		//-----------------------
+		
+		
 		
 	}
 	

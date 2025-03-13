@@ -20,6 +20,7 @@ import me.cworldstar.piratefinds.impl.ae.events.PFItemRegistered;
 import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
+import me.cworldstar.piratefinds.impl.ae.items.items.weapons.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
 import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.*;
 import net.advancedplugins.ae.api.AEAPI;
@@ -85,7 +86,7 @@ public class PFItemClass {
 		String id1 = nullItem.getPFItemID();
 		String id2 = item.getPFItemID();
 		
-		return id1 == id2;
+		return id1.contains(id2);
 	}
 	
 	
@@ -129,7 +130,8 @@ public class PFItemClass {
 		
 		internalRegisterItem("experience_crystal", new ExperienceCrystal());
 		internalRegisterItem("health_crystal", new HealthCrystal());
-
+		internalRegisterItem(new FencingSabre());
+		
 		// misc
 		internalRegisterItem("infinite_bucket", new InfiniteBucket());
 		
@@ -139,6 +141,9 @@ public class PFItemClass {
 		internalRegisterItem(new GoldenSingularity());
 		internalRegisterItem(new EmeraldSingularity());
 		internalRegisterItem(new WardenEye());
+		internalRegisterItem(new EnderWing());
+		internalRegisterItem(new SwordCore());
+
 
 		// blocks
 		internalRegisterItem("TestBlock", new TestBlockItem());
@@ -150,7 +155,7 @@ public class PFItemClass {
 		registerConfigBackpacks();
 	}
 
-	private static void internalRegisterItem(NoUseItem item) {
+	private static void internalRegisterItem(AbstractPFItem item) {
 		internalRegisterItem(item.getPFItemID(), item);
 	}
 

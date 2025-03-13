@@ -62,5 +62,6 @@ public class CommandsClass {
 		mc.registerCommand("givetotem", new GiveTotem());
 		mc.registerCommand("displayprofile", new DisplayProfile());
 		mc.registerCommand("setstat", new SetProfileStat());
+		mc.registerCommand("recipes", new Recipes());
 	}
 }

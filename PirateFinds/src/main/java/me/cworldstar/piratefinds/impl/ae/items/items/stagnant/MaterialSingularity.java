@@ -13,8 +13,24 @@ import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.Crafting;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 
+/**
+ * This {@link Interface} denotes that the given {@link AbstractPFItem} is a {@link MaterialSingularity}.
+ * You must use this interface with a {@link Material} that has a {@link Block}.
+ * 
+ * @see {@link MaterialSingularity#registerBlock}
+ * 
+ * @author cworldstar
+ *
+ */
 public interface MaterialSingularity {
 
+	/**
+	 * 
+	 * This method registers the {@link MaterialSingularity}'s block.
+	 * 
+	 * @param materialSingularity {@link ItemStack} The ItemStack made from the implemeting {@link NoUseItem}.
+	 * @param id {@link string} the Id of the pf item.
+	 */
 	public default void registerBlock(ItemStack materialSingularity, String id) {
 		
 		String stringified_material = materialSingularity.getType().toString();

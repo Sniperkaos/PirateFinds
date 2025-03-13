@@ -132,8 +132,7 @@ public class EnchantEaterUI extends BaseUIObject {
 				return;
 			}
 			
-			ExperienceUtils.changePlayerExp(p, -ExperienceUtils.getExpAtLevel(price));
-			EnchantEater.eatEnchantments((Player) e.getWhoClicked(), e.getClickedInventory().getItem(13));
+			EnchantEater.eatEnchantments((Player) e.getWhoClicked(), this.getInventory().getItem(13), price);
 			this.close();
 		}));
 		

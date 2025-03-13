@@ -17,10 +17,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
+import me.cworldstar.piratefinds.impl.utils.ExperienceUtils;
 import net.advancedplugins.ae.api.AEAPI;
 
 public class EnchantEater {
-	public static void eatEnchantments(Player p, ItemStack i) {
+	public static void eatEnchantments(Player p, ItemStack i, int price) {
 		ItemMeta meta = i.getItemMeta();
 		
 		if(meta == null) {
@@ -33,6 +34,8 @@ public class EnchantEater {
 			return;
 		}
 		
+		ExperienceUtils.changePlayerExp(p, -ExperienceUtils.getExpAtLevel(price));
+
 		Map<Enchantment, Integer> enchants = meta.getEnchants();
 		
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
@@ -70,6 +73,5 @@ public class EnchantEater {
 		p.getInventory().addItem(items.toArray(new ItemStack[0]));
 		p.playSound(p, Sound.ENTITY_VILLAGER_TRADE, 0.8F, 0.4F);
 
-	
 	}
 }

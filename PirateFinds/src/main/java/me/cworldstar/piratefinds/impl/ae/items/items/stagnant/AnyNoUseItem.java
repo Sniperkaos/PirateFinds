@@ -7,11 +7,20 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
 
+/**
+ * 
+ * This {@link Class} is a more advanced implementation of {@link NoUseItem}.
+ * It implements specific {@link Interface}s which cancels the usage of an item.
+ * 
+ * @author cworldstar
+ *
+ */
 public class AnyNoUseItem extends NoUseItem implements NoPlacement, NoEat {
 
 	private ItemStack item;
 	
 	public AnyNoUseItem(String id, ItemStack item) {
+		
 		super(id);
 		
 		ItemMeta meta = item.getItemMeta();

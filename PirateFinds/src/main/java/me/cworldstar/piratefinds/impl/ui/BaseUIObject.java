@@ -299,7 +299,7 @@ public abstract class BaseUIObject implements Listener {
     	this.okay_to_close = true;
     	bypass_close = true;
 		inventory_close_handlers.forEach((MenuHandler<InventoryCloseEvent> handler) -> {
-			PirateFinds.log("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
+			PirateFinds.logDebug("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
 			handler.run(new InventoryCloseEvent(view));
 		});
     }
@@ -309,7 +309,7 @@ public abstract class BaseUIObject implements Listener {
     	this.okay_to_close = true;
     	bypass_close = true;
 		inventory_close_handlers.forEach((MenuHandler<InventoryCloseEvent> handler) -> {
-			PirateFinds.log("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
+			PirateFinds.logDebug("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
 			handler.run(new InventoryCloseEvent(view));
 		});
     }
@@ -319,7 +319,7 @@ public abstract class BaseUIObject implements Listener {
 		Inventory c_inventory = e.getInventory();
 		if(c_inventory.equals(this.inventory)) {
 			inventory_close_handlers.forEach((MenuHandler<InventoryCloseEvent> handler) -> {
-				PirateFinds.log("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
+				PirateFinds.logDebug("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
 				handler.run(e);
 			});
 			if(this.okay_to_close && !bypass_close) {

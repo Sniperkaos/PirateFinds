@@ -4,30 +4,33 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Particle.DustOptions;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.Vector;
 
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 import me.cworldstar.piratefinds.impl.ae.items.PFItemClass;
+import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 import me.cworldstar.piratefinds.impl.utils.ParticleUtils;
 import net.advancedplugins.ae.impl.utils.ColorUtils;
 
 public class FencingSabre extends AbstractPFItem {
-	private static ItemStack item = new ItemStack(Material.MACE);
+	private static ItemStack item = new ItemStack(Material.IRON_SWORD);
 	private static PFItemType type = PFItemType.RIGHT_CLICK;
 	
-	public FencingSabre(String id) {
-		super(id);
+	public FencingSabre() {
+		super("FencingSabre");
 	}
 	
 	@Override
@@ -41,34 +44,40 @@ public class FencingSabre extends AbstractPFItem {
 	
 	static {
 		ItemMeta meta = item.getItemMeta();
-		meta.setItemName(ColorUtils.format("&6&lGround Pounder"));
+		meta.setItemName(ColorUtils.format("&f&lFencing Sabre"));
 		meta.setLore(List.of(new String[] {
+				ChatUtils.apply("&7Sharpness XV"),
 				"",
-				ColorUtils.format("&7[ &6&lGROUND POUNDER&r &7]"),
-				ColorUtils.format("&eRight-clicking with this item"),
-				ColorUtils.format("&ewill cause you to strike the ground,"),
-				ColorUtils.format("&edealing dmg and knocking up nearby entities."),
+				ColorUtils.format("&7[ &f&lFENCING SABRE&r &7]"),
+				ColorUtils.format("&f * &eRight-clicking&7 with this item"),
+				ColorUtils.format("&f * &7will cause you to teleport to,"),
+				ColorUtils.format("&f * &7a random target in range, dealing"),
+				ColorUtils.format("&f * &7medium damage."),
 				"",
 				ColorUtils.format("&6&lCooldown: &r&f%cooldown%"),
 		}));
 		meta.setMaxStackSize(1);
 		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "HAMMER");
+		pdc.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "FENCING_SABRE");
 		meta.setEnchantmentGlintOverride(true);
 		item.setItemMeta(meta);
 	}
 	
 
-	public final String pf_item_id = "HAMMER";
+	public final String pf_item_id = "FENCING_SABRE";
 	
 	@Override
 	public ItemStack build() {
 		ItemStack citem = item.clone();
 		ItemMeta meta = citem.getItemMeta();
+		citem.addUnsafeEnchantment(Enchantment.SHARPNESS, 20);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
 		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "HAMMER");
+		pdc.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "FENCING_SABRE");
 		citem.setItemMeta(meta);
 		this.make(citem);
+		Locked.lock(citem);
 		return citem;
 	}
 	
@@ -109,32 +118,47 @@ public class FencingSabre extends AbstractPFItem {
 	public void onItemUse(Player p, ItemStack on, PFItemType type) {
 		int cooldown = getCooldown(on);
 
+		//https://www.spigotmc.org/threads/teleport-the-player-behind-an-entity-on-attack.161254/
 		switch(type) {
 			case RIGHT_CLICK:
+				
 				if(cooldown > 0) {
 					p.sendMessage(ChatUtils.createBroadcast("&7This item is on cooldown. Remaining time: " + Integer.toString(cooldown)));
 					return;
 				}
-				p.sendMessage(ChatUtils.apply("&6&l*** HAMMER USED ***"));
-				p.playSound(p, Sound.BLOCK_ANVIL_PLACE, 1F, 0.5F);
+				
+				p.playSound(p, Sound.BLOCK_AMETHYST_CLUSTER_PLACE, 1F, 0.5F);
 				List<Entity> entities = p.getNearbyEntities(22, 22, 22);
-				for(int size=2; size<22; size++) {
-					ParticleUtils.summonCircle(p.getLocation(), size, new DustOptions(Color.fromRGB(214, 203, 207), 22-size));
+				entities.removeIf(entity -> !(entity instanceof LivingEntity));
+				if(entities.size() == 0) {
+					return;
 				}
-				for(Entity entity : entities) {
-					if(entity instanceof LivingEntity && !entity.equals(p) && !entity.isInvulnerable()) {
-						LivingEntity lentity = (LivingEntity) entity;
-						lentity.damage(20.0, p);
-						lentity.setVelocity(new Vector(0, 1, 0).normalize().multiply(p.getLocation().getDirection()).multiply(12));
-
-					}
-				}
-				setCooldown(on, 180);
+				LivingEntity target = (LivingEntity) entities.get(0);
+			
+				ParticleUtils.summonCircle(target.getLocation().subtract(0, target.getHeight(), 0), 4, new DustOptions(Color.fromRGB(255, 255, 255), 4));
+				
+				double x;
+				double z;
+				
+				Location targetLoc = target.getLocation();
+				
+				float nang = targetLoc.getYaw() + 90;
+				
+				x = Math.cos(Math.toRadians(nang));
+				z = Math.sin(Math.toRadians(nang));
+				
+				Location toTeleport = new Location(targetLoc.getWorld(), targetLoc.getX() - x, targetLoc.getY(), targetLoc.getZ() - z, targetLoc.getYaw(), targetLoc.getPitch());
+				p.teleport(toTeleport);
+				setCooldown(on, 90);
+				
+				target.damage(10, p);
+				
 				break;
 			case TICK:
 				if(cooldown > 0) {
 					setCooldown(on,cooldown-1);
 				}
+				
 				break;
 			default:
 				break;

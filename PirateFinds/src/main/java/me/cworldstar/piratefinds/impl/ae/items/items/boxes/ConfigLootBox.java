@@ -33,6 +33,10 @@ public class ConfigLootBox extends AbstractLootBox {
 		return this.cfg_item.clone();
 	}
 	
+	@Override
+	public String getPFItemID() {
+		return this.pf_item_id;
+	}
 	
 	public void addReward(LootboxReward<?> reward, String rewardDisplay) {
 		this.rewards.add(reward);

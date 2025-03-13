@@ -19,8 +19,10 @@ public class WardenEye extends NoUseItem implements NoEat {
 		
 		meta.setLore(ChatUtils.apply(Arrays.asList(new String[] {
 				"",
-				"&b&oDropped from a warden, this strange material",
+				"&b&oThis strange material, covered in veins",
 				"&b&oseems to still work... is it looking at me?",
+				"",
+				"&7 * &bDrops from the Warden.",
 				"",
 				"&7( &3This item can only be used for crafting. &7)"
 		})));
