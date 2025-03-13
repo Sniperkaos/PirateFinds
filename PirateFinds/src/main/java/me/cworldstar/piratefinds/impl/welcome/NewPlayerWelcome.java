@@ -17,6 +17,7 @@ import org.bukkit.inventory.InventoryView;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.EnchantmentDealer;
+import me.cworldstar.piratefinds.impl.commands.consumers.Bless;
 import me.cworldstar.piratefinds.impl.profile.PlayerProfile;
 import me.cworldstar.piratefinds.impl.profile.Profile;
 import net.md_5.bungee.api.ChatColor;
@@ -43,6 +44,10 @@ public class NewPlayerWelcome implements Listener {
 		// set the player's max HP based on the profile's health stat.
 		AttributeInstance maxHP = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		maxHP.setBaseValue(health / 5);
+		
+		// auto bless when a player moves to a new world
+		Bless.bless(player);
+		
 	}
 	
 	@EventHandler

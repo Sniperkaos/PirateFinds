@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.cworldstar.piratefinds.PirateFinds;
@@ -85,6 +86,8 @@ public abstract class BaseUIObject implements Listener {
 	private Map<Integer, MenuHandler<InventoryClickEvent>> insertHandlers = new HashMap<Integer, MenuHandler<InventoryClickEvent>>();
 	private ArrayList<MenuHandler<InventoryCloseEvent>> inventory_close_handlers = new ArrayList<MenuHandler<InventoryCloseEvent>>();
 	private ArrayList<MenuHandler<InventoryClickEvent>> empty_click_handlers = new ArrayList<MenuHandler<InventoryClickEvent>>();
+	private ArrayList<MenuHandler<InventoryClickEvent>> shift_click_handlers = new ArrayList<MenuHandler<InventoryClickEvent>>();
+
 	private ArrayList<Integer> placeable_slots = new ArrayList<Integer>();
 	private ArrayList<ItemStack> no_drop_items = new ArrayList<ItemStack>();
 	private ArrayList<MenuHandler<TickerTickEvent>> tickers = new ArrayList<MenuHandler<TickerTickEvent>>();
@@ -130,6 +133,10 @@ public abstract class BaseUIObject implements Listener {
 	}
 	
 	public void open() {
+		if(this.getOwner().getOpenInventory().equals(this.view)) {
+			// prevent double inventory opening
+			return;
+		}
 		this.view = this.owner.openInventory(inventory);
 	}
 	
@@ -240,6 +247,10 @@ public abstract class BaseUIObject implements Listener {
 		inventory_close_handlers.add(handler);
 	}
 	
+	public void addShiftClickHandler(MenuHandler<InventoryClickEvent> handler) {
+		shift_click_handlers.add(handler);
+	}
+	
 	public void disableDrop(ItemStack item) {
 		
 	}
@@ -261,11 +272,20 @@ public abstract class BaseUIObject implements Listener {
 		Inventory c_inventory = e.getClickedInventory();
 		if(c_inventory == null) return;
 		
-		if(c_inventory.equals(this.inventory)) {
+		Player clicker = (Player) e.getWhoClicked();
+		if(clicker.getOpenInventory().equals(this.view)) {
+			PirateFinds.logDebug("view is open");
 			if(e.getClick() == ClickType.SHIFT_LEFT && !(this.inventory.getViewers().isEmpty())) {
 				e.setCancelled(true);
+				shift_click_handlers.forEach((MenuHandler<InventoryClickEvent> scHandler) -> {
+					scHandler.run(e);
+				});
 				return;
 			}
+		}
+		
+		if(c_inventory.equals(this.inventory)) {
+
 			if(e.getCurrentItem() == null) {
 				empty_click_handlers.forEach((MenuHandler<InventoryClickEvent> emptyHandler) -> {
 					emptyHandler.run(e);

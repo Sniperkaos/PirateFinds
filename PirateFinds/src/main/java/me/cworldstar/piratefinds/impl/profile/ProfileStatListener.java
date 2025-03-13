@@ -27,7 +27,7 @@ public class ProfileStatListener implements Listener {
 		String stat = e.getStat();
 		switch(stat) {
 			case "health":
-				e.getOwner().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(e.getNewValue() / 2);
+				e.getOwner().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(e.getNewValue() / 5);
 				break;
 			default:
 				break;

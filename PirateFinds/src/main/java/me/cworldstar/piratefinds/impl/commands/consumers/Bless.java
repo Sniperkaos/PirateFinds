@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -18,7 +19,7 @@ public class Bless extends CommandConsumer<CommandSender> {
 		this.setPermission("pf.commands.bless");
 	}
 	
-	private final List<PotionEffectType> negative_effects = Arrays.asList(new PotionEffectType[] {
+	private static final List<PotionEffectType> negative_effects = Arrays.asList(new PotionEffectType[] {
 			PotionEffectType.BAD_OMEN,
 			PotionEffectType.BLINDNESS,
 			PotionEffectType.DARKNESS,
@@ -48,6 +49,16 @@ public class Bless extends CommandConsumer<CommandSender> {
 		}
 	}
 
+	public static void bless(Player p) {
+		if(p.hasPermission("pf.commands.bless")) return;
+		p.getActivePotionEffects().forEach((PotionEffect effect)-> {
+			if(negative_effects.contains(effect.getType())) {
+				p.removePotionEffect(effect.getType());
+			}
+		});
+		p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have been blessed!"));
+	}
+	
 	@Override
 	protected List<String> getCompletions(int length) {
 		// TODO Auto-generated method stub

@@ -163,6 +163,11 @@ public class EnchantmentTotem extends AbstractPFItem {
 				"Mace"
 		),
 		
+		FISHING_ROD(
+				new ItemStack(Material.FISHING_ROD),
+				"Fishing Rod"
+		),
+		
 		BOW(
 				new ItemStack(Material.BOW),
 				"Bow"	
@@ -231,7 +236,7 @@ public class EnchantmentTotem extends AbstractPFItem {
 			strEditor.replace("_", " ");
 			strEditor.capitalize();
 			displayName = strEditor.finishSingle();
-			appliesTo = getAppliesTo(Registry.ENCHANTMENT.match(enchant));
+			appliesTo = getAppliesTo(getEnchant(enchant));
 		}
 		
 		if(displayName == null) {

@@ -1,5 +1,6 @@
 package me.cworldstar.piratefinds.impl.ae.effects;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +29,7 @@ public class AutoSell extends AdvancedEffect {
 		this.addArgument(1, Double.class); // this is the efficiency
 	}
 	
-	private static List<Material> AUTO_SELL_MATERIALS = Arrays.asList(new Material[] {
-
-	});
+	private static List<Material> AUTO_SELL_MATERIALS = new ArrayList<Material>();
 	
 	static {
 		for(Material mat : Material.values()) {
@@ -61,7 +60,7 @@ public class AutoSell extends AdvancedEffect {
 					
 					
 					WorthItem worth = CMI.getInstance().getWorthManager().getWorth(item);
-					econ2.depositPlayer(e.getPlayer(), worth.getPlayerSellPrice(item, true, true));
+					econ2.depositPlayer(e.getPlayer(), worth.getPlayerSellPrice(item, true, true) * (Double.parseDouble(args[0])));
 				}
 			}
 			handler.clearDrops(e.getBlock());

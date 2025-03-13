@@ -15,7 +15,7 @@ public class PageLayout {
 	private Map<Integer, ArrayList<MenuHandler<InventoryClickEvent>>> shiftHandlers = new HashMap<Integer, ArrayList<MenuHandler<InventoryClickEvent>>>();
 	private Map<Integer, ArrayList<MenuHandler<InventoryClickEvent>>> handlers = new HashMap<Integer, ArrayList<MenuHandler<InventoryClickEvent>>>();
 	private Map<Integer, ItemStack> layout = new HashMap<Integer, ItemStack>();
-	
+	private List<String> meta = new ArrayList<String>();
 	
 	private PagedUIObject parent;
 	private ItemStack leftItem;
@@ -27,9 +27,19 @@ public class PageLayout {
 	private int rightSlot;
 	private int leftSlot;
 	private int closeSlot;
+	private int page = -1;
 	
 	private List<Integer> barrier_slots = new ArrayList<Integer>();
 	
+	/**
+	 * 
+	 * @apiNote This method should only be called ONCE per PageLayout, and never
+	 * called on a cloned layout with its slots set.
+	 * 
+	 * @param right_slot
+	 * @param left_slot
+	 * @param close_slot
+	 */
 	public void setSlots(int right_slot, int left_slot, int close_slot) {
 		this.rightSlot = right_slot;
 		this.leftSlot = left_slot;
@@ -135,6 +145,10 @@ public class PageLayout {
 		this.parent = parent;
 	}
 	
+	public PagedUIObject getParent() {
+		return this.parent;
+	}
+	
 	public void click(InventoryClickEvent e, int slot) {
 		this.handlers.putIfAbsent(slot, new ArrayList<MenuHandler<InventoryClickEvent>>());
 		this.handlers.get(slot).forEach((MenuHandler<InventoryClickEvent> event) -> {
@@ -228,6 +242,26 @@ public class PageLayout {
 			}
 		}
 		return -1;
+	}
+
+	public ItemStack getItem(int slot) {
+		return this.layout.get(slot);
+	}
+
+	public boolean hasMeta(String pfItemID) {
+		return meta.contains(pfItemID);
+	}
+
+	public void addMeta(String any) {
+		meta.add(any);
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+	
+	public int getPage() {
+		return this.page;
 	}
 	
 }

@@ -2,6 +2,10 @@ package me.cworldstar.piratefinds.impl.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,6 +21,7 @@ public abstract class PagedUIObject extends BaseUIObject {
 	private int rslot = 2;
 	
 	public void addLayout(PageLayout layout) {
+		layout.setPage(this.layouts.size());
 		this.layouts.add(layout);
 	}
 	
@@ -27,6 +32,23 @@ public abstract class PagedUIObject extends BaseUIObject {
 	@Override
 	public void decorate(Inventory i) {
 		to_decorate = i;
+	}
+	
+	/**
+	 * 
+	 * This method takes a predicate and returns the first matching result.
+	 * 
+	 * @param predicate {@link Predicate}<PageLayout>
+	 * @return {@link PageLayout}
+	 */
+	@Nullable
+	public PageLayout findLayout(Predicate<PageLayout> predicate) {
+		for(PageLayout layout : this.layouts) {
+			if(predicate.test(layout)) {
+				return layout;
+			}
+		}
+		return null;
 	}
 	
 	public void setup() {
@@ -78,6 +100,27 @@ public abstract class PagedUIObject extends BaseUIObject {
 		return this.rslot;
 	}
 	
+	/**
+	 * 
+	 * This method forcefully displays a given layout, but will error
+	 * if the parent {@link PagedUIObject} is null or not this one.
+	 * 
+	 * @param {@link PageLayout} layout
+	 */
+	@ErrorsIf(Reason="Invalid page layout")
+	@ErrorsIf(Reason="PageLayout has no page.")
+	public void displayLayout(@Nonnull PageLayout layout) {
+		
+		assert layout.getPage() == -1 : "PageLayout given had an invalid page.";
+		assert layout.getParent().equals(this) : "PageLayout given did not have this UIObject as parent!";
+
+		
+		int page = layout.getPage();
+		this.page = page;
+		
+		this.getInventory().clear();
+		this.decoratePageWithLayout(layout);
+	}
 	
 	public void nextPage() {
 		if(page + 1 >= layouts.size()) {

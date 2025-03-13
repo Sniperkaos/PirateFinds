@@ -38,6 +38,7 @@ import me.cworldstar.piratefinds.impl.papi.ArmorerExpansion;
 import me.cworldstar.piratefinds.impl.papi.EnchantmentExpansion;
 import me.cworldstar.piratefinds.impl.papi.ProfileExpansion;
 import me.cworldstar.piratefinds.impl.profile.PlayerProfile;
+import me.cworldstar.piratefinds.impl.protocols.EnderDragonSilencedProtocol;
 import me.cworldstar.piratefinds.impl.serialize.SerializeableInventory;
 import me.cworldstar.piratefinds.impl.ui.BaseUIObject;
 import me.cworldstar.piratefinds.impl.utils.ConfigUtils;
@@ -367,7 +368,8 @@ public class PirateFinds extends JavaPlugin {
 			landsImpl = new LandsImpl();
 		}
 		
-
+		PirateFinds.log("Loading ProtocolLib stuff");
+		new EnderDragonSilencedProtocol();
 		
 		PirateFinds.log("Doing vault impl.");
 		VaultImpl.trySetupEconomy();

@@ -108,7 +108,7 @@
 	        <artifactId>ldapjdk12</artifactId>
 	        <scope>system</scope>
 	        <version>4.0.0</version>
-	        <systemPath>C:\Users\rainb\Downloads\CMIAPI-9.7.4.1(1).jar</systemPath>
+	        <systemPath>C:\Users\rainb\Downloads\CMI-9.7.10.2.jar</systemPath>
 	    </dependency>
     	
     	
