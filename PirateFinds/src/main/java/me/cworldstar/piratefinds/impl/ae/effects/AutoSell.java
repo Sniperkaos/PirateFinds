@@ -34,9 +34,9 @@ public class AutoSell extends AdvancedEffect {
 	
 	static {
 		for(Material mat : Material.values()) {
-			if(mat.toString().contains("ore")) {
+			if(mat.toString().contains("ORE")) {
 				AUTO_SELL_MATERIALS.add(mat);
-			} else if(mat.toString().contains("block")) {
+			} else if(mat.toString().contains("BLOCK")) {
 				AUTO_SELL_MATERIALS.add(mat);
 			}
 		}

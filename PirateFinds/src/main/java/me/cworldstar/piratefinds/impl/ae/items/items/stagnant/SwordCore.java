@@ -8,9 +8,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
-public class SwordCore extends NoUseItem implements NoEat {
+public class SwordCore extends NoUseItem implements NoPlacement {
 
-	private static ItemStack SWORD_CORE_STACK = new ItemStack(Material.SPIDER_EYE);
+	private static ItemStack SWORD_CORE_STACK = new ItemStack(Material.PLAYER_HEAD);
 	static {
 		ItemMeta meta = SWORD_CORE_STACK.getItemMeta();
 		meta.setItemName(ChatUtils.apply("&e&k|||&r &f&lSword Core"));
