@@ -5,6 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
+import me.cworldstar.piratefinds.impl.ui.ErrorsIf;
 
 public class PFItemRegistered extends Event implements Cancellable {
 
@@ -26,7 +27,8 @@ public class PFItemRegistered extends Event implements Cancellable {
 	 * @param id
 	 */
 	
-	public PFItemRegistered(AbstractPFItem item, String id) {
+	@ErrorsIf(Reason = "AbstractPFItem is null.")
+	public PFItemRegistered(@Nonnull AbstractPFItem item, String id) {
 		super();
 		this.what = item;
 		this.id = id;

@@ -1,0 +1,50 @@
+nameplate: "&7[ &aWandering Merchant &7]:"
+messages:
+   open: "%nameplate% Welcome to my store, %player_name%."
+   close: "%nameplate% Goodbye, %player_name%."
+   purchase: "%nameplate% Thank you for your purchase."
+   no-money: "%nameplate% You can't afford this."
+   refresh: "%nameplate% Alright, here's some other deals."
+sounds:
+   open: 
+      sound: BLOCK_CHEST_OPEN
+      pitch: 0.8
+      volume: 0.5
+   close: 
+      sound: BLOCK_CHEST_CLOSE
+      pitch: 0.5
+      volume: 0.5 
+   purchase: 
+      sound: ENTITY_VILLAGER_TRADE
+      pitch: 0.7
+      volume: 0.5
+   no-money: 
+      sound: ENTITY_VILLAGER_NO
+      pitch: 0.7
+      volume: 0.5
+   refresh: 
+      sound: UI_CARTOGRAPHY_TABLE_TAKE_RESULT
+      pitch: 1.0
+      volume: 0.5
+deals:
+   '1':
+      base: 300000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 60 # up to 60% price increase
+      display:
+         material: CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&c test " # Name of the display item
+         lore: # Lore
+            - ""
+            - ""
+            - "test"
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: pf givepfitem %player_name% NULL_ITEM
+settings:
+   auto-generate: true # whether the merchant will automatically generate deals based off CMI worth values

@@ -40,7 +40,7 @@ public class PFRecipeViewer extends PagedUIObject {
 	private static PageLayout DEFAULT_PAGE_LAYOUT = new PageLayout();
 	
 	static {
-		
+	
 		ItemMeta inWorldMeta = IN_WORLD_HEAD.getItemMeta();
 		inWorldMeta.setDisplayName(ChatUtils.apply("&a&lIn-World Recipe"));
 		IN_WORLD_HEAD.setItemMeta(inWorldMeta);

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
@@ -21,6 +22,7 @@ import me.cworldstar.piratefinds.impl.ae.items.items.*;
 import me.cworldstar.piratefinds.impl.ae.items.items.blocks.TestBlockItem;
 import me.cworldstar.piratefinds.impl.ae.items.items.boxes.ConfigLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.weapons.*;
+import me.cworldstar.piratefinds.impl.ui.ErrorsIf;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.SantaMask;
 import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.*;
 import net.advancedplugins.ae.api.AEAPI;
@@ -32,14 +34,36 @@ public class PFItemClass {
 	
 	public static final NamespacedKey PF_ITEM_KEY = new NamespacedKey(PirateFinds.getThisPlugin(), "PF_ITEM_KEY");
 	
-	public static HashMap<String, AbstractPFItem> getItems() {
-		return items;
+	/**
+	 * Returns a copy of the {@link AbstractPFItem} database.
+	 */
+	public static Map<String, AbstractPFItem> getItems() {
+		return Map.copyOf(items);
 	}
 	
+	/**
+	 * 
+	 * Gets an {@link AbstractPFItem} from its ID. Returns {@link #nullItem()}
+	 * if none is found.
+	 * 
+	 * @param {@link String} item
+	 * @return {@link AbstractPFItem}
+	 */
+	@Nonnull
+	@ErrorsIf(Reason = "NullItem is removed")
 	public static AbstractPFItem getItem(String item) {
-		return items.get(item);
+		AbstractPFItem pfItem = items.get(item);
+		return pfItem == null ? nullItem() : pfItem;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param one A {@link ItemStack}.
+	 * @param two A {@link ItemStack}.
+	 * @return {@link Boolean} Whether or not the two items are similar.
+	 */
 	@Nonnull
 	public static boolean isPFItemSimilar(ItemStack one, ItemStack two) {
 		if(one == null || two == null) return false;
@@ -58,6 +82,10 @@ public class PFItemClass {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return {@link AbstractPFItem} The {@link #nullItem()}.
+	 */
 	@Nonnull
 	public static AbstractPFItem nullItem() {
 		return items.get("NullItem");
@@ -65,7 +93,7 @@ public class PFItemClass {
 	
 	
 	/**
-	 * This {@link AbstractPFItem
+	 * This {@link AbstractPFItem}
 	 * @return The {@link AbstractPFItem} associated with this {@link ItemStack}, or the {@link #nullItem()}.
 	 */
 	@Nonnull
@@ -80,6 +108,12 @@ public class PFItemClass {
 	}
 	
 	
+	/**
+	 * 
+	 * @param nullItem An {@link AbstractPFItem}.
+	 * @param item An {@link AbstractPFItem}.
+	 * @return {@link Boolean} Whether or not the two {@link AbstractPFItem}s are the same.
+	 */
 	@Nonnull
 	public static boolean compare(@Nonnull AbstractPFItem nullItem, @Nonnull AbstractPFItem item) {
 		
@@ -98,7 +132,9 @@ public class PFItemClass {
 		}
 	}
 	
-	
+	/**
+	 * When this constructor is called, it registers all our {@link AbstractPFItem}s.
+	 */
 	public PFItemClass() {
 		internalRegisterItem("NullItem", new NullItem());
 		internalRegisterItem("LockScroll", new LockScroll("LOCK_SCROLL"));
@@ -178,7 +214,11 @@ public class PFItemClass {
 		}
 	}
 	
-	
+	/**
+	 * 
+	 * @param <T> 
+	 * @param item Any instanced class extending {@link AbstractPFItem}.
+	 */
 	public static <T extends AbstractPFItem> void registerAnyItem(T item) {
 		if(!(item instanceof AbstractPFItem)) { 
 			PirateFinds.logger().warning("Attempted to register item".concat(" ").concat(item.getPFItemID()).concat(". It was unsuccessful."));
@@ -195,6 +235,10 @@ public class PFItemClass {
 		}		
 	}
 	
+	/**
+	 * 
+	 * @return {@link List} A list of the registered totems.
+	 */
 	public static List<String> getRegisteredTotems() {
 		return totems;
 	}
@@ -228,6 +272,34 @@ public class PFItemClass {
 		if(!event.isCancelled()) {
 			items.put(itemId, item);
 		}
+	}
+
+	/**
+	 *
+	 * This method will unregister an item from the PFItemClass.
+	 * Internally used to clear old versions of box items so
+	 * there are no overlaps.
+	 * 
+	 *
+	 * @author cworldstar
+	 */
+	
+	public static void unregister(@Nonnull String key) {
+		if(key.contentEquals("NullItem")) {
+			PirateFinds.log("You cannot unregister the null item.");
+			return;
+		}
+		PirateFinds.log("Unregistered item " + key);
+		items.remove(key);
+	}
+	
+	public static void unregister(@Nonnull AbstractPFItem item) {
+		if(item.getPFItemID().contentEquals("NullItem")) {
+			PirateFinds.log("You cannot unregister the null item.");
+			return;
+		}
+		PirateFinds.log("Unregistered item " + item.getPFItemID());
+		items.remove(item.getPFItemID());
 	}
 
 

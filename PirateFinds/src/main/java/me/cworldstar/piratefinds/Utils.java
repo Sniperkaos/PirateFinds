@@ -9,7 +9,6 @@ public class Utils {
 	}
 
 	public static PersistentDataContainer dataOrDefault(LivingEntity entity) {
-		// TODO Auto-generated method stub
 		return entity.getPersistentDataContainer();
 	}
 }

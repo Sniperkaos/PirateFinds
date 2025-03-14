@@ -1,6 +1,5 @@
 package me.cworldstar.piratefinds.impl.ui.items;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

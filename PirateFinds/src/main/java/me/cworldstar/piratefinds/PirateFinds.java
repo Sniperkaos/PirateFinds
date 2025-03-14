@@ -1,6 +1,7 @@
 package me.cworldstar.piratefinds;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -13,6 +14,7 @@ import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
@@ -63,6 +65,7 @@ public class PirateFinds extends JavaPlugin {
 	private static EnchantmentDealer dealer;
 	private static LandsImpl landsImpl;
 	private static CommandsClass commandsClass;
+	private static YamlConfiguration auctioneerConfig;
 	
 	public static CommandsClass getPFCommandsClass() {
 		return commandsClass;
@@ -143,7 +146,12 @@ public class PirateFinds extends JavaPlugin {
 		totemConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "totems.yml"));
 		backpackConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "backpacks.yml"));
 		
+		
+
 		for(String key : PirateFinds.getThisPlugin().getBoxConfig().getKeys(false)) {
+			// Unregistering the old box hopefully will fix the bug where upon /pf reloading
+			// boxes are able to be opened infinitely.
+			PFItemClass.unregister(key);
 			AbstractLootBox.buildFromConfig(PirateFinds.getThisPlugin().getBoxConfig().getConfigurationSection(key));
 		}
 		
@@ -209,6 +217,12 @@ public class PirateFinds extends JavaPlugin {
 		BaseUIObject.openUIObjects.forEach((BaseUIObject object) -> {
 			object.forcefullyClose();
 		});
+		
+		try {
+			auctioneerConfig.save(new File(getDataFolder(), "auctioneerData.yml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static EnchantmentDealer getEnchantmentDealer() {
@@ -301,6 +315,12 @@ public class PirateFinds extends JavaPlugin {
 		
 		blockConfig = new BlockConfig(YamlConfiguration.loadConfiguration(blockFile));
 		blockConfig.loadAll();
+		
+		PirateFinds.log("Loading auctioneer config...");
+
+		File auctioneerConfigFile = new File(dataFolder, "auctioneerData.yml");
+		ConfigUtils.saveDefault(auctioneerConfigFile, "auctioneerData.yml");
+		auctioneerConfig = YamlConfiguration.loadConfiguration(auctioneerConfigFile);
 		
 		//InputStream stream = this.getResource("sets.yml");
 		//Config cfg = new Config(new File(this.getDataFolder().getAbsolutePath() + File.pathSeparator + "sets.yml"));
@@ -395,5 +415,9 @@ public class PirateFinds extends JavaPlugin {
 		if(PirateFinds.getThisPlugin().getConfig().getBoolean("options.debug-mode")) {
 			log(string);
 		}
+	}
+
+	public static ConfigurationSection getAuctioneerConfig() {
+		return auctioneerConfig;
 	}
 }

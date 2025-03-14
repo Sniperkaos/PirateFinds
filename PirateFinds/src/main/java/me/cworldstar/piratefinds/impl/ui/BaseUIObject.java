@@ -342,7 +342,10 @@ public abstract class BaseUIObject implements Listener {
 				PirateFinds.logDebug("Close handler running! CanClose: " + Boolean.toString(okay_to_close));
 				handler.run(e);
 			});
-			if(this.okay_to_close && !bypass_close) {
+			if(
+				this.okay_to_close || 
+				bypass_close
+			) {
 				InventoryCloseEvent.getHandlerList().unregister(this);
 				InventoryClickEvent.getHandlerList().unregister(this);
 				InventoryDragEvent.getHandlerList().unregister(this);
@@ -351,7 +354,6 @@ public abstract class BaseUIObject implements Listener {
 				PlayerQuitEvent.getHandlerList().unregister(this);
 				
 				BaseUIObject.openUIObjects.remove(this);
-				
 			} else {
 				new BukkitRunnable() {
 					@Override
