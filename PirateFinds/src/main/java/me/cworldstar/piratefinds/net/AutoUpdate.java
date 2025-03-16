@@ -13,9 +13,7 @@ public class AutoUpdate {
 		
 		Optional<URL> updateURLExists = URLResolver.createURL(AutoUpdateURL);
 		if(updateURLExists.isPresent()) {
-			// TODO: Complete auto-updater
-			URL updateUrl = updateURLExists.get();
-			
+			URL updateUrl = updateURLExists.get();			
 		}
 		
 		return false;

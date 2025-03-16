@@ -122,6 +122,13 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 		
 		ItemMeta theItemMeta = theItem.getItemMeta();
 		
+		Integer usages = section.getInt("clicks");
+		if(usages == 0) {
+			usages = 4;
+		}
+		
+		String s = usages.toString();
+		
 		theItemMeta.setItemName(ChatUtils.apply("&f&lLootbox: " + section.getName()));
 		ArrayList<String> new_lore = new ArrayList<String>();
 		new_lore.add(" ");
@@ -130,15 +137,18 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 		mutableList.replaceAll(loreLine -> ChatUtils.apply(loreLine));
 		new_lore.addAll(mutableList);
 		new_lore.add(" ");
-		new_lore.add(ChatUtils.apply("&f&lRandom Loot: (&75 items&f&l)"));
+		new_lore.add(ChatUtils.apply("&f&lRandom Loot: (&7%usages% items&f&l)"));
 		
 		theItemMeta.setEnchantmentGlintOverride(glowing);
 		new_lore.replaceAll(line -> ChatUtils.apply(line));
-
+		new_lore.replaceAll(line -> line.replace("%usages%", s));
+		
 		theItemMeta.setItemName(ChatUtils.apply(displayName));
 		PersistentDataContainer container = theItemMeta.getPersistentDataContainer();
 		container.set(PFItemClass.PF_ITEM_KEY, PersistentDataType.STRING, "PF_BOX_"+section.getName());
 
+
+		
 		
 		ArrayList<LootboxReward<?>> theRewards = new ArrayList<LootboxReward<?>>();
 		for(String reward_id : rewardsSection.getKeys(false)) {
@@ -161,7 +171,7 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 			
 			ItemStack placeholderItem = new ItemStack(Material.valueOf(placeholderMaterial));
 			if(placeholderItem.getType().equals(Material.PLAYER_HEAD)) {
-				placeholderItem = SkullCreator.itemFromBase64(reward.getString("skull_id"));
+				placeholderItem = SkullCreator.itemFromBase64(placeholder.getString("skull_id"));
 			}
 			ItemMeta placeholderItemMeta = placeholderItem.getItemMeta();
 			placeholderItemMeta.setItemName(ChatUtils.apply(placeholderName));
@@ -220,7 +230,7 @@ public abstract class AbstractLootBox extends AbstractPFItem {
 		theItemMeta.setLore(new_lore);
 		theItem.setItemMeta(theItemMeta);
 		
-		ConfigLootBox lootBox  = new ConfigLootBox(theItem, theRewards, section.getName());
+		ConfigLootBox lootBox  = new ConfigLootBox(theItem, theRewards, section.getName(), usages);
 		PirateFinds.log(lootBox.toString());
 		PirateFinds.log(lootBox.getPFItem().toString());
 		PirateFinds.log(theItem.toString());

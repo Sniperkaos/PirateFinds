@@ -28,7 +28,7 @@ sounds:
       volume: 0.5
 deals:
    '0':
-      base: 30000000 # the average amount cost
+      base: 45000000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -46,7 +46,7 @@ deals:
          value: 
             - pf givepfitem %player_name% MinerGkitVoucher
    '1':
-      base: 30000000 # the average amount cost
+      base: 45000000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -64,7 +64,7 @@ deals:
          value: 
             - pf givepfitem %player_name% BeastmasterGkitVoucher
    '2':
-      base: 1500000 # the average amount cost
+      base: 3500000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -82,7 +82,7 @@ deals:
          value: 
             - pf givepfitem %player_name% TitanLootbox
    '3':
-      base: 25000 # the average amount cost
+      base: 150000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -100,7 +100,7 @@ deals:
          value: 
             - pf givepfitem %player_name% LockScroll
    '4':
-      base: 75000 # the average amount cost
+      base: 250000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -136,7 +136,7 @@ deals:
          value: 
             - pf givepfitem %player_name% ScavengerLockbox
    '6':
-      base: 500000 # the average amount cost
+      base: 2000000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -189,5 +189,42 @@ deals:
          type: COMMAND # COMMAND, ITEMSTACK
          value: 
             - pf givepfitem %player_name% MobLootbox
+   '9':
+      base: 5750000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 80 # up to 60% price increase
+      display:
+         material: BOOK # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &fGodlike Enchantment Book&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &fGodlike Enchantment Book&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - ae givercbook GODLIKE %player_name% 1
+   '10':
+      base: 5000000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: PLAYER_HEAD # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         skull_id: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ0YjY1ODZkYzVlN2ZmY2E5OGM5NjE5N2Y0ZDdjOTk3NDBiNmQwYTA4ZTg1MjFjZmNlMjJjZDZjOGI3ZmM0OCJ9fX0=
+         name: "&7[ &fBook Lockbox&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &fBook Lockbox&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% BookLockbox 1
 settings:
    auto-generate: true # whether the merchant will automatically generate deals based off CMI worth values

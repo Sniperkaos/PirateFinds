@@ -16,13 +16,16 @@ public class ConfigLootBox extends AbstractLootBox {
 
 	public ItemStack cfg_item;
 	private ArrayList<LootboxReward<?>> rewards = new ArrayList<LootboxReward<?>>();
+	private int clicks = 5;
 	
-	public ConfigLootBox(ItemStack item, ArrayList<LootboxReward<?>> rewards, String id) {
+	public ConfigLootBox(ItemStack item, ArrayList<LootboxReward<?>> rewards, String id, int clicks) {
 		super(id);
 		
 		rewards.forEach((LootboxReward<?> reward) -> {
 			reward.setBoxName(id);
 		});
+		
+		this.clicks = clicks;
 		
 		this.cfg_item = item;
 		this.rewards.addAll(rewards);
@@ -79,7 +82,7 @@ public class ConfigLootBox extends AbstractLootBox {
 
 	@Override
 	public void use(Player p) {
-		new LootboxUI(p, 5, this.getRewards(), this.cfg_item).open();
+		new LootboxUI(p, clicks, this.getRewards(), this.cfg_item).open();
 	}
 
 }

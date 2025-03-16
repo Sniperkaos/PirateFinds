@@ -1,5 +1,6 @@
 # here is where the boxes will go.
 ScavengerLockbox: 
+  clicks: 2
   item:
     display-name: "&7&l( &c&l&l! &7&l) &eScavenger Lockbox"
     lore:
@@ -9,7 +10,8 @@ ScavengerLockbox:
       - "&6 * &7Contains materials and"
       - "&6 * &7other things."
     glowing: true
-    material: ENDER_CHEST
+    material: PLAYER_HEAD
+    skull_id: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODM2MjQzOGZmNGVjZjhmNGEyY2FhMTI3NzU2MWM5NTEzYzlhOTg2ZGJlMzhhODBiOWJhZmNiZmVkOGIyYTljOCJ9fX0=
   rewards:
      magnet:
         placeholder:
@@ -21,7 +23,7 @@ ScavengerLockbox:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1
         argument: "pf givepfitem %player_name% ItemMagnet"
-        chance: 100 # default at 100
+        chance: 20 # default at 100
      bucket:
         placeholder:
           material: WATER_BUCKET
@@ -31,7 +33,7 @@ ScavengerLockbox:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1 # the amount of times the command is executed
         argument: "pf givepfitem %player_name% infinite_bucket"
-        chance: 80 # default at 100
+        chance: 20 # default at 100
      reinforcement:
         placeholder:
           material: NETHERITE_UPGRADE_SMITHING_TEMPLATE
@@ -61,7 +63,7 @@ ScavengerLockbox:
         type: "COMMAND" # ITEM, COMMAND
         amount: 1 # the amount of times the command is executed
         argument: "pf givepfitem %player_name% experience_crystal"
-        chance: 30 # default at 100
+        chance: 60 # default at 100
      experienceCrystalT2:
         placeholder:
           material: LIME_CANDLE
@@ -71,7 +73,7 @@ ScavengerLockbox:
         type: "COMMAND" # ITEM, COMMAND
         amount: 3 # the amount of times the command is executed
         argument: "pf givepfitem %player_name% experience_crystal"
-        chance: 20 # default at 100
+        chance: 50 # default at 100
      experienceCrystalT3:
         placeholder:
           material: LIME_CANDLE
@@ -81,7 +83,7 @@ ScavengerLockbox:
         type: "COMMAND" # ITEM, COMMAND
         amount: 5 # the amount of times the command is executed
         argument: "pf givepfitem %player_name% experience_crystal"
-        chance: 15 # default at 100
+        chance: 30 # default at 100
      wardenEye:
         placeholder:
           material: SPIDER_EYE
@@ -113,6 +115,100 @@ ScavengerLockbox:
         amount: 1 # the amount of times the command is executed
         argument: "pf givepfitem %player_name% SWORD_CORE"
         chance: 2 # default at 100
+BookLockbox: 
+  clicks: 6
+  item:
+    display-name: "&7&l( &c&l&l! &7&l) &fBook Lockbox"
+    lore:
+      - "&f&oA multitude of books, tied together"
+      - "&f&owith a bundle of string."
+      - ""
+      - "&6 * &7Contains AE enchantment"
+      - "&6 * &7books."
+    glowing: true
+    material: PLAYER_HEAD
+    skull_id: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ0YjY1ODZkYzVlN2ZmY2E5OGM5NjE5N2Y0ZDdjOTk3NDBiNmQwYTA4ZTg1MjFjZmNlMjJjZDZjOGI3ZmM0OCJ9fX0=
+  rewards:
+     simple:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&fSimple Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook SIMPLE %player_name% 1"
+        chance: 100 # default at 100
+     unique:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&aUnique Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook UNIQUE %player_name% 1"
+        chance: 85 # default at 100
+     elite:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&bElite Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook ELITE %player_name% 1"
+        chance: 75 # default at 100
+     ultimate:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&eUltimate Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook ULTIMATE %player_name% 1"
+        chance: 65 # default at 100
+     legendary:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&6Legendary Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook LEGENDARY %player_name% 1"
+        chance: 55 # default at 100
+     fabled:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&dFabled Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook FABLED %player_name% 1"
+        chance: 35 # default at 100
+     soul:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&cSoul Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook SOUL %player_name% 1"
+        chance: 20 # default at 100
+     mastery:
+        placeholder:
+          material: BOOK
+          glowing: true
+          display-name: "&4Mastery Enchantment Book"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5
+        argument: "ae givercbook MASTERY %player_name% 1"
+        chance: 5 # default at 100
 Example: 
   item:
     display-name: "&7&l( &c&l&l! &7&l) &6Rusty Keybox"
