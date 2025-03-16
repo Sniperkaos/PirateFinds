@@ -2,6 +2,7 @@ package me.cworldstar.piratefinds;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -18,8 +19,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.cworldstar.piratefinds.auctioneer.Auctioneer;
 import me.cworldstar.piratefinds.events.BlockBreakHandler;
 import me.cworldstar.piratefinds.impl.Crafting;
 import me.cworldstar.piratefinds.impl.EnchantmentDealer;
@@ -66,6 +69,8 @@ public class PirateFinds extends JavaPlugin {
 	private static LandsImpl landsImpl;
 	private static CommandsClass commandsClass;
 	private static YamlConfiguration auctioneerConfig;
+	private static YamlConfiguration merchantConfig;
+	private static Auctioneer auctioneer;
 	
 	public static CommandsClass getPFCommandsClass() {
 		return commandsClass;
@@ -219,7 +224,7 @@ public class PirateFinds extends JavaPlugin {
 		});
 		
 		try {
-			auctioneerConfig.save(new File(getDataFolder(), "auctioneerData.yml"));
+			auctioneerConfig.save(new File(new File(this.getDataFolder(), "data"), "auctioneerData.yml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -316,17 +321,36 @@ public class PirateFinds extends JavaPlugin {
 		blockConfig = new BlockConfig(YamlConfiguration.loadConfiguration(blockFile));
 		blockConfig.loadAll();
 		
-		PirateFinds.log("Loading auctioneer config...");
+		PirateFinds.log("Loading auctioneer data...");
 
 		File auctioneerConfigFile = new File(dataFolder, "auctioneerData.yml");
 		ConfigUtils.saveDefault(auctioneerConfigFile, "auctioneerData.yml");
 		auctioneerConfig = YamlConfiguration.loadConfiguration(auctioneerConfigFile);
 		
+		// this prevents auctioneerData from breaking
+		auctioneerConfig.createSection("players");
+		ConfigurationSection dataSection = auctioneerConfig.createSection("data");
+		dataSection.addDefault("startTime", 0);
+		dataSection.addDefault("endTime", 0);
+				
+		Auctioneer.setStartTime(dataSection.getLong("startTime"));
+		Auctioneer.setEndTime(dataSection.getLong("endTime"));		
+
+		
+		
+		PirateFinds.log("Loading merchant config...");
+		
+		File merchantConfigFile = new File(itemConfigFolder, "merchant.yml");
+		ConfigUtils.saveDefault(merchantConfigFile, "merchant.yml");
+		merchantConfig = YamlConfiguration.loadConfiguration(merchantConfigFile);
+				
 		//InputStream stream = this.getResource("sets.yml");
 		//Config cfg = new Config(new File(this.getDataFolder().getAbsolutePath() + File.pathSeparator + "sets.yml"));
 		//if(!cfg.exists()) {
 		//	Config.saveDefault(new File(this.getDataFolder().getAbsolutePath() + File.pathSeparator + "sets.yml"), stream);
 		//}
+		
+		auctioneer = new Auctioneer();
 		
 		ConfigurationSerialization.registerClass(SerializeableInventory.class);
 		ConfigurationSerialization.registerClass(PFBlockData.class);
@@ -419,5 +443,9 @@ public class PirateFinds extends JavaPlugin {
 
 	public static ConfigurationSection getAuctioneerConfig() {
 		return auctioneerConfig;
+	}
+
+	public static YamlConfiguration getMerchantConfig() {
+		return merchantConfig;
 	}
 }

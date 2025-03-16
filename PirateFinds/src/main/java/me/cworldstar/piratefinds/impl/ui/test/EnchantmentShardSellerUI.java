@@ -168,6 +168,10 @@ public class EnchantmentShardSellerUI extends BaseUIObject {
 			
 			int price = deal.getValue();
 			this.addUnclickableItem(slot, cloned);
+			this.addEmptyClickHandler(new MenuHandler<InventoryClickEvent>((InventoryClickEvent e) -> {
+				e.getWhoClicked().sendMessage(ChatUtils.apply("&c&lYou cannot put items into this inventory!"));
+				e.setCancelled(true);
+			}));
 			this.addMenuClickHandler(slot, new MenuHandler<InventoryClickEvent>((InventoryClickEvent e) -> {
 				boolean currency_check = checkCurrency(e, price);
 				Player p = getOwner();

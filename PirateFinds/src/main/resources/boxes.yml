@@ -1,4 +1,118 @@
 # here is where the boxes will go.
+ScavengerLockbox: 
+  item:
+    display-name: "&7&l( &c&l&l! &7&l) &eScavenger Lockbox"
+    lore:
+      - "&e&oA multitude of tools and materials, put together"
+      - "&e&ointo one large toolbox. It's also got a lock on it."
+      - ""
+      - "&6 * &7Contains materials and"
+      - "&6 * &7other things."
+    glowing: true
+    material: ENDER_CHEST
+  rewards:
+     magnet:
+        placeholder:
+          material: PLAYER_HEAD
+          glowing: true
+          display-name: "&c&lItem Magnet"
+          skull_id: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODU0NmI5Yjk2NjNmMGVhMjNlMTQ4ODQxYTQ2OTllZjAwN2Q5ZGNmZDUwZTE5YTQwNGVlZjU4NGFhNTBjMjJmNCJ9fX0="
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1
+        argument: "pf givepfitem %player_name% ItemMagnet"
+        chance: 100 # default at 100
+     bucket:
+        placeholder:
+          material: WATER_BUCKET
+          glowing: true
+          display-name: "&b&lInfinite Bucket"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% infinite_bucket"
+        chance: 80 # default at 100
+     reinforcement:
+        placeholder:
+          material: NETHERITE_UPGRADE_SMITHING_TEMPLATE
+          glowing: true
+          display-name: "&f&lReinforcement"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% Reinforcement"
+        chance: 15 # default at 100
+     sharpener:
+        placeholder:
+          material: NETHERITE_UPGRADE_SMITHING_TEMPLATE
+          glowing: true
+          display-name: "&f&lSharpener"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% Sharpener"
+        chance: 15 # default at 100
+     experienceCrystalT1:
+        placeholder:
+          material: LIME_CANDLE
+          glowing: true
+          display-name: "&x&3&9&F&B&1&1&lE&x&5&3&F&B&2&C&lx&x&6&E&F&B&4&7&lp&x&8&8&F&B&6&2&le&x&A&2&F&B&7&D&lr&x&8&8&F&B&6&2&li&x&6&E&F&B&4&7&le&x&5&3&F&B&2&C&ln&x&3&9&F&B&1&1&lc&x&5&C&F&B&3&9&le &x&7&E&F&B&6&2&lC&x&A&1&F&B&8&A&lr&x&C&3&F&B&B&2&ly&x&A&1&F&B&8&A&ls&x&7&E&F&B&6&2&lt&x&5&C&F&B&3&9&la&x&3&9&F&B&1&1&ll"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% experience_crystal"
+        chance: 30 # default at 100
+     experienceCrystalT2:
+        placeholder:
+          material: LIME_CANDLE
+          glowing: true
+          display-name: "&x&3&9&F&B&1&1&lE&x&5&3&F&B&2&C&lx&x&6&E&F&B&4&7&lp&x&8&8&F&B&6&2&le&x&A&2&F&B&7&D&lr&x&8&8&F&B&6&2&li&x&6&E&F&B&4&7&le&x&5&3&F&B&2&C&ln&x&3&9&F&B&1&1&lc&x&5&C&F&B&3&9&le &x&7&E&F&B&6&2&lC&x&A&1&F&B&8&A&lr&x&C&3&F&B&B&2&ly&x&A&1&F&B&8&A&ls&x&7&E&F&B&6&2&lt&x&5&C&F&B&3&9&la&x&3&9&F&B&1&1&ll"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 3 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% experience_crystal"
+        chance: 20 # default at 100
+     experienceCrystalT3:
+        placeholder:
+          material: LIME_CANDLE
+          glowing: true
+          display-name: "&x&3&9&F&B&1&1&lE&x&5&3&F&B&2&C&lx&x&6&E&F&B&4&7&lp&x&8&8&F&B&6&2&le&x&A&2&F&B&7&D&lr&x&8&8&F&B&6&2&li&x&6&E&F&B&4&7&le&x&5&3&F&B&2&C&ln&x&3&9&F&B&1&1&lc&x&5&C&F&B&3&9&le &x&7&E&F&B&6&2&lC&x&A&1&F&B&8&A&lr&x&C&3&F&B&B&2&ly&x&A&1&F&B&8&A&ls&x&7&E&F&B&6&2&lt&x&5&C&F&B&3&9&la&x&3&9&F&B&1&1&ll"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 5 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% experience_crystal"
+        chance: 15 # default at 100
+     wardenEye:
+        placeholder:
+          material: SPIDER_EYE
+          glowing: true
+          display-name: "&3&lWarden's Eye"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% WARDEN_EYE"
+        chance: 10 # default at 100
+     enderWing:
+        placeholder:
+          material: PHANTOM_MEMBRANE
+          glowing: true
+          display-name: "&5&lEnder Dragon's Wing"
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% ENDER_WING"
+        chance: 10 # default at 100
+     swordCore:
+        placeholder:
+          material: PLAYER_HEAD
+          glowing: true
+          display-name: "&e&k|||&r &f&lSword Core"
+          skull_id: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzMyOGFkZWI3MDI3NTU5ZjNlYzVlZjY2ZDQ1MmQ4ODQwYzJiMDkzZTM5N2YwZjkzZTU5MDI5ZjI5MzFjYzA5MyJ9fX0="
+          amount: 1
+        type: "COMMAND" # ITEM, COMMAND
+        amount: 1 # the amount of times the command is executed
+        argument: "pf givepfitem %player_name% SWORD_CORE"
+        chance: 2 # default at 100
 Example: 
   item:
     display-name: "&7&l( &c&l&l! &7&l) &6Rusty Keybox"

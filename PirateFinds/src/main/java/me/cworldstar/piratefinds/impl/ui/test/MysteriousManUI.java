@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.cworldstar.piratefinds.auctioneer.Auctioneer;
 import me.cworldstar.piratefinds.impl.ui.BaseUIObject;
 
 /**
@@ -47,6 +48,7 @@ public class MysteriousManUI extends BaseUIObject {
 		barrier_slots.forEach((Integer slot) -> {
 			this.addUnclickableItem(slot, ui_barrier);
 		});
+		Auctioneer.display(this);
 	}
 
 }

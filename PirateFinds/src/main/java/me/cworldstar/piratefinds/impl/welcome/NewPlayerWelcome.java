@@ -16,6 +16,7 @@ import org.bukkit.inventory.InventoryView;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.cworldstar.piratefinds.PirateFinds;
+import me.cworldstar.piratefinds.auctioneer.Auctioneer;
 import me.cworldstar.piratefinds.impl.EnchantmentDealer;
 import me.cworldstar.piratefinds.impl.commands.consumers.Bless;
 import me.cworldstar.piratefinds.impl.profile.PlayerProfile;
@@ -71,6 +72,7 @@ public class NewPlayerWelcome implements Listener {
 		AttributeInstance maxHP = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 		maxHP.setBaseValue(health / 5);
 		
+		Auctioneer.onPlayerJoin(player);
 		
 		if(e.getPlayer().getLastPlayed() == 0) {
 			

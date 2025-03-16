@@ -27,8 +27,8 @@ sounds:
       pitch: 1.0
       volume: 0.5
 deals:
-   '1':
-      base: 300000 # the average amount cost
+   '0':
+      base: 30000000 # the average amount cost
       amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
          min: 1
          max: 1
@@ -36,15 +36,158 @@ deals:
          min: -10 # up to 10% discount
          max: 60 # up to 60% price increase
       display:
-         material: CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-         name: "&c test " # Name of the display item
+         material: DIAMOND # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &bGKIT: &6Miner&7 ]" # Name of the display item
          lore: # Lore
-            - ""
-            - ""
-            - "test"
+            - "&7 * 1x &6Miner Gkit Voucher&7."
          data: 0 # allows usage with the IA textures
       purchase:
          type: COMMAND # COMMAND, ITEMSTACK
-         value: pf givepfitem %player_name% NULL_ITEM
+         value: 
+            - pf givepfitem %player_name% MinerGkitVoucher
+   '1':
+      base: 30000000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 60 # up to 60% price increase
+      display:
+         material: DIAMOND # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &bGKIT: &fBeastmaster&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &fBeastmaster Gkit Voucher&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% BeastmasterGkitVoucher
+   '2':
+      base: 1500000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: 0 # up to 10% discount
+         max: 60 # up to 60% price increase
+      display:
+         material: ENDER_CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &c&lTitan Lootbox&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &cTitan Lootbox&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% TitanLootbox
+   '3':
+      base: 25000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -20 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: PAPER # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &cLock Scroll&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &cLock Scroll&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% LockScroll
+   '4':
+      base: 75000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: PAPER # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &cUnlock Scroll&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &cUnlock Scroll&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% UnlockScroll
+   '5':
+      base: 1250000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: ENDER_CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &eScavenger Lockbox&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &eScavenger Lockbox&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% ScavengerLockbox
+   '6':
+      base: 500000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: REDSTONE # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &cHealth Crystal&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &cHealth Crystal&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% health_crystal
+   '7':
+      base: 2000000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: ENDER_CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &fChristmas Lockbox&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &fChristmas Lockbox&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% ChristmasLootbox
+   '8':
+      base: 1000000 # the average amount cost
+      amount: # a number range denoting the amount that can be purchased before the seller runs out of stock.
+         min: 1
+         max: 1
+      discount:
+         min: -10 # up to 10% discount
+         max: 40 # up to 60% price increase
+      display:
+         material: ENDER_CHEST # ItemStack material, https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+         name: "&7[ &2Mob Lockbox&7 ]" # Name of the display item
+         lore: # Lore
+            - "&7 * 1x &2Mob Lockbox&7."
+         data: 0 # allows usage with the IA textures
+      purchase:
+         type: COMMAND # COMMAND, ITEMSTACK
+         value: 
+            - pf givepfitem %player_name% MobLootbox
 settings:
    auto-generate: true # whether the merchant will automatically generate deals based off CMI worth values

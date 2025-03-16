@@ -17,7 +17,7 @@ import me.cworldstar.piratefinds.impl.utils.ChatUtils;
 
 public class ExperienceCrystal extends AbstractPFItem {
 
-	public static ItemStack EXPERIENCE_CRYSTAL = new ItemStack(Material.TURTLE_SCUTE);
+	public static ItemStack EXPERIENCE_CRYSTAL = new ItemStack(Material.LIME_CANDLE);
 	public static final NamespacedKey EXPERIENCE_CRYSTAL_KEY = PirateFinds.createKey("experienceStored");
 	private static final String EXPERIENCE_CRYSTAL_NAME = "&x&3&9&F&B&1&1&lE&x&5&3&F&B&2&C&lx&x&6&E&F&B&4&7&lp&x&8&8&F&B&6&2&le&x&A&2&F&B&7&D&lr&x&8&8&F&B&6&2&li&x&6&E&F&B&4&7&le&x&5&3&F&B&2&C&ln&x&3&9&F&B&1&1&lc&x&5&C&F&B&3&9&le &x&7&E&F&B&6&2&lC&x&A&1&F&B&8&A&lr&x&C&3&F&B&B&2&ly&x&A&1&F&B&8&A&ls&x&7&E&F&B&6&2&lt&x&5&C&F&B&3&9&la&x&3&9&F&B&1&1&ll";
 	

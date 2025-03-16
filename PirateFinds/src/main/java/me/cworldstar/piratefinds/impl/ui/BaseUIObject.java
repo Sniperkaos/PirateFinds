@@ -129,7 +129,12 @@ public abstract class BaseUIObject implements Listener {
 	
 	@Nonnull
 	public int getFirstClearSlot() {
-		return this.inventory.firstEmpty();
+		for(int i=0; i<this.inventory.getSize(); i++) {
+			if(this.inventory.getItem(i) == null) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	public void open() {
@@ -313,6 +318,7 @@ public abstract class BaseUIObject implements Listener {
           e.setCancelled(true);
         }
     }
+  
     
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
@@ -379,6 +385,16 @@ public abstract class BaseUIObject implements Listener {
 		return new int[] {
 				
 		};
+	}
+
+	public void unregisterAll(int slot) {
+		handlers.get(slot).forEach((MenuHandler<InventoryClickEvent> e) -> {
+			this.unregister(e.getIdentifier());
+		});
+	}
+
+	public boolean isOpen() {
+		return this.view != null;
 	}
 	
 }

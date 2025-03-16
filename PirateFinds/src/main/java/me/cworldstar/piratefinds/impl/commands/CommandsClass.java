@@ -63,5 +63,6 @@ public class CommandsClass {
 		mc.registerCommand("displayprofile", new DisplayProfile());
 		mc.registerCommand("setstat", new SetProfileStat());
 		mc.registerCommand("recipes", new Recipes());
+		mc.registerCommand("auction", new Auction());
 	}
 }
