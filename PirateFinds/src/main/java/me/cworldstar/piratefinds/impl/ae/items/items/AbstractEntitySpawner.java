@@ -61,7 +61,7 @@ public abstract class AbstractEntitySpawner extends AbstractPFItem {
 	
 	@Override
 	public PFItemType getType() {
-		return PFItemType.RIGHT_CLICK_ON_BLOCK;
+		return PFItemType.RIGHT_CLICK_BLOCK;
 	}
 	
 }

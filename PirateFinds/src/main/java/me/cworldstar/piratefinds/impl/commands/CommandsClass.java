@@ -64,5 +64,6 @@ public class CommandsClass {
 		mc.registerCommand("setstat", new SetProfileStat());
 		mc.registerCommand("recipes", new Recipes());
 		mc.registerCommand("auction", new Auction());
+		mc.registerCommand("souls", new Souls());
 	}
 }

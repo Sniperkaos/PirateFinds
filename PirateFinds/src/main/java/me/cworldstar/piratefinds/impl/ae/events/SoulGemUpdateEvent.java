@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.inventory.ItemStack;
 
 import me.cworldstar.piratefinds.impl.ae.items.AbstractPFItem;
 /**
@@ -20,12 +21,18 @@ public class SoulGemUpdateEvent extends PlayerEvent {
 	private static final HandlerList handlers = new HandlerList();
 	private int souls;
 	private AbstractPFItem gem;
+	private ItemStack stack;
 	
-	public SoulGemUpdateEvent(Player who, AbstractPFItem gem, int souls) {
+	public SoulGemUpdateEvent(Player who, AbstractPFItem gem, ItemStack stack, int souls) {
 		super(who);
 		
+		this.stack = stack;
 		this.gem = gem;
 		this.souls = souls;
+	}
+	
+	public ItemStack getStack() {
+		return stack;
 	}
 	
 	public int getSouls() {

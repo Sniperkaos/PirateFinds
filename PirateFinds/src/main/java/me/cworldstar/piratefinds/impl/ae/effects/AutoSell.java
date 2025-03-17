@@ -17,6 +17,8 @@ import com.Zrips.CMI.Modules.Worth.WorthItem;
 
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.impl.vault.VaultImpl;
+import net.advancedplugins.ae.Core;
+import net.advancedplugins.ae.api.IAEAPI;
 import net.advancedplugins.ae.impl.effects.effects.actions.execution.ExecutionTask;
 import net.advancedplugins.ae.impl.effects.effects.actions.handlers.DropsCollection;
 import net.advancedplugins.ae.impl.effects.effects.actions.handlers.DropsHandler;
@@ -39,6 +41,7 @@ public class AutoSell extends AdvancedEffect {
 				AUTO_SELL_MATERIALS.add(mat);
 			}
 		}
+		
 	}
 	
 	@Override

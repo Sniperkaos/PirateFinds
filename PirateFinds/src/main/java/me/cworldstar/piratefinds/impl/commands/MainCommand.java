@@ -124,7 +124,16 @@ public class MainCommand extends ExtendedCommand implements TabExecutor, Listene
 						permission = command.hasPermission((Player) sender);
 					}
 					if(permission) {
-						completions.addAll(command.getCompletions(args.length-1));
+						List<String> completionMethod1 = command.getCompletions(args.length-1);
+						if(completionMethod1 != null) {
+							completions.addAll(completionMethod1);
+						}
+						if(sender instanceof Player) {
+							List<String> completionMethod2 = command.getCompletions((Player) sender, args.length-1);
+							if(completionMethod2 != null) {
+								completions.addAll(completionMethod2);
+							}
+						}
 					}
 				}
 				break;

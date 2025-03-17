@@ -63,7 +63,7 @@ public class PFItemListener implements Listener {
 		ItemStack itemOnCursor = e.getCursor();
 		if(itemOnCursor == null) return;
 		AbstractPFItem item = PFItemClass.getItem(itemOnCursor);
-		if(item != null && item.getType() == PFItemType.DRAG_AND_DROP) {
+		if(item != null && (item.getType() == PFItemType.DRAG_AND_DROP || item.getTypes().contains(PFItemType.DRAG_AND_DROP))) {
 			
 			if(e.getCurrentItem() == null) {
 				return;
@@ -234,6 +234,38 @@ public class PFItemListener implements Listener {
 				}
 				else {
 					player.playSound(player, Sound.ENTITY_VILLAGER_NO, 1.0f, 0.6f);
+				}	
+				
+			} 
+		} else if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			ItemStack itemInHand = e.getItem();
+			if(itemInHand == null) return;
+			AbstractPFItem item = PFItemClass.getItem(itemInHand);
+			if(item != null && ((item.getTypes().contains(PFItemType.RIGHT_CLICK_BLOCK) || item.getTypes().contains(PFItemType.SHIFT_RIGHT_CLICK_BLOCK)) || item.getType().equals(PFItemType.RIGHT_CLICK_BLOCK))) {
+				e.setCancelled(true);
+				Player player = e.getPlayer();				
+				boolean expend = item.checkExpend(e.getPlayer(), itemInHand);
+				PFItemUsed event = new PFItemUsed(e.getPlayer(), e.getPlayer().getInventory(), item, expend);
+				Bukkit.getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+				if(e.getPlayer().isSneaking() && item.getTypes().contains(PFItemType.SHIFT_RIGHT_CLICK_BLOCK)) {
+					item.onItemUse(e.getPlayer(), itemInHand, PFItemType.SHIFT_RIGHT_CLICK_BLOCK);
+				} else {
+					item.onItemUse(e.getPlayer(), itemInHand, PFItemType.RIGHT_CLICK_BLOCK);
+				}
+				
+				if(expend) {
+					//player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, SoundCategory.NEUTRAL, 1.0F, 1.2F, 0);
+					if(itemInHand.getAmount() > 1) {
+						itemInHand.setAmount(itemInHand.getAmount() - 1);
+					} else {
+						player.getInventory().remove(itemInHand);
+					}
+				}
+				else {
+					//player.playSound(player, Sound.ENTITY_VILLAGER_NO, 1.0f, 0.6f);
 				}	
 				
 			} 

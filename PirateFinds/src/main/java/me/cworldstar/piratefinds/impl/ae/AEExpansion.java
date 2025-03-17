@@ -92,6 +92,9 @@ public class AEExpansion {
 		AEAPI.registerEffect(plugin, new RemoveDamage(plugin));
 		AEAPI.registerEffect(plugin, new PercentMaxHealth(plugin));
 		AEAPI.registerEffect(plugin, new AutoSell(plugin));
+		AEAPI.registerEffect(plugin, new OldSoulAddition());
+		AEAPI.registerEffect(plugin, new OldSoulRemove());
+		AEAPI.registerEffect(plugin, new CurrentHealth(plugin));
 	}
 	
 	public InternalEnchantment getRandomEnchantment(OfflinePlayer player, Material held_item, List<String> enchants) {

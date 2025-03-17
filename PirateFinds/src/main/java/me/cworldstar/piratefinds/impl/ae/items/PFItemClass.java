@@ -167,7 +167,7 @@ public class PFItemClass {
 		internalRegisterItem("experience_crystal", new ExperienceCrystal());
 		internalRegisterItem("health_crystal", new HealthCrystal());
 		internalRegisterItem(new FencingSabre());
-		
+		internalRegisterItem(new SoulVoucher());
 		// misc
 		internalRegisterItem("infinite_bucket", new InfiniteBucket());
 		
@@ -181,6 +181,7 @@ public class PFItemClass {
 		internalRegisterItem(new SwordCore());
 
 
+
 		// blocks
 		internalRegisterItem("TestBlock", new TestBlockItem());
 		
@@ -189,6 +190,8 @@ public class PFItemClass {
 		registerConfigLootboxes();
 		registerConfigTotems();
 		registerConfigBackpacks();
+		
+		SoulGem.buildFromConfig(PirateFinds.getThisPlugin().getSoulConfig().getConfigurationSection("soul-gem"));
 	}
 
 	private static void internalRegisterItem(AbstractPFItem item) {

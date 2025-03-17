@@ -42,6 +42,7 @@ import me.cworldstar.piratefinds.impl.lands.LandsImpl;
 import me.cworldstar.piratefinds.impl.papi.ArmorerExpansion;
 import me.cworldstar.piratefinds.impl.papi.EnchantmentExpansion;
 import me.cworldstar.piratefinds.impl.papi.ProfileExpansion;
+import me.cworldstar.piratefinds.impl.papi.SoulExpansion;
 import me.cworldstar.piratefinds.impl.profile.PlayerProfile;
 import me.cworldstar.piratefinds.impl.protocols.EnderDragonSilencedProtocol;
 import me.cworldstar.piratefinds.impl.serialize.SerializeableInventory;
@@ -405,6 +406,10 @@ public class PirateFinds extends JavaPlugin {
 			PirateFinds.log("PlaceholderAPI installed! Creating profile expansion.");
 			ProfileExpansion expansion3 = new ProfileExpansion();
 			expansion3.register();
+			
+			SoulExpansion expansion4 = new SoulExpansion();
+			expansion4.register();
+			
 		}
 		
 		if(Bukkit.getPluginManager().isPluginEnabled("Lands")) {

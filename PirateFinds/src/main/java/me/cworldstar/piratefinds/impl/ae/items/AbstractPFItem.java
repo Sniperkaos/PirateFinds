@@ -40,7 +40,7 @@ public abstract class AbstractPFItem {
 		 * The {@link PFItemType} is fired when a player tries to right click a block,
 		 * holding the {@link AbstractPFItem}.
 		 */
-		RIGHT_CLICK_ON_BLOCK,
+		RIGHT_CLICK_BLOCK,
 		
 		/**
 		 * The {@link PFItemType} is fired when a player tries to drop an item,
@@ -71,7 +71,9 @@ public abstract class AbstractPFItem {
 		
 		BUCKET_USED, 
 		
-		EAT;
+		EAT, 
+		
+		SHIFT_RIGHT_CLICK_BLOCK;
 		
 		@Nonnull
 		public PFItemType fromString(String s) {
