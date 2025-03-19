@@ -305,6 +305,10 @@ public class PFItemClass {
 		items.remove(item.getPFItemID());
 	}
 
+	public static boolean isRegistered(String key) {
+		return items.get(key) != null;
+	}
+
 
 
 

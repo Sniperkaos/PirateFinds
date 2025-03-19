@@ -35,12 +35,14 @@ import me.cworldstar.piratefinds.impl.ae.items.PFItemListener;
 import me.cworldstar.piratefinds.impl.ae.items.items.AbstractLootBox;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.effects.MaskEffects;
 import me.cworldstar.piratefinds.impl.ae.items.items.masks.effects.MaskListener;
+import me.cworldstar.piratefinds.impl.ae.items.items.stagnant.ConfigStagnantItem;
 import me.cworldstar.piratefinds.impl.ae.listeners.Locked;
 import me.cworldstar.piratefinds.impl.commands.CommandsClass;
 import me.cworldstar.piratefinds.impl.drop.Drop;
 import me.cworldstar.piratefinds.impl.lands.LandsImpl;
 import me.cworldstar.piratefinds.impl.papi.ArmorerExpansion;
 import me.cworldstar.piratefinds.impl.papi.EnchantmentExpansion;
+import me.cworldstar.piratefinds.impl.papi.MCMMOExpansion;
 import me.cworldstar.piratefinds.impl.papi.ProfileExpansion;
 import me.cworldstar.piratefinds.impl.papi.SoulExpansion;
 import me.cworldstar.piratefinds.impl.profile.PlayerProfile;
@@ -71,6 +73,7 @@ public class PirateFinds extends JavaPlugin {
 	private static CommandsClass commandsClass;
 	private static YamlConfiguration auctioneerConfig;
 	private static YamlConfiguration merchantConfig;
+	private static YamlConfiguration customItems;
 	private static Auctioneer auctioneer;
 	
 	public static CommandsClass getPFCommandsClass() {
@@ -151,14 +154,21 @@ public class PirateFinds extends JavaPlugin {
 		boxConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "boxes.yml"));
 		totemConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "totems.yml"));
 		backpackConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "backpacks.yml"));
+		customItems = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), "customItems.yml"));
+		merchantConfig = YamlConfiguration.loadConfiguration(new File(getPFConfigFolder(), " merchant.yml"));
 		
-		
-
 		for(String key : PirateFinds.getThisPlugin().getBoxConfig().getKeys(false)) {
 			// Unregistering the old box hopefully will fix the bug where upon /pf reloading
 			// boxes are able to be opened infinitely.
 			PFItemClass.unregister(key);
 			AbstractLootBox.buildFromConfig(PirateFinds.getThisPlugin().getBoxConfig().getConfigurationSection(key));
+		}
+		
+		for(String key : customItems.getConfigurationSection("items").getKeys(false)) {
+			if(PFItemClass.isRegistered(key)) {
+				PFItemClass.unregister(key);
+			}
+			ConfigStagnantItem.fromConfig(customItems.getConfigurationSection("items").getConfigurationSection(key));
 		}
 		
 		PFItemClass.registerConfigTotems();
@@ -344,6 +354,13 @@ public class PirateFinds extends JavaPlugin {
 		File merchantConfigFile = new File(itemConfigFolder, "merchant.yml");
 		ConfigUtils.saveDefault(merchantConfigFile, "merchant.yml");
 		merchantConfig = YamlConfiguration.loadConfiguration(merchantConfigFile);
+		
+		PirateFinds.log("Loading custom item config...");
+		
+		File customItemsFile = new File(itemConfigFolder, "customItems.yml");
+		ConfigUtils.saveDefault(customItemsFile, "customItems.yml");
+		customItems = YamlConfiguration.loadConfiguration(customItemsFile);
+		
 				
 		//InputStream stream = this.getResource("sets.yml");
 		//Config cfg = new Config(new File(this.getDataFolder().getAbsolutePath() + File.pathSeparator + "sets.yml"));
@@ -406,6 +423,7 @@ public class PirateFinds extends JavaPlugin {
 			PirateFinds.log("PlaceholderAPI installed! Creating profile expansion.");
 			ProfileExpansion expansion3 = new ProfileExpansion();
 			expansion3.register();
+			new MCMMOExpansion().register();
 			
 			SoulExpansion expansion4 = new SoulExpansion();
 			expansion4.register();

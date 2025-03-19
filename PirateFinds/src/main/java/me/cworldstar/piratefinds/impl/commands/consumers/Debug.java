@@ -19,10 +19,13 @@ public class Debug extends CommandConsumer<CommandSender> {
 	
 	@Override
 	protected void execute(CommandSender player, ArrayList<String> args) {
+		Player p = (Player) player;
 		switch(args.get(0)) {
 			case "checkItem":
-				Player p = (Player) player;
 				p.sendMessage(PFItemClass.getItem(p.getInventory().getItemInMainHand()).getPFItemID());
+				break;
+			case "uuid":
+				p.sendMessage(p.getUniqueId().toString());
 				break;
 			default:
 				player.sendMessage(ChatUtils.createBroadcast("&7This argument does not exist."));
@@ -34,11 +37,12 @@ public class Debug extends CommandConsumer<CommandSender> {
 		switch(length) {
 			case 1:
 				return Arrays.asList(new String[] {
-						"checkItem"
+						"checkItem",
+						"uuid"
 				});
 			default:
 				return Arrays.asList(new String[] {
-						"checkItem"
+						
 				});
 		}
 

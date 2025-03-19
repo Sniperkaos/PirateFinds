@@ -3,6 +3,7 @@ package me.cworldstar.piratefinds.impl.commands.consumers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,12 +30,21 @@ public class Auction extends CommandConsumer<CommandSender> {
 						Auctioneer.refresh((Player) player);
 						break;
 					default: 
-						Auctioneer.refresh(PirateFinds.getServerStatic().getPlayer(args.get(0)));
+						if(args.get(1) == "all") {
+							for(Player p : PirateFinds.getServerStatic().getOnlinePlayers()) {
+								Auctioneer.refresh(p);
+							}
+							return;
+						}
+						Auctioneer.refresh(PirateFinds.getServerStatic().getPlayer(args.get(1)));
 						break;
 				}
 				break;
 			case "open":
 				new MysteriousManUI((Player) player).open();
+				break;
+			case "flagrefresh":
+				Auctioneer.flagPlayerForReset(PirateFinds.getServerStatic().getOfflinePlayer(UUID.fromString(args.get(1))));
 				break;
 			default:
 				player.sendMessage(ChatUtils.createBroadcast("This command does not exist."));
@@ -43,14 +53,15 @@ public class Auction extends CommandConsumer<CommandSender> {
 
 	@Override
 	public List<String> getCompletions(int length) {
+		List<String> completions = new ArrayList<String>();
 		switch(length) {
 			case 1:
-				return Arrays.asList(new String[] {
-					"open"	
-				});
+				completions.add("open");
+				break;
 			default:
 				return List.of();
 		}
+		return completions;
 	}
 
 }

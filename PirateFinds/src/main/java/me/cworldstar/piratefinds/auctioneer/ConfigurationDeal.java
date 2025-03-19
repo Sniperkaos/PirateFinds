@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.NumberRange;
+import org.apache.commons.lang3.Range;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,6 +31,9 @@ public class ConfigurationDeal {
 	
 	private List<String> commands;
 	
+	public int getAmount() {
+		return amount.getMaximum();
+	}
 
 	
 	public ConfigurationDeal(double base_price, double min_discount, double max_discount, ConfigurationSection displayItem, List<String> commands, NumberRange<Integer> amount) {
@@ -117,11 +121,11 @@ public class ConfigurationDeal {
 		}
 	}
 	
-	public ConfigurationDeal(int price, double discount, ItemStack displayItem, List<String> commands) {
+	public ConfigurationDeal(int price, double discount, ItemStack displayItem, List<String> commands, NumberRange<Integer> range) {
 		
 		this.price = price;
 		this.final_discount = discount;
-		
+		this.amount = range;
 		this.displayItem = displayItem;
 		
 		this.commands = commands;

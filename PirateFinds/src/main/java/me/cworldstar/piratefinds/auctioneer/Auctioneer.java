@@ -117,6 +117,13 @@ public class Auctioneer implements Listener {
 	
 	private static Map<Player, List<ConfigurationDeal>> deals = new HashMap<Player, List<ConfigurationDeal>>();
 	
+	public static void flagPlayerForReset(OfflinePlayer p) {
+		ConfigurationSection has_prior_deals_information = PirateFinds.getAuctioneerConfig().getConfigurationSection("players").getConfigurationSection(p.getUniqueId().toString());
+		if(has_prior_deals_information != null) {
+			has_prior_deals_information.set("reset", true);
+		}
+	}
+	
 	public static void onPlayerJoin(Player p) {
 		if(!Auctioneer.deals.containsKey(p)) {
 			List<ConfigurationDeal> deals = new ArrayList<ConfigurationDeal>();
@@ -137,19 +144,26 @@ public class Auctioneer implements Listener {
 				for(String key : has_prior_deals_information.getKeys(false)) {
 					PirateFinds.logDebug("Getting the deal");
 					ConfigurationSection the_deal = has_prior_deals_information.getConfigurationSection(key);
+					int amount = the_deal.getInt("amount");
+					if(amount <= 0) {
+						amount = 1;
+					}
 					ItemStack displayItem = the_deal.getItemStack("displayItem");
 					PirateFinds.logDebug("ItemStack: " + displayItem.toString());
 					int price = (Integer) the_deal.getInt("price");
 					double discount = the_deal.getDouble("discount");
-					deals.add(new ConfigurationDeal(price, discount, displayItem, the_deal.getStringList("commands")));
+					deals.add(new ConfigurationDeal(price, discount, displayItem, the_deal.getStringList("commands"), new NumberRange<Integer>(amount, amount, Comparator.naturalOrder())));
 				}
 			} else {
 				ConfigurationSection section = PirateFinds.getAuctioneerConfig().getConfigurationSection("players").createSection(p.getUniqueId().toString());	
+				section.set("reset", false);
+
 				List<ConfigurationDeal> to_add = createDeals(7);
+				
 				to_add.forEach((ConfigurationDeal d) -> {
 					String sectionPlace = Integer.toString(section.getKeys(false).size());
 					ConfigurationSection dealSection = section.createSection(sectionPlace);
-					dealSection.set("reset", false);
+					dealSection.set("amount", d.getAmount());
 					dealSection.set("commands", d.getCommands());
 					dealSection.set("price", d.getPrice());
 					dealSection.set("displayItem", d.getDisplayItem());
@@ -273,10 +287,10 @@ public class Auctioneer implements Listener {
 				if(player.getPlayer() != null) {
 					ConfigurationSection section = PirateFinds.getAuctioneerConfig().getConfigurationSection("players").createSection(player.getUniqueId().toString());	
 					List<ConfigurationDeal> to_add = createDeals(7);
+					section.set("reset", false);
 					to_add.forEach((ConfigurationDeal d) -> {
 						String sectionPlace = Integer.toString(section.getKeys(false).size());
 						ConfigurationSection dealSection = section.createSection(sectionPlace);
-						dealSection.set("reset", false);
 						dealSection.set("commands", d.getCommands());
 						dealSection.set("price", d.getPrice());
 						dealSection.set("displayItem", d.getDisplayItem());
@@ -300,10 +314,10 @@ public class Auctioneer implements Listener {
 		if(player.getPlayer() != null) {
 			ConfigurationSection section = PirateFinds.getAuctioneerConfig().getConfigurationSection("players").createSection(player.getUniqueId().toString());	
 			List<ConfigurationDeal> to_add = createDeals(7);
+			section.set("reset", false);
 			to_add.forEach((ConfigurationDeal d) -> {
 				String sectionPlace = Integer.toString(section.getKeys(false).size());
 				ConfigurationSection dealSection = section.createSection(sectionPlace);
-				dealSection.set("reset", false);
 				dealSection.set("commands", d.getCommands());
 				dealSection.set("price", d.getPrice());
 				dealSection.set("displayItem", d.getDisplayItem());
@@ -328,6 +342,14 @@ public class Auctioneer implements Listener {
 			object = milis;
 		}
 		startTime = object;
+	}
+	
+	public static long getStartTime() {
+		return startTime;
+	}
+	
+	public static long getEndTime() {
+		return endTime;
 	}
 
 	public static void setEndTime(long object) {

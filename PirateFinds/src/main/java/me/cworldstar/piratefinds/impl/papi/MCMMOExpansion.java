@@ -17,7 +17,7 @@ public class MCMMOExpansion extends PlaceholderExpansion {
 
 	@Override
 	public @Nonnull String getIdentifier() {
-		return "PF_mcmmo_expansion";
+		return "PFMCMMO";
 	}
 
 	@Override

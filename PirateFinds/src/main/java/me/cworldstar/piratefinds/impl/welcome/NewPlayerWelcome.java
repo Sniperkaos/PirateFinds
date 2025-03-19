@@ -17,6 +17,7 @@ import org.bukkit.inventory.InventoryView;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.cworldstar.piratefinds.PirateFinds;
 import me.cworldstar.piratefinds.auctioneer.Auctioneer;
+import me.cworldstar.piratefinds.hunter.Hunter;
 import me.cworldstar.piratefinds.impl.EnchantmentDealer;
 import me.cworldstar.piratefinds.impl.ae.souls.SoulAPI;
 import me.cworldstar.piratefinds.impl.commands.consumers.Bless;
@@ -76,6 +77,7 @@ public class NewPlayerWelcome implements Listener {
 		SoulAPI.createSouls(player);
 		
 		Auctioneer.onPlayerJoin(player);
+		Hunter.onPlayerJoin(player);
 		
 		if(e.getPlayer().getLastPlayed() == 0) {
 			

@@ -1,0 +1,11 @@
+# This file denotes where custom items should be made. Comes with a default one for reference.
+items:
+   'default_stagnant_item': # the PF_ITEM_ID. Caps doesn't matter as it's filtered with TOUPPERCASE anyways.
+      material: WHITE_CONCRETE_POWDER
+      skull_id: # only useful if you are using the PLAYER_HEAD material. Remember to add the head to the geyser config.
+      name: "&f&lDefault Item"
+      lore:
+      - ""
+      - "&f&oThis item does nothing."
+      glowing: true
+      data: 0
